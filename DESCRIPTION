@@ -1,0 +1,14 @@
+Package: APStatTools
+Type: Package
+Title: Making R easily usable for all AP and introductory level statistics computations for both teachers and students. 
+Version: 0.1.0
+Author: person("Dustin", "Smith",
+        email = "dusmith0@tamu.edu",
+        role = "cre")
+Maintainer: The package maintainer <dusmith0@tamu.edu>
+Description: This package can function in place of the TI-Nspire or Desmos for all AP Statistics calculaitons. It also comes equipt
+    with many real life data sets, animated similations, demonstrations, and methods for generating graphics and analysis. 
+    This package aims to simplify the usage of R as much as possible for introductory level Statistics courses.  
+License: GPL (>= 3)
+Encoding: UTF-8
+LazyData: true
