@@ -12,3 +12,5 @@ Description: This package can function in place of the TI-Nspire or Desmos for a
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
+Imports: 
+    ggplot2
