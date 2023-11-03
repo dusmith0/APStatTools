@@ -6,16 +6,22 @@
 #' @export
 #'
 #' @examples
-get_data <- function(data_name,ap_data_set = TRUE){
-  if(ap_data_set == TRUE){
+#'
+#'
+#'
+#' Note: This function will allow you to enter you data set name as
+get_data <- function(data_name = NULL,ap_data_set = TRUE){
+  if(ap_data_set == TRUE & is.null(data_name)){
     data_file <- readline()
+    n <- nchar(data_file)
   }
 
-  if(){#input string check for last three digits of the script. i.e. txt
-  data.set <- try(read.table(paste("apdata",data_file,sep="/"),header = F))
+  if(substr(data_file,(n-2),(n)) == "txt"){#input string check for last three digits of the script. i.e. txt
+  data.set <- try(read.table(paste("apdata",data_file,sep="/"),header = T))
   }
-  else(){#input string check for last three digits of the script. i.e. csv
-  data.set <- try(read.csv(paste("apdata",data_file,sep="/"),header = F))
+
+  if(substr(data_file,(n-2),(n)) == "csv"){#input string check for last three digits of the script. i.e. csv
+  data.set <- try(read.csv(paste("apdata",data_file,sep="/"),header = T))
   }
   ## TO DO create another else for code that inputs EXCELL files.
 
@@ -24,11 +30,18 @@ get_data <- function(data_name,ap_data_set = TRUE){
 
   ##TO DO error code that can in desired print a list of data set names to type in.
 
-  ##TO DO create a fucntion that allows a user to select specific peices of data from each file.
-  ## such as 100 data peices, or 10, or specific feilds of data. Also allow print of data to be viewed.
+  ##TO DO create a function that allows a user to select specific pieces of data from each file.
+  ## such as 100 data pieces, or 10, or specific fields of data. Also allow print of data to be viewed.
 
   ##Create a function that can print a pdf of the data set if deired.
+  return(data.set)
 }
 
 
 data_list <- list("Moneyball","Movies")
+if(x == 2){
+  bob <- "good"
+}else{
+    bob <- "bad"
+  }
+
