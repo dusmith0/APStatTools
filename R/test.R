@@ -7,6 +7,6 @@
 #' @export
 #'
 #' @examples
-test <- function(data,test){
+test <- function(data,test,measures){
   ttest(data)
 }

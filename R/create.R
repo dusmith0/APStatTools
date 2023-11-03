@@ -7,6 +7,10 @@
 #' @export
 #'
 #' @examples
-create <- function(n,m){
-
+create <- function(name){ #This does work, but in keeps the name as name. That is not ideal.
+  name <- data.frame()
+  name <- edit(name)
+  return(name)
 }
+
+

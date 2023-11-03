@@ -11,7 +11,7 @@ Options <- function(type,xlim,ylim,main,xlab,ylab,sub,frame.plot,number_of_plots
 
 # Note: This function is not designed to clean your data. The data should be first assigned using
 # Create() then place in the name for data1, data2...
-build <- function(data = list(data),type,analysis=FALSE){ ##Explore continent methods for imputing multiple data types.
+build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore continent methods for imputing multiple data types.
   ## Build an 'options' selection for usage in default plots
     ##if dedicated term exists in Options() functions set values, else set default values.
     ##likely easiest to place those options in par() it may change with GGplot2,
@@ -19,7 +19,7 @@ build <- function(data = list(data),type,analysis=FALSE){ ##Explore continent me
 
   ##Split into smaller function per type.
   types <- list(C("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","LSRL","Multi-regression","Distrubution",
-                  "segmented","stacked","side-by-side","Mosaic","Back-Back"))
+                  "segmented","stacked","side-by-side","Mosaic","Back-Back","Pyramid"))
 
 
   ##Build sub-functions to handle the individual graphic types.
