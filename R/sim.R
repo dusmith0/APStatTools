@@ -14,6 +14,9 @@ sim <- function(data,type){
 
 sims <- list("Birthday","Monty.Hall.Auto","Monty.Hall","Sampling","Law.of.Large.Numbers")
 
+###The funciton below is designed to simulate the Birthday Problem.
+###Note the input for size assumes a vector of somelenghts. Values below 50 are best.
+###The function also assumes a lenght of 4 for graphical output.
 Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
   #Figure out how to make the size allow many inputs with c.
   if(is.null(size)){
@@ -40,5 +43,22 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
   }
 
 }
+
+
+###Monty-Hall functions
+Monty_fun <- function(choice = NULL, switch = NULL){
+  door <- sample(c(1,0,0),3,replace=FALSE)
+  options <- c(1,2,3)
+  if(is.null(choice)){
+    choice <- readline(prompt = "Choose a door number 1,2,3")
+  }
+
+  if((door[choice] == 1){
+    options[-choice]
+    print(door[])
+  }
+}
+
+
 
 
