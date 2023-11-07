@@ -60,5 +60,8 @@ Monty_fun <- function(choice = NULL, switch = NULL){
 }
 
 
+###Sampling Distribution
+
+
 
 
