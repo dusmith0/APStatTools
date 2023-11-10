@@ -6,6 +6,7 @@
 
 Options <- function(type,xlim,ylim,main,xlab,ylab,sub,frame.plot,number_of_plots,color,pch,cex,bg,lty,lwd){
   ## Create a running color template for use in bar or pie graphs. They can choose the theme.
+  palette_ap <- c("wheat","#5a95b3","#b2c8df","#ddb695","#ac754c","#714423")
 }
 
 ##-----------------------------------------------------------------------------##
@@ -66,21 +67,21 @@ build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
   ## I need to add Binomial, Uniform, and Geometric.
   par(bg="wheat")
   if(type == "normal"){
-    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="blue",lwd=2,type="l",main="Normal Plot",
+    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
     xlab = "Z-scores",ylab="Probability")
-    polygon(x = c(lower,fill,upper),y = c(0, dnorm(fill,0,1),0),border = NA, col = "blue")
+    polygon(x = c(lower,fill,upper),y = c(0, dnorm(fill,0,1),0),border = NA, col = "#5a95b3")
   }
 
   if(type == "t-dist"){
-    plot(x<-seq(-4,4,.01),dt(x,df),col="blue",lwd=2,type="l",main="Student's t Plot",
+    plot(x<-seq(-4,4,.01),dt(x,df),col="#5a95b3",lwd=2,type="l",main="Student's t Plot",
          xlab = "Z-scores",ylab="Probability")
-    polygon(x = c(lower,fill,upper),y = c(0, dt(fill,df),0),border = NA, col = "blue")
+    polygon(x = c(lower,fill,upper),y = c(0, dt(fill,df),0),border = NA, col = "#5a95b3")
   }
 
   if(type == "chi-squared"){
-    plot(x<-seq(0,3 * df,.01),dchisq(x,df),col="blue",lwd=2,type="l",main="Student's t Plot",
+    plot(x<-seq(0,3 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Student's t Plot",
          xlab = "Z-scores",ylab="Probability")
-    polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "blue")
+    polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "#5a95b3")
   }
 
 }
