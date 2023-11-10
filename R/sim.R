@@ -14,9 +14,10 @@ sim <- function(data,type){
 
 sims <- list("Birthday","Monty.Hall.Auto","Monty.Hall","Sampling","Law.of.Large.Numbers")
 
-###The funciton below is designed to simulate the Birthday Problem.
-###Note the input for size assumes a vector of somelenghts. Values below 50 are best.
-###The function also assumes a lenght of 4 for graphical output.
+###The function below is designed to simulate the Birthday Problem.
+###Note the input for size assumes a vector of somethings. Values below 50 are best.
+###The function also assumes a length of 4 for graphical output.
+###The function gets slow at around 2000 Iterations. However, 200 is enought to see convergence.
 Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
   #Figure out how to make the size allow many inputs with c.
   if(is.null(size)){
