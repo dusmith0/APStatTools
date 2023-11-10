@@ -40,5 +40,22 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
   plot(X)
 }
 
+build.dist <- function(type,tail,bound,df,prob=TRUE){
+  par(bg="wheat")
+  if(type == "normal"){
+    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="blue",lwd=2,type="l",main="Normal Plot",
+    xlab = "Z-scores",ylab="Probability")
+  }
 
+  if(type == "t-dist"){
+    plot(x<-seq(-4,4,.01),dt(x,df),col="blue",lwd=2,type="l",main="Student's t Plot",
+         xlab = "Z-scores",ylab="Probability")
+  }
+
+  if(type == "chi-squared"){
+    plot(x<-seq(0,3 * df,.01),dchisq(x,df),col="blue",lwd=2,type="l",main="Student's t Plot",
+         xlab = "Z-scores",ylab="Probability")
+  }
+
+}
 export(build)
