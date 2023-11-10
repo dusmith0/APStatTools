@@ -44,7 +44,7 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
 
 ##----------------------------------------------------------------------------##
 ## Note: This function uses standardized inputs.
-build.dist <- function(type,tail,bound,df,prob=FALSE){
+build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
   ## Add in errors to print list of options
 
   #This piece is to read in and tails and apply value for the polygon below
