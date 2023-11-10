@@ -12,30 +12,53 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
 
   #maybe define the norm calculations here?
 
+  ##Place a call function here
+
+  ##-------------------------------------------------------------------------##
+  #Functions for tests go here-----------------------------------------------##
+
   ## z_test family of functions
-  z.test.one <- function(x_bar,sd,test_value,tail="left"){
-
-    test_statistic <- (test_value - sample_mean)/se
-
+  ## One sample z-test for means.
+  z.test.one <- function(null,x_bar,sd,n,tail="left"){
+    # calculates needed values
+    df <- n - 1
+    standard_error <- sd / sqrt(n)
+    test_statistic <- (x_bar - null) / standard_error
+    #runs the p_value through the normal cdf based on value of tail.
     if(tail == "left"){
-      p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE)
+      p_value <- pt(test_statistic,df,lower.tail = TRUE)
     }else if(tail == "right"){
-      p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
-    }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
+      p_value <- pt(test_statistic,df,lower.tail = FALSE)
+    }else{p_value <- pf(test_statistic,df,lower.tail = TRUE) * 2}
+    #prints a flagged distribution
+    build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
-    ##Change the below section to a function in Build for either normal, t, or X-squared.
-    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="Blue",lwd=2,type="l",main="Normal Plot",
-         xlab = "Z-scores",ylab="Probability")
-    polygon(c(seq(2.5,3.5,.01)),density=NULL)
-
-    return(data.frame(p_value = p_value,test_statistic = test_statistic))
-
+    return(data.frame(test = "One Sample Z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
-  z.test.two <- function(){
+  ## Two sample z-test on means
+  z.test.two <- function(null,x_bar,sd,n,tail="left"){
+    # checking input for null
+    if(length(null) != 1){
+      null <- diff(null)
+    }
+    # calculates error and statistic
+    df <- ((sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2]) ^ 2) / sum((1 / (n - 1)) * (sd ^ 2 / n) ^ 2)
+    standard_error <- sqrt( sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2])
+    test_statistic <- (diff(x_bar) - null) / standard_error
+    #runs the p_value through the normal cdf based on value of tail.
+    if(tail == "left"){
+      p_value <- pt(test_statistic,df,lower.tail = TRUE)
+    }else if(tail == "right"){
+      p_value <- pt(test_statistic,df,lower.tail = FALSE)
+    }else{p_value <- pf(test_statistic,df,lower.tail = TRUE) * 2}
+    #prints a flagged distribution
+    build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
+    return(data.frame(test = "Two Sample Z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
+  ## Pooled two sample t-test
   z.test.pooled <- function(){
 
   }
