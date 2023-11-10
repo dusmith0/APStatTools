@@ -8,7 +8,7 @@ Options <- function(type,xlim,ylim,main,xlab,ylab,sub,frame.plot,number_of_plots
   ## Create a running color template for use in bar or pie graphs. They can choose the theme.
 }
 
-
+##-----------------------------------------------------------------------------##
 # Note: This function is not designed to clean your data. The data should be first assigned using
 # Create() then place in the name for data1, data2...
 build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore continent methods for imputing multiple data types.
@@ -40,7 +40,17 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
   plot(X)
 }
 
+
+
+##----------------------------------------------------------------------------##
+## Note: This function uses standardized inputs.
 build.dist <- function(type,tail,bound,df,prob=TRUE){
+
+  #This piece is to read in and tails and apply value for the polygon below
+  if(tail == "lower")
+
+
+
   par(bg="wheat")
   if(type == "normal"){
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="blue",lwd=2,type="l",main="Normal Plot",
@@ -57,5 +67,9 @@ build.dist <- function(type,tail,bound,df,prob=TRUE){
          xlab = "Z-scores",ylab="Probability")
   }
 
+  polygon(x = c(lower,fill,upper),y = c(0, dnorm(fill,0,1),0),border = NA, col = "blue")
+
 }
+
+
 export(build)
