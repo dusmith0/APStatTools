@@ -56,7 +56,7 @@ build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
   }else if(tail == "right"){
     lower <- bound
     upper <- 5
-    fill <- seq(lower,upper.01)
+    fill <- seq(lower,upper,.01)
   }else if(tail == "inner"){
     lower <- bound[1]
     upper <- bound[2]

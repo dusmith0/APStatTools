@@ -1,15 +1,6 @@
-#' Title
-#'
-#' @param data
-#' @param test
-#'
-#' @return
-#' @export
-#'
-#' @examples
-test <- function(sample_mean,se,test_value,test,tail="left",
-                 data=NULL,graph=TRUE){ #This needs to be a large wrapper function. think about it last.
+#This needs to be a large wrapper function.
 
+test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE){
   ## Preform some error checks for correct input.
 
 
@@ -22,7 +13,7 @@ test <- function(sample_mean,se,test_value,test,tail="left",
   #maybe define the norm calculations here?
 
   ## z_test family of functions
-  z.test.one <- function(sample_mean,se,test_value,tail="left"){
+  z.test.one <- function(x_bar,sd,test_value,tail="left"){
 
     test_statistic <- (test_value - sample_mean)/se
 
@@ -61,7 +52,7 @@ test <- function(sample_mean,se,test_value,test,tail="left",
   ## Chi-squared family
 
 
-  return(list(p_value = p_value, test_statistic = test_statistic, x_bar = x_bar, se = se, n = n))
+  return(list(p_value = p_value, test_statistic = test_statistic, x_bar = x_bar, se = se, n = n, df = df))
 }
 
 
