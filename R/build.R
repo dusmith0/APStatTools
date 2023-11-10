@@ -47,7 +47,19 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
 build.dist <- function(type,tail,bound,df,prob=TRUE){
 
   #This piece is to read in and tails and apply value for the polygon below
-  if(tail == "lower")
+  if(tail == "left"){
+    lower <- -5
+    upper <- bound
+    fill <- seq(lower,upper,.01)
+  }else if(tail == "right"){
+    lower <- bound
+    upper <- 5
+    fill <- seq(lower,upper.01)
+  }else if(tail == "inner")
+    lower <- bound[1]
+    upper <- bound[2]
+    fill <- seq(lower,upper,.01)
+  }
 
 
 
