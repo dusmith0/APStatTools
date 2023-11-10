@@ -44,7 +44,8 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
 
 ##----------------------------------------------------------------------------##
 ## Note: This function uses standardized inputs.
-build.dist <- function(type,tail,bound,df,prob=TRUE){
+build.dist <- function(type,tail,bound,df,prob=FALSE){
+  ## Add in errors to print list of options
 
   #This piece is to read in and tails and apply value for the polygon below
   if(tail == "left"){
@@ -55,31 +56,32 @@ build.dist <- function(type,tail,bound,df,prob=TRUE){
     lower <- bound
     upper <- 5
     fill <- seq(lower,upper.01)
-  }else if(tail == "inner")
+  }else if(tail == "inner"){
     lower <- bound[1]
     upper <- bound[2]
     fill <- seq(lower,upper,.01)
   }
 
-
-
+  ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
+  ## I need to add Binomial, Uniform, and Geometric.
   par(bg="wheat")
   if(type == "normal"){
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="blue",lwd=2,type="l",main="Normal Plot",
     xlab = "Z-scores",ylab="Probability")
+    polygon(x = c(lower,fill,upper),y = c(0, dnorm(fill,0,1),0),border = NA, col = "blue")
   }
 
   if(type == "t-dist"){
     plot(x<-seq(-4,4,.01),dt(x,df),col="blue",lwd=2,type="l",main="Student's t Plot",
          xlab = "Z-scores",ylab="Probability")
+    polygon(x = c(lower,fill,upper),y = c(0, dt(fill,df),0),border = NA, col = "blue")
   }
 
   if(type == "chi-squared"){
     plot(x<-seq(0,3 * df,.01),dchisq(x,df),col="blue",lwd=2,type="l",main="Student's t Plot",
          xlab = "Z-scores",ylab="Probability")
+    polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "blue")
   }
-
-  polygon(x = c(lower,fill,upper),y = c(0, dnorm(fill,0,1),0),border = NA, col = "blue")
 
 }
 
