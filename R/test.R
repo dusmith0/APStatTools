@@ -29,7 +29,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pt(test_statistic,df,lower.tail = TRUE)
     }else if(tail == "right"){
       p_value <- pt(test_statistic,df,lower.tail = FALSE)
-    }else{p_value <- pf(test_statistic,df,lower.tail = TRUE) * 2}
+    }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
     #prints a flagged distribution
     build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
@@ -51,7 +51,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pt(test_statistic,df,lower.tail = TRUE)
     }else if(tail == "right"){
       p_value <- pt(test_statistic,df,lower.tail = FALSE)
-    }else{p_value <- pf(test_statistic,df,lower.tail = TRUE) * 2}
+    }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
     #prints a flagged distribution
     build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
