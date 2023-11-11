@@ -17,9 +17,9 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   ##-------------------------------------------------------------------------##
   #Functions for tests go here-----------------------------------------------##
 
-  ## z_test family of functions
-  ## One sample z-test for means.
-  z.test.one <- function(null,x_bar,sd,n,tail="left"){
+  ## t_test family of functions
+  ## One sample t-test for means.
+  t.test.one <- function(null,x_bar,sd,n,tail="left"){
     # calculates needed values
     df <- n - 1
     standard_error <- sd / sqrt(n)
@@ -33,11 +33,11 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
     #prints a flagged distribution
     build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
-    return(data.frame(test = "One Sample Z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
+    return(data.frame(test = "One Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
   ## Two sample z-test on means
-  z.test.two <- function(null,x_bar,sd,n,tail="left"){
+  t.test.two <- function(null,x_bar,sd,n,tail="left"){
     # checking input for null
     if(length(null) != 1){
       null <- diff(null)
@@ -55,21 +55,51 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
     #prints a flagged distribution
     build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
-    return(data.frame(test = "Two Sample Z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
+    return(data.frame(test = "Two Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
   ## Pooled two sample t-test
-  z.test.pooled <- function(){
+  t.test.pooled <- function(){
+
+
 
   }
 
-  ## t-test family
-  t.test.one <- function(){
+  ## z-test family
+  z.test.one <- function(null,p_hat,n,tail="left"){
+    #finding standard error.
+    standard_error <- sqrt(null * (1 - null) / n)
+    test_statistic <- (p_hat - null) / standard_error
 
+    #runs the p_value through the normal cdf based on value of tail.
+    if(tail == "left"){
+      p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE)
+    }else if(tail == "right"){
+      p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
+    }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
+    #prints a flagged distribution
+    build.dist(type = "normal", tail = tail, bound = test_statistic)
+
+    return(data.frame(test = "One Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
   }
 
-  t.test.two <- function(){
+  ## Two sample test on proportions.
+  z.test.pooled <- function(p_hat,n,tail="left"){
+    #finding standard error.
+    pc <- sum(p_hat * n) / sum(n)
+    standard_error <- sqrt(pc * (1 - pc) * (sum(1 / n)))
+    test_statistic <- (diff(p_hat)) / standard_error
 
+    #runs the p_value through the normal cdf based on value of tail.
+    if(tail == "left"){
+      p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE)
+    }else if(tail == "right"){
+      p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
+    }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
+    #prints a flagged distribution
+    build.dist(type = "normal", tail = tail, bound = test_statistic)
+
+    return(data.frame(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
   }
 
   ## Chi-squared family
