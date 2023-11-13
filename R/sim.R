@@ -65,4 +65,39 @@ Monty_fun <- function(choice = NULL, switch = NULL){
 
 
 
+### 21 and safe Busting
+blackjack_bust_auto <- function(trials = 10){
+  ##setting values
+  cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
+  draws <- 2
+  value <- 0
+  draw_values <- c(0)
+
+  for(i in 1:trials){
+    draw <- sample(cards,2)
+    for(j in 1:10){
+      # counting total points
+      for(k in 1:length(draw)){
+        if(any(draw[k] %in% c("2","3","4","5","6","7","8","9"))){
+          draw_values[k] <- as.numeric(draw[k])
+        }else if(draw[k] != "A"){
+          draw_values[k] <- 10
+        }else{
+          draw_values[k] <- 1
+        }
+      }
+
+        value <- sum(draw_values)
+        if(value > 21){
+          return(draw = draw, value = value)
+          stop("BUSTED")
+        }else{
+          draw[j + 2] <- sample(cards,1)
+        }
+    }
+  }
+}
+
+
+
 
