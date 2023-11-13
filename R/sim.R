@@ -101,11 +101,14 @@ blackjack_bust_auto <- function(trials = 10){
     time_to_bust[i] <- draws
     #end loop for many games
   }
+  ## Building a graphic
   par(bg = "wheat")
   stripchart(time_to_bust, method = "stack",pch = 19, at = .08, cex = 1, col = "#714423",
-             xlab = "Draws to bust/nIncluding initial draw",ylab = "Frequency", main="Black Jack draws to Bust")
-
-  return(time_to_bust = time_to_bust)
+             xlab = "Draws to bust\nIncluding initial draw",ylab = "Frequency", main="Black Jack draws to Bust")
+  ## Building a subspace for the probabilities to fit.
+  bjack_table <- data.frame(table(time_to_bust))
+  bjack_table[,3] <- data.frame(Perc = (jack_table$Freq/trials))
+  return(list(time_to_bust = time_to_bust,bjack_table = bjack_table))
 }
 
 
