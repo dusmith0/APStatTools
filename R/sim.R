@@ -66,15 +66,18 @@ Monty_fun <- function(choice = NULL, switch = NULL){
 
 
 ### 21 and safe Busting
+### Note the graphic is not the best tool ever. It does not display dot of large trials e.g. more than 100.
 blackjack_bust_auto <- function(trials = 10){
   ##setting values
   cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
-  draws <- 2
-  value <- 0
-  draw_values <- c(0)
+  time_to_bust <- c(0)
+  hands <- matrix(0,nrow=)
 
   for(i in 1:trials){
     draw <- sample(cards,2)
+    draws <- 2
+    value <- 0
+    draw_values <- c(0)
     for(j in 1:10){
       # counting total points
       for(k in 1:length(draw)){
@@ -89,13 +92,20 @@ blackjack_bust_auto <- function(trials = 10){
 
         value <- sum(draw_values)
         if(value > 21){
-          return(draw = draw, value = value)
-          stop("BUSTED")
+          break
         }else{
           draw[j + 2] <- sample(cards,1)
+          draws <- draws + 1
         }
-    }
+      } #End loop for one game
+    time_to_bust[i] <- draws
+    #end loop for many games
   }
+  par(bg = "wheat")
+  stripchart(time_to_bust, method = "stack",pch = 19, at = .08, cex = 1, col = "#714423",
+             xlab = "Draws to bust/nIncluding initial draw",ylab = "Frequency", main="Black Jack draws to Bust")
+
+  return(time_to_bust = time_to_bust)
 }
 
 
