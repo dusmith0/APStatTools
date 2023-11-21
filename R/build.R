@@ -45,35 +45,47 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
 
 ##----------------------------------------------------------------------------##
 ## Note: This function uses standardized inputs.
-build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
+build.dist <- function(type="normal",tail="left",bound = NULL,df,prob,trials,display_prob=FALSE){
   ## Add in errors to print list of options
-  if(tail == "outer" | tail == "two" & bound <= 0){
-      bound <- -1*bound
-  }
-
 
   #This piece is to read in and tails and apply value for the polygon below
-  if(tail == "left"){
-    lower <- -50
-    upper <- bound
-    fill <- seq(lower,upper,.01)
-  }else if(tail == "right"){
-    lower <- bound
-    upper <- 50
-    fill <- seq(lower,upper,.01)
-  }else if(tail == "inner"){
-    lower <- bound[1]
-    upper <- bound[2]
-    fill <- seq(lower,upper,.01)
-  }else if(tail == "outer" | tail == "two"){
-    lower <- -50
-    upper <- -bound
-    fill <- seq(lower,upper,.01)
-    lower_right <- bound
-    upper_right <- 50
-    fill_right <- seq(lower_right,upper_right,.01)
+  if(!is.null(bound) & type != "binomial"){
+    if(tail == "left"){
+      lower <- -50
+      upper <- bound
+      fill <- seq(lower,upper,.01)
+    }else if(tail == "right"){
+      lower <- bound
+      upper <- 50
+      fill <- seq(lower,upper,.01)
+    }else if(tail == "inner"){
+      lower <- bound[1]
+      upper <- bound[2]
+      fill <- seq(lower,upper,.01)
+    }else if(tail == "outer" | tail == "two"){
+      if(bound <= 0){
+         bound <- -1*bound
+      }
+      lower <- -50
+      upper <- -bound
+      fill <- seq(lower,upper,.01)
+      lower_right <- bound
+      upper_right <- 50
+      fill_right <- seq(lower_right,upper_right,.01)
+    }
   }
 
+  if(!is.null(bound) & type == "binomial"){
+    if(tail == "left"){
+      logical <- ((x <= bound) + 1)
+    }else if(tail == "right"){
+      logical <- ((x >= bound) + 1)
+    }else if(tail == "left_not_equal"){
+        logical <- ((x < bound) + 1)
+      }else if(tail == "right_not_equal"){
+        logical <- ((x > bound) + 1)
+    }
+  }
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
@@ -100,6 +112,15 @@ build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
     plot(x<-seq(0,4.5 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Chi-Squared Distribution",
          xlab = "Z-scores",ylab="Probability")
     polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "#5a95b3")
+  }
+
+  if(type == "binomial"){
+    color <- c("#b2c8df","#5a95b3")
+    names <- c(0:trials)
+    barplot(dbinom(0:trials,trials,prob), ylab = "Probability", xlab = "# of Successes",
+         main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "), col = color[logical],
+         names.arg=names)
+
   }
 
 }
