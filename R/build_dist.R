@@ -1,9 +1,12 @@
 ##----------------------------------------------------------------------------##
-## Note: This function uses standardized inputs.
-#' Title build_dist
+
+#' Title build_dist()
+#'
 #'
 #' Description: This function is designed to build a set of distributions and shade in
 #' the various regions of interest.
+#'
+#' Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
 #'
 #' @param type string being any of "normal", "t-dist", "chi-squared", "binomial"
 #' @param tail string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
