@@ -69,7 +69,7 @@ Monty_fun <- function(choice = NULL, switch = NULL){
 ### Note the graphic is not the best tool ever. It does not display dot of large trials e.g. more than 100.
 
 ### This is a function needed to calculate the below simulations.
-card_count <- function(draw){
+card_count <- function(draw, draw_values = 0){
   # counting total points
   for(k in 1:length(draw)){
     if(any(draw[k] %in% c("2","3","4","5","6","7","8","9"))){
@@ -125,13 +125,14 @@ blackjack_bust_auto <- function(trials = 10){
              xlab = "Draws to bust\nIncluding initial draw",ylab = "Frequency", main="Black Jack draws to Bust")
   ## Building a subspace for the probabilities to fit.
   bjack_table <- data.frame(table(time_to_bust))
-  bjack_table[,3] <- data.frame(Perc = (jack_table$Freq/trials))
+  bjack_table[,3] <- data.frame(Perc = (bjack_table$Freq/trials))
   return(list(time_to_bust = time_to_bust,bjack_table = bjack_table))
 }
 
 
 ## Input Driven Black-Jack Bust Similation
-blackjack_bust <- function(trials = 10){
+## Note: at the moment this function does not produce graphics automatically.
+blackjack_bust <- function(){
   ##setting values
   cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
   time_to_bust <- c(0)
@@ -141,19 +142,21 @@ blackjack_bust <- function(trials = 10){
   value <- 0
 
   ## Act of drawing cards
-  draw <- sample(cards,2)
-  draws <- 2
+  draw <- sample(cards,1)
+  draws <- 1
 
   while(value != "Stop"){
     draw <- append(draw,sample(cards,1),after = length(draw))
     draws <- draws + 1
 
    ## reading and printing card values.
-    count <- card_count(draw)
+    count <- card_count(draw, draw_values)
+    draw_values <- count$draw_values
     print(count) #Create a nice data frame to print.
 
-    if(value > 21){
-      stop(paste("BUSTED!!!!!"))
+    if(count$value > 21){
+      print("BUSTED!!!!!")
+      break()
     }
 
     ## Checking user input for Hit or to stop playing.
