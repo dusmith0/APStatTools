@@ -1,5 +1,5 @@
 ## A set of functions to find general values from a list or lists of data.
-get_measures <- function(input = FALSE, X, Y, freq = c(1), frequency = FALSE, regression = FALSE, outliers = NULL){
+get_measures <- function(input = FALSE, X = NULL, Y = NULL, freq = c(1), frequency = FALSE, regression = FALSE, outliers = NULL){
   ## A piece to allow for user input for data, and reading it into different columns
   if(input == TRUE){
     data <- data.frame()
@@ -45,23 +45,23 @@ get_measures <- function(input = FALSE, X, Y, freq = c(1), frequency = FALSE, re
         }
       }
 
-      if(regression = FALSE){
+      if(regression == TRUE){
         LSRL <- summary(lm(data[,2]~data[,1]))
       }
 
-      if(regression = FALSE & outliers = FALSE){
+      if(regression == FALSE & outliers == FALSE){
         return(list(data = data, totals = totals, n = n, mean = mean, pop_sd = pop_sd, sample_sd = sample_sd, Q1 = Q1, Q2 = Q2, Q3 = Q3, IQR = IQR))
       }
 
-      if(regression = TRUE & outliers = FALSE){
+      if(regression == TRUE & outliers == FALSE){
         return(list(data = data, totals = totals, n = n, mean = mean, pop_sd = pop_sd, sample_sd = sample_sd, Q1 = Q1, Q2 = Q2, Q3 = Q3, IQR = IQR, LSRL = LSRL))
       }
 
-      if(regression = FALSE & outliers = TRUE){
+      if(regression == FALSE & outliers == TRUE){
         return(list(data = data, totals = totals, n = n, mean = mean, pop_sd = pop_sd, sample_sd = sample_sd, Q1 = Q1, Q2 = Q2, Q3 = Q3, IQR = IQR, lower_outliers = lower_outliers, upper_outliers = upper_outliers))
       }
 
-      if(regression = TRUE & outliers = TRUE){
+      if(regression == TRUE & outliers == TRUE){
         return(list(data = data, totals = totals, n = n, mean = mean, pop_sd = pop_sd, sample_sd = sample_sd, Q1 = Q1, Q2 = Q2, Q3 = Q3, IQR = IQR, lower_outliers = lower_outliers, upper_outliers = upper_outliers, LSRL = LSRL))
       }
 }
