@@ -19,7 +19,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
 
   ## t_test family of functions
   ## One sample t-test for means.
-  t.test.one <- function(null,x_bar,sd,n,tail="left"){
+  t_test_one <- function(null,x_bar,sd,n,tail="left"){
     # calculates needed values
     df <- n - 1
     standard_error <- sd / sqrt(n)
@@ -37,7 +37,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   }
 
   ## Two sample z-test on means
-  t.test.two <- function(null,x_bar,sd,n,tail="left"){
+  t_test_two <- function(null,x_bar,sd,n,tail="left"){
     # checking input for null
     if(length(null) != 1){
       null <- diff(null)
@@ -59,14 +59,14 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   }
 
   ## Pooled two sample t-test
-  t.test.pooled <- function(){
+  t_test_pooled <- function(){
 
 
 
   }
 
   ## z-test family
-  z.test.one <- function(null,p_hat,n,tail="left"){
+  z_test_one <- function(null,p_hat,n,tail="left"){
     #finding standard error.
     standard_error <- sqrt(null * (1 - null) / n)
     test_statistic <- (p_hat - null) / standard_error
@@ -84,7 +84,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   }
 
   ## Two sample test on proportions.
-  z.test.pooled <- function(p_hat,n,tail="left"){
+  z_test_pooled <- function(p_hat,n,tail="left"){
     #finding standard error.
     pc <- sum(p_hat * n) / sum(n)
     standard_error <- sqrt(pc * (1 - pc) * (sum(1 / n)))
@@ -103,9 +103,58 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   }
 
   ## Chi-squared family
+  ## Please note that the base::chisq.test() is much more robust to this function. The blow
+  ## is only intended to mimic the question stlye of stimulous used in AP Statistics.
+  ## It is not intended as a replacement to the base function.
+  chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE){
+    ## Cheching some conditions.
+    if(row_totals == TRUE){
+      null_table <- null_table[-length(null_table)]
+    }
+
+    if(length(null_table) != length(expected_table)){
+      stop(paste("Error: Please ensure your table lenghts are equal in size. Also this function runs assuming that you did not
+                 input the 'Total' column into your null_table. If you did please add
+                 row_tatals == TRUE to your input."))
+    }
+
+    if(is.null(expected_table)){
+      stop(paste("Error: This functions assumes that you have a known expected frequency"))
+    }
+
+    if(any(expected_table > 1) & expected_as_count == FALSE){
+      expected_table <- expected_table / 100
+      message("It seems that one of your expected values is greater then one. They have been adjusted to decimal values.
+              \n If they were intended to be expected counts not percentages please recall the function and add
+              \n expected_as_count = TRUE
+              \n to your input.")
+    }
+
+    ##This piece reads in the expected_table and generates a count for calculation.
+    if(expected_as_count == FALSE){
+      expected_count <- sum(null_table) * expected_table
+    }else{
+      expected_count <- expected_table
+    }
+
+    ##Here we compute the actual calculation.
+    df <- length(null_table) - 1
+    chi_squared_values <- (( expected_count - null_table) ^ 2) / expected_count
+    test_statistic <- sum(chi_squared_values)
+    p_value <- pchisq(test_statistic,df,lower.tail = FALSE)
+
+    ## This piece builds the graphic.
+    build.dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
+
+    return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, df = df, test_statistic = test_statistic, p_value = p_value))
+  }
 
 
-  return(list(p_value = p_value, test_statistic = test_statistic, x_bar = x_bar, se = se, n = n, df = df))
+
+
+
+
+  return(list(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic, x_bar = x_bar, se = se, n = n, df = df))
 }
 
 

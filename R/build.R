@@ -50,12 +50,12 @@ build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
 
   #This piece is to read in and tails and apply value for the polygon below
   if(tail == "left"){
-    lower <- -5
+    lower <- -50
     upper <- bound
     fill <- seq(lower,upper,.01)
   }else if(tail == "right"){
     lower <- bound
-    upper <- 5
+    upper <- 50
     fill <- seq(lower,upper,.01)
   }else if(tail == "inner"){
     lower <- bound[1]
@@ -65,7 +65,7 @@ build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
-  par(bg="wheat")
+  par(mfrow = c(1,1), bg="wheat")
   if(type == "normal"){
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
     xlab = "Z-scores",ylab="Probability")
