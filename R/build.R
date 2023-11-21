@@ -76,6 +76,7 @@ build.dist <- function(type="normal",tail="left",bound = NULL,df,prob,trials,dis
   }
 
   if(!is.null(bound) & type == "binomial"){
+    x <- 1:trials
     if(tail == "left"){
       logical <- ((x <= bound) + 1)
     }else if(tail == "right"){
@@ -85,7 +86,7 @@ build.dist <- function(type="normal",tail="left",bound = NULL,df,prob,trials,dis
       }else if(tail == "right_not_equal"){
         logical <- ((x > bound) + 1)
     }
-  }
+  }else{logical <- rep(1,length(trials))}
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
