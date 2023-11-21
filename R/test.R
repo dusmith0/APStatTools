@@ -20,7 +20,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   ##-------------------------------------------------------------------------##
   ## t_test family of functions
   ## One sample t-test for means.
-  t_test_one <- function(null,x_bar,sd,n,tail="left"){
+  t_test_one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
     # calculates needed values
     df <- n - 1
     standard_error <- sd / sqrt(n)
@@ -32,13 +32,15 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pt(test_statistic,df,lower.tail = FALSE)
     }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
     #prints a flagged distribution
-    build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
+    if(graph = TRUE){
+      build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
+    }
 
     return(data.frame(test = "One Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
   ## Two sample t-test on means
-  t_test_two <- function(null = 0,x_bar,sd,n,tail="left"){
+  t_test_two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
     # checking input for null
     if(length(null) != 1){
       null <- diff(null)
@@ -54,15 +56,16 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pt(test_statistic,df,lower.tail = FALSE)
     }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
     #prints a flagged distribution
-    build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
-
+    if(graph = TRUE){
+      build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
+    }
     return(data.frame(test = "Two Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
   ## Pooled two sample t-test
   ## Note: This will assume the expected difference is calculated as table_one - table_two.
   ## Please input the data in the order you would like them subtracted, to match the above.
-  t_test_paired <- function(null = 0,table_one,table_two,tail="two"){
+  t_test_paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
     # checking input for null
     if(length(null) != 1){
       null <- diff(null)
@@ -91,8 +94,9 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2
     }
     #prints a flagged distribution
-    build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
-
+    if(graph = TRUE){
+      build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df,graph=TRUE)
+    }
     return(data.frame(test = "Two Sample Paired t-test", paired_data = paired_data, p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
@@ -101,7 +105,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   }
   ##-------------------------------------------------------------------------##
   ## z-test family
-  z_test_one <- function(null,p_hat,n,tail="left"){
+  z_test_one <- function(null,p_hat,n,tail="left",graph=TRUE){
     #finding standard error.
     standard_error <- sqrt(null * (1 - null) / n)
     test_statistic <- (p_hat - null) / standard_error
@@ -113,13 +117,15 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
     }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
     #prints a flagged distribution
-    build.dist(type = "normal", tail = tail, bound = test_statistic)
+    if(graph = TRUE){
+      build.dist(type = "normal", tail = tail, bound = test_statistic)
+    }
 
     return(data.frame(test = "One Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
   }
 
   ## Two sample test on proportions.
-  z_test_pooled <- function(p_hat,n,tail="left"){
+  z_test_pooled <- function(p_hat,n,tail="left",graph=TRUE){
     #finding standard error.
     pc <- sum(p_hat * n) / sum(n)
     standard_error <- sqrt(pc * (1 - pc) * (sum(1 / n)))
@@ -132,8 +138,9 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
       p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
     }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
     #prints a flagged distribution
-    build.dist(type = "normal", tail = tail, bound = test_statistic)
-
+    if(graph = TRUE){
+      build.dist(type = "normal", tail = tail, bound = test_statistic)
+    }
     return(data.frame(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
   }
 
@@ -143,7 +150,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   ## Please note that the base::chisq.test() is much more robust to this function. The blow
   ## is only intended to mimic the question stlye of stimulous used in AP Statistics.
   ## It is not intended as a replacement to the base function.
-  chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE){
+  chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE,graph=TRUE){
     ## Cheching some conditions.
     if(row_totals == TRUE){
       null_table <- null_table[-length(null_table)]
@@ -181,12 +188,46 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
     p_value <- pchisq(test_statistic,df,lower.tail = FALSE)
 
     ## This piece builds the graphic.
-    build.dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
-
-    return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, df = df, test_statistic = test_statistic, p_value = p_value))
+    if(graph = TRUE){
+      build.dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
+    }
+    return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
   }
 
 
+  ##Chi-Squared Test for Homogenaity or Independence.
+  chi_squared_independence <- function(null_table, mat_totals = FALSE,graph=TRUE){
+    #Generating totals if not provided
+    if(mat_totals == FALSE){
+      null_table <- rbind(null_table,colSums(null_table))
+      null_table <- cbind(null_table,rowSums(null_table))
+    }
+
+    #Generating the expected tables
+    expected <- matrix(0,nrow=nrow(null_table), ncol=ncol(null_table))
+    for(i in 1:nrow(null_table)){
+      for(j in 1:ncol(null_table)){
+        expected[i,j] <- null_table[i,ncol(null_table)] * null_table[nrow(null_table),j]
+      }
+    }
+    expected_count <- expected / null_table[nrow(null_table),ncol(null_table)]
+
+    # Calculating the Chi-Squared Statistic
+    exp_count <- expected_count[-nrow(expected_count),-ncol(expected_count)]
+    null <- null_table[-nrow(null_table),-ncol(null_table)]
+    df <- (ncol(null) - 1) * (nrow(null) - 1)
+
+    chi_squared_values <- ((exp_count-null) ^ 2) / exp_count
+    test_statistic <- sum(chi_squared_values)
+    p_value <- pchisq(test_statistic,df,lower.tail = FALSE)
+
+    ## This piece builds the graphic.
+    if(graph = TRUE){
+      build.dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
+    }
+    return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+
+  }
 
 
 

@@ -42,5 +42,10 @@ table_two <- females <- c(221,633,200,312,629,435,2098,283)
 
 t_test_paired(null = 0,table_one,table_two,tail="two")
 
+##Chi-Squared for independence tests
+mat <- c(12,12,13,14,15,15,16,17,60)
+null_table <- matrix(mat,ncol=3)
+chi_squared_independence(null_table)
+
 
 
