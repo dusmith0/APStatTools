@@ -97,7 +97,7 @@ build.dist <- function(type="normal",tail="left",bound,df,prob=FALSE){
   }
 
   if(type == "chi-squared"){
-    plot(x<-seq(0,3 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Chi-Squared Distribution",
+    plot(x<-seq(0,4.5 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Chi-Squared Distribution",
          xlab = "Z-scores",ylab="Probability")
     polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "#5a95b3")
   }
