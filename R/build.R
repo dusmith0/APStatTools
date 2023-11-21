@@ -45,10 +45,32 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
 
 ##----------------------------------------------------------------------------##
 ## Note: This function uses standardized inputs.
-build.dist <- function(type="normal",tail="left",bound = NULL,df,prob,trials,display_prob=FALSE){
-  ## Add in errors to print list of options
+build.dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,trials = 10,display_prob=FALSE){
+  ## Help options are below
+  if(type == "help"){
+    stop(paste("Below is a list of graphics this function can build along with their inputs:
+               Inputs defined by lists are displaying the options.
+
+               Normal Distribution:
+               type = 'normal', bound = c(left,right), tails = list('left','right','inner','two')
+
+               Student's t-distribution
+               type = 't-dist', bound = c(left,right), df = 1, tails = list('left','right','inner','two')
+
+               Chi-Squared Distribution
+               type = 'Chi-Squared', bound = left, df = 1, tails = list('left','right','inner','two')
+
+               Binomial Distribution
+               type = 'binomial', bound = c(left,right), prob = .5, trials = 10
+               "))
+  }
 
   #This piece is to read in and tails and apply value for the polygon below
+  if(is.null(bound) & type != "binomial"){
+    lower <- -5
+    upper <- 5
+    fill <- seq(-5,upper,.01)
+  }
   if(!is.null(bound) & type != "binomial"){
     if(tail == "left"){
       lower <- -50
@@ -110,6 +132,12 @@ build.dist <- function(type="normal",tail="left",bound = NULL,df,prob,trials,dis
   }
 
   if(type == "chi-squared"){
+    ## Refits the bounds to ensure shading occurs below the graph.
+    ## This is not designed to work tails other then "right" or "left"
+    if(tail == "left" | is.null(tail)){
+      lower <- 0.0000001
+      fill <- seq(lower,upper,.01)
+    }
     plot(x<-seq(0,4.5 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Chi-Squared Distribution",
          xlab = "Z-scores",ylab="Probability")
     polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "#5a95b3")
