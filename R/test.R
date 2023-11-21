@@ -17,6 +17,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   ##-------------------------------------------------------------------------##
   #Functions for tests go here-----------------------------------------------##
 
+  ##-------------------------------------------------------------------------##
   ## t_test family of functions
   ## One sample t-test for means.
   t_test_one <- function(null,x_bar,sd,n,tail="left"){
@@ -36,8 +37,8 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
     return(data.frame(test = "One Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
   }
 
-  ## Two sample z-test on means
-  t_test_two <- function(null,x_bar,sd,n,tail="left"){
+  ## Two sample t-test on means
+  t_test_two <- function(null = 0,x_bar,sd,n,tail="left"){
     # checking input for null
     if(length(null) != 1){
       null <- diff(null)
@@ -59,12 +60,42 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   }
 
   ## Pooled two sample t-test
-  t_test_pooled <- function(){
+  ## Note: This will assume the expected difference is calculated as table_one - table_two.
+  ## Please input the data in the order you would like them subtracted, to match the above.
+  t_test_paired <- function(null = 0,table_one,table_two,tail="left"){
+    # checking input for null
+    if(length(null) != 1){
+      null <- diff(null)
+    }
+
+    if(length(table_one) != length(table_two)){
+      stop(paste("Error: Please ensure that your input of your data sets match in size."))
+    }
+
+    # calculates error and statistic
+    paired_data <- table_one - table_two
+    n <- length(paired_data)
+    df <- n - 1
+    x_bar <- mean(paired_data)
+    standard_error <- sd(paired_data)/sqrt(n)
+
+    test_statistic <- (diff(x_bar) - null) / standard_error
+    #runs the p_value through the normal cdf based on value of tail.
+    if(tail == "left"){
+      p_value <- pt(test_statistic,df,lower.tail = TRUE)
+    }else if(tail == "right"){
+      p_value <- pt(test_statistic,df,lower.tail = FALSE)
+    }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
+    #prints a flagged distribution
+    build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
+
+    return(data.frame(test = "Two Sample Paired t-test", paired_data = paired_data, p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
+  }
 
 
 
   }
-
+  ##-------------------------------------------------------------------------##
   ## z-test family
   z_test_one <- function(null,p_hat,n,tail="left"){
     #finding standard error.
@@ -102,6 +133,8 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
     return(data.frame(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
   }
 
+
+  ##--------------------------------------------------------------------------##
   ## Chi-squared family
   ## Please note that the base::chisq.test() is much more robust to this function. The blow
   ## is only intended to mimic the question stlye of stimulous used in AP Statistics.
