@@ -67,6 +67,24 @@ Monty_fun <- function(choice = NULL, switch = NULL){
 
 ### 21 and safe Busting
 ### Note the graphic is not the best tool ever. It does not display dot of large trials e.g. more than 100.
+
+### This is a function needed to calculate the below simulations.
+card_count <- function(draw){
+  # counting total points
+  for(k in 1:length(draw)){
+    if(any(draw[k] %in% c("2","3","4","5","6","7","8","9"))){
+      draw_values[k] <- as.numeric(draw[k])
+    }else if(draw[k] != "A"){
+      draw_values[k] <- 10
+    }else{
+      draw_values[k] <- 1
+    }
+  }
+  value <- sum(draw_values)
+  return(list(draw = draw, draw_values = draw_values, value = value))
+}
+
+
 blackjack_bust_auto <- function(trials = 10){
   ##setting values
   cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
@@ -109,6 +127,38 @@ blackjack_bust_auto <- function(trials = 10){
   bjack_table <- data.frame(table(time_to_bust))
   bjack_table[,3] <- data.frame(Perc = (jack_table$Freq/trials))
   return(list(time_to_bust = time_to_bust,bjack_table = bjack_table))
+}
+
+
+## Input Driven Black-Jack Bust Similation
+blackjack_bust <- function(trials = 10){
+  ##setting values
+  cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
+  time_to_bust <- c(0)
+  hands <- matrix(0,nrow=)
+  input <- "Run"
+  draw_values <- c(0)
+  value <- 0
+
+  ## Act of drawing cards
+  draw <- sample(cards,2)
+  draws <- 2
+
+  while(value != "Stop"){
+    draw <- append(draw,sample(cards,1),after = length(draw))
+    draws <- draws + 1
+
+   ## reading and printing card values.
+    count <- card_count(draw)
+    print(count) #Create a nice data frame to print.
+
+    if(value > 21){
+      stop(paste("BUSTED!!!!!"))
+    }
+
+    ## Checking user input for Hit or to stop playing.
+    input <- readline(prompt = "Please type 'Hit' to draw another card or 'Stop' to stop\n >>>")
+  }
 }
 
 
