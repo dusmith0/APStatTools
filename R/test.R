@@ -62,7 +62,7 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
   ## Pooled two sample t-test
   ## Note: This will assume the expected difference is calculated as table_one - table_two.
   ## Please input the data in the order you would like them subtracted, to match the above.
-  t_test_paired <- function(null = 0,table_one,table_two,tail="left"){
+  t_test_paired <- function(null = 0,table_one,table_two,tail="two"){
     # checking input for null
     if(length(null) != 1){
       null <- diff(null)
@@ -79,13 +79,17 @@ test <- function(null,x_bar,p_hat,sd,n,df,test,tail="left",data=NULL,graph=TRUE)
     x_bar <- mean(paired_data)
     standard_error <- sd(paired_data)/sqrt(n)
 
-    test_statistic <- (diff(x_bar) - null) / standard_error
+    test_statistic <- (x_bar - null) / standard_error
     #runs the p_value through the normal cdf based on value of tail.
     if(tail == "left"){
       p_value <- pt(test_statistic,df,lower.tail = TRUE)
     }else if(tail == "right"){
       p_value <- pt(test_statistic,df,lower.tail = FALSE)
-    }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
+    }else if(test_statistic > 0){
+      p_value <- pt(test_statistic,df,lower.tail = FALSE) * 2
+    }else if(test_statistics <= 0){
+      p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2
+    }
     #prints a flagged distribution
     build.dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
 
