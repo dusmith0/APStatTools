@@ -47,5 +47,13 @@ mat <- c(12,12,13,14,15,15,16,17,60)
 null_table <- matrix(mat,ncol=3)
 chi_squared_independence(null_table)
 
+## Get data test
+data_list <- list("Moneyball","Movies")
+if(x == 2){
+  bob <- "good"
+}else{
+  bob <- "bad"
+}
+
 
 

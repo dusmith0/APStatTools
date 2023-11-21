@@ -38,10 +38,5 @@ get_data <- function(data_name = NULL,ap_data_set = TRUE){
 }
 
 
-data_list <- list("Moneyball","Movies")
-if(x == 2){
-  bob <- "good"
-}else{
-    bob <- "bad"
-  }
+
 
