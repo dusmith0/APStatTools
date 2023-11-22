@@ -13,7 +13,7 @@ t_test_one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
     p_value <- pt(test_statistic,df,lower.tail = FALSE)
   }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
   #prints a flagged distribution
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
 
@@ -37,7 +37,7 @@ t_test_two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
     p_value <- pt(test_statistic,df,lower.tail = FALSE)
   }else{p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2}
   #prints a flagged distribution
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
   return(data.frame(test = "Two Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
@@ -75,7 +75,7 @@ t_test_paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
     p_value <- pt(test_statistic,df,lower.tail = TRUE) * 2
   }
   #prints a flagged distribution
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df,graph=TRUE)
   }
   return(data.frame(test = "Two Sample Paired t-test", paired_data = paired_data, p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
@@ -96,7 +96,7 @@ z_test_one <- function(null,p_hat,n,tail="left",graph=TRUE){
     p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
   }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
   #prints a flagged distribution
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type = "normal", tail = tail, bound = test_statistic)
   }
 
@@ -117,7 +117,7 @@ z_test_pooled <- function(p_hat,n,tail="left",graph=TRUE){
     p_value <- pnorm(test_statistic,0,1,lower.tail = FALSE)
   }else{p_value <- pnorm(test_statistic,0,1,lower.tail = TRUE) * 2}
   #prints a flagged distribution
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type = "normal", tail = tail, bound = test_statistic)
   }
   return(data.frame(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
@@ -167,7 +167,7 @@ chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count
   p_value <- pchisq(test_statistic,df,lower.tail = FALSE)
 
   ## This piece builds the graphic.
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
   return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
@@ -201,12 +201,11 @@ chi_squared_ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
   p_value <- pchisq(test_statistic,df,lower.tail = FALSE)
 
   ## This piece builds the graphic.
-  if(graph = TRUE){
+  if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
   return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
 
 }
 
-export(c(t_test_one,t_test_two,t_test_paired,z_test_one,z_test_one,z_test_pooled,chi_squared_gof,chi_squared_ind))
 

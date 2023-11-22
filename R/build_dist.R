@@ -63,13 +63,13 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
       upper <- bound[2]
       fill <- seq(lower,upper,.01)
     }else if(tail == "outer" | tail == "two"){
-      if(bound <= 0){
+      if(any(bound <= 0)){
         bound <- -1*bound
       }
       lower <- -50
-      upper <- -bound
+      upper <- bound[1]
       fill <- seq(lower,upper,.01)
-      lower_right <- bound
+      lower_right <- bound[2]
       upper_right <- 50
       fill_right <- seq(lower_right,upper_right,.01)
     }
@@ -132,4 +132,4 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
 
 }
 
-export(build_dist)
+

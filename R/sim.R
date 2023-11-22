@@ -47,18 +47,18 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
 
 
 ###Monty-Hall functions
-Monty_fun <- function(choice = NULL, switch = NULL){
-  door <- sample(c(1,0,0),3,replace=FALSE)
-  options <- c(1,2,3)
-  if(is.null(choice)){
-    choice <- readline(prompt = "Choose a door number 1,2,3")
-  }
-
-  if((door[choice] == 1){
-    options[-choice]
-    print(door[])
-  }
-}
+#Monty_fun <- function(choice = NULL, switch = NULL){
+#  door <- sample(c(1,0,0),3,replace=FALSE)
+#  options <- c(1,2,3)
+#  if(is.null(choice)){
+#    choice <- readline(prompt = "Choose a door number 1,2,3")
+#  }
+#
+#  if((door[choice] == 1){
+#    options[-choice]
+#    print(door[])
+#  }
+#}
 
 
 ###Sampling Distribution
