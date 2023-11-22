@@ -31,7 +31,17 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, freq = c(1), frequen
   }
 
   if(input == FALSE){
-    data <- cbind(X,Y)
+    if(!is.null(X) & !is.null(Y)){
+      if(length(X) != length(Y)){
+        stop(paste("Error: Please ensure that your input values are of equal lenght."))
+      }
+      data <- cbind(X,Y)
+      data <- as.data.frame(data)
+    }else if(!is.null(X)){
+      data <- X
+    }else if(!is.null(Y)){
+      data <- Y
+    }
   }
 
   ## A piece to check if frequency or regression is intended or not intended
