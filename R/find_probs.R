@@ -33,7 +33,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
   }
 
   ## Calculations on the Normal
-  if(type = "normal"){
+  if(type == "normal"){
     #one tailed
     if(tail == "left" | tail == "right"){
       probability <- pnorm(bound,mean,sd,lower.tail = logic)
@@ -53,7 +53,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
       probability <- pnorm(max(bound),mean,sd,lower.tail = FALSE) + pnorm(min(bound),mean,sd,lower.tail = TRUE)
     }
     # Inverse
-    if(inverse = TRUE){
+    if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
       }
@@ -63,7 +63,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
   }
 
   ## Calculations on the t-distribution
-  if(type = "t-dist"){
+  if(type == "t-dist"){
     #one tailed
     if(tail == "left" | tail == "right"){
       probability <- pt(bound,df,lower.tail = logic)
@@ -83,7 +83,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
       probability <- pt(max(bound),df,lower.tail = FALSE) + pt(min(bound),df,lower.tail = TRUE)
     }
     # Inverse
-    if(inverse = TRUE){
+    if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
       }
@@ -93,7 +93,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
   }
 
   ## This piece is for calculation on the Chi-Squared distribution.
-  if(type = "chi-squared"){
+  if(type == "chi-squared"){
     #one tailed
     if(tail == "left" | tail == "right"){
       probability <- pchisq(bound,df,lower.tail = logic)
@@ -113,7 +113,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
       probability <- pchisq(max(bound),df,lower.tail = FALSE) + pchisq(min(bound),df,lower.tail = TRUE)
     }
     # Inverse
-    if(inverse = TRUE){
+    if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
       }
@@ -123,7 +123,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
   }
 
   ## This is for the Binomial
-  if(type = "binomial"){
+  if(type == "binomial"){
     #one tailed
     if(tail == "left" | tail == "right"){
       probability <- pbinom(bound,trials,prob,lower.tail = logic)
@@ -143,7 +143,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
       probability <- pbinom(max(bound),trials,prob,lower.tail = FALSE) + pbinom(min(bound),trials,prob,lower.tail = TRUE)
     }
     # Inverse
-    if(inverse = TRUE){
+    if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
       }
@@ -160,4 +160,4 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
   }
 }
 
-export(find_probs)
+

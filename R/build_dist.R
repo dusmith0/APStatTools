@@ -23,7 +23,7 @@
 #' @export
 #'
 #' @examples
-build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,trials = 10,display_prob=FALSE){
+build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, display_prob=FALSE){
   ## Help options are below
   if(type == "help"){
     stop(paste("Below is a list of graphics this function can build along with their inputs:
@@ -51,12 +51,12 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
   }
   if(!is.null(bound) & type != "binomial"){
     if(tail == "left"){
-      lower <- -50
+      lower <- -5000
       upper <- bound
       fill <- seq(lower,upper,.01)
     }else if(tail == "right"){
       lower <- bound
-      upper <- 50
+      upper <- 5000
       fill <- seq(lower,upper,.01)
     }else if(tail == "inner"){
       lower <- bound[1]
@@ -66,11 +66,11 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
       if(any(bound <= 0)){
         bound <- -1*bound
       }
-      lower <- -50
+      lower <- -5000
       upper <- bound[1]
       fill <- seq(lower,upper,.01)
       lower_right <- bound[2]
-      upper_right <- 50
+      upper_right <- 5000
       fill_right <- seq(lower_right,upper_right,.01)
     }
   }
@@ -98,6 +98,10 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
     if(tail == "outer" | tail == "two"){
       polygon(x = c(lower_right,fill_right,upper_right),y = c(0, dnorm(fill_right,0,1),0),border = NA, col = "#5a95b3")
     }
+    if(display_prob == TRUE){
+      probability <- find_probs(bound = bound, type = "normal", tail = tail)
+      text(2.5,.3,paste("Prob: ",round(probability,digits = 3),set = ""))
+    }
   }
 
   if(type == "t-dist"){
@@ -106,6 +110,10 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
     polygon(x = c(lower,fill,upper),y = c(0, dt(fill,df),0),border = NA, col = "#5a95b3")
     if(tail == "outer" | tail == "two"){
       polygon(x = c(lower_right,fill_right,upper_right),y = c(0, dnorm(fill_right,0,1),0),border = NA, col = "#5a95b3")
+    }
+    if(display_prob == TRUE){
+      probability <- find_probs(bound = bound, type = "t-dist", tail = tail, df = df)
+      text(2.5,.3,paste("Prob: ",round(probability,digits = 3),set = ""))
     }
   }
 
@@ -119,6 +127,11 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
     plot(x<-seq(0,4.5 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Chi-Squared Distribution",
          xlab = "Z-scores",ylab="Probability")
     polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "#5a95b3")
+
+    if(display_prob == TRUE){
+      probability <- find_probs(bound = bound, type = "chi-squared", tail = tail, df = df)
+      text(3 * df,.6 * (max(dchisq(x,df))),paste("Prob: ",round(probability,digits = 3),set = ""))
+    }
   }
 
   if(type == "binomial"){
@@ -127,7 +140,13 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
     barplot(dbinom(0:trials,trials,prob), ylab = "Probability", xlab = "# of Successes",
             main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "), col = color[logical],
             names.arg=names)
-
+    if(display_prob == TRUE){
+      probability <- find_probs(bound = bound, type = "binomial", tail = tail, prob = prob, trials = trials)
+        if(prob <= .5){
+          x_placement <- (9 / 10) * trials
+        }else(x_placement <- (1 / 10) * (trials))
+      text(x_placement, (5 / trials),paste("Prob: ",round(probability,digits = 3),set = ""))
+    }
   }
 
 }
