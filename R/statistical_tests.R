@@ -82,8 +82,6 @@ t_test_paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
 }
 
 
-
-}
 ##-------------------------------------------------------------------------##
 ## z-test family
 z_test_one <- function(null,p_hat,n,tail="left",graph=TRUE){
@@ -177,7 +175,7 @@ chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count
 
 
 ##Chi-Squared Test for Homogenaity or Independence.
-chi_squared_independence <- function(null_table, mat_totals = FALSE,graph=TRUE){
+chi_squared_ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
   #Generating totals if not provided
   if(mat_totals == FALSE){
     null_table <- rbind(null_table,colSums(null_table))
@@ -209,3 +207,6 @@ chi_squared_independence <- function(null_table, mat_totals = FALSE,graph=TRUE){
   return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
 
 }
+
+export(c(t_test_one,t_test_two,t_test_paired,z_test_one,z_test_one,z_test_pooled,chi_squared_gof,chi_squared_ind))
+

@@ -42,7 +42,4 @@ build <- function(data = list(data),type = list(type),analysis=FALSE){ ##Explore
 }
 
 
-
-
-
 export(build)

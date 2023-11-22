@@ -131,3 +131,5 @@ build_dist <- function(type="normal",tail="left",bound = NULL,df = 1,prob = .5,t
   }
 
 }
+
+export(build_dist)

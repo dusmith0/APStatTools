@@ -159,3 +159,5 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
     return(value)
   }
 }
+
+export(find_probs)
