@@ -7,6 +7,8 @@
 #' the various regions of interest.
 #'
 #' Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
+#' Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
+#'        large trials. (that is much more than 1000)
 #'
 #' @param type string being any of "normal", "t-dist", "chi-squared", "binomial"
 #' @param tail string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
@@ -145,7 +147,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
         if(prob <= .5){
           x_placement <- (9 / 10) * trials
         }else(x_placement <- (1 / 10) * (trials))
-      text(x_placement, (5 / trials),paste("Prob: ",round(probability,digits = 3),set = ""))
+      text(x_placement, .8 * max(dbinom(0:trials,trials,prob)),paste("Prob: ",round(probability,digits = 3),set = ""))
     }
   }
 
