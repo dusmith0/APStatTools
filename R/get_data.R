@@ -11,8 +11,16 @@
 #'
 #' Note: This function will allow you to enter you data set name as
 get_data <- function(data_name = NULL,ap_data_set = TRUE){
+  if(data_name = "help" | "list"){
+    list <- c("fastfood2.csv","fastfood3.csv","indianrestaurant.csv","indianrestaurant2.csv","Moneyball.txt",
+              "Moneyball(titled).txt","movies.csv","potter.csv","vacations.csv","videogames.csv")
+    stop(cat("Below is a list the avalible data sets. You can also type data() to find many R defined data sets:",list,sep = "\n"))
+  }
   if(ap_data_set == TRUE & is.null(data_name)){
-    data_file <- readline()
+    data_file <- readline(message("Please type in the data set including the .extention:") )
+    n <- nchar(data_file)
+  }else{
+    data_file <- data_name
     n <- nchar(data_file)
   }
 
