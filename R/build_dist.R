@@ -26,6 +26,18 @@
 #'
 #' @examples
 build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, display_prob=FALSE){
+  ## Below are some error checks.
+  if(display_prob == TRUE & is.null(bound)){
+    stop(paste("Error: The display_prob option requires a value for bound as an input."))
+  }
+
+  if(type != "normal" & type !=  "binomial" & type !=  "t-dist" & type !=  "chi-squared"){
+    stop(paste("Error: Your type choice is not an option. Please choose either 'normal', 'binomial', 't-dist', or 'chi-squared'"))
+  }
+
+  if(tail != "left" & tail !=  "right" & tail !=  "inner" & tail !=  "outer" & tail != "two" & tail != "left_no_equal" & tail != "right_not_equal"){
+    stop(paste("Error: Your tail choice is not an option. Please choose either 'left','right','inner','two', 'right_not_equal', or 'left_not_equal'"))
+  }
   ## Help options are below
   if(type == "help"){
     stop(paste("Below is a list of graphics this function can build along with their inputs:
@@ -142,6 +154,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
     barplot(dbinom(0:trials,trials,prob), ylab = "Probability", xlab = "# of Successes",
             main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "), col = color[logical],
             names.arg=names)
+
     if(display_prob == TRUE){
       probability <- find_probs(bound = bound, type = "binomial", tail = tail, prob = prob, trials = trials)
         if(prob <= .5){
@@ -152,5 +165,4 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
   }
 
 }
-
 
