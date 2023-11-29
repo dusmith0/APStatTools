@@ -1,3 +1,5 @@
+library(gridExtra)
+
 #' Title
 #'
 #' @param data
@@ -10,6 +12,7 @@
 sim <- function(data,type){
 
 }
+
 
 
 sims <- list("Birthday","Monty.Hall.Auto","Monty.Hall","Sampling","Law.of.Large.Numbers")
@@ -164,6 +167,49 @@ blackjack_bust <- function(){
   }
 }
 
+
+## QQ-Demonstration
+## This plot will build a lot of QQ plots vs normal plots, and histograms of the simulated data.
+## In Rstudio you can click through the arrows to look through various examples. In R, click on the graph to see the next on.
+qq_dem <- function(){
+  plot_QQ <- function(data){
+    n = length(data)
+    i = seq(1:n)
+    u=(i-.5)/n
+    z=sort(qnorm(u))
+
+    par(mfrow=c(1,3),bg="wheat")
+    plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Values", main="QQ Plot", col="#5a95b3", pch = 16)
+    abline(lm(sort(data)~z),col="#714423",lwd = 2)
+
+    plot(density(data),main="Estimated Histogram of the data", col="#714423", lwd = 2)
+    lines(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2) #Note this will fail if the data is not centered around one. Which it will not be many times.
+
+    #This is a quick fix for the problem above. Not a good fix though.
+    hist(data, main="Actual Histogram of the data")
+  }
+
+  ### Here are some random data points to apply with the function.
+  ## I would not suggest changing the sample size to more than 100, as the graph
+  ## becomes very difficult to read.
+  data <- rnorm(10)
+  plot_QQ(data)
+  data <- rnorm(100)
+  plot_QQ(data)
+  data <- rnorm(1000)
+  plot_QQ(data)
+  data <- rbeta(100,1,.1)
+  plot_QQ(data)
+  data <- rbinom(100,100,.2)
+  plot_QQ(data)
+  data <- rbinom(100,100,.8)
+  plot_QQ(data)
+  data <- rgamma(100,1,1)
+  plot_QQ(data)
+  data <- runif(100,-3,3)
+  plot_QQ(data)
+
+}
 
 
 
