@@ -213,3 +213,6 @@ qq_dem <- function(){
 
 
 
+
+
+
