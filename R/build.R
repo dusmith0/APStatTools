@@ -42,17 +42,46 @@ build <- function(data, x_values, y_values = NULL, type = "Hist", analysis=FALSE
   }
 
   ## Bar
+  ##//data
   if(type == "Bar"){
-    ggplot(data, aes_string(x = x_value)) +
-      geom_bar(fill = palette()) +
-      theme(panel.background = element_rect(fill = '#E5C3A6'),
+    ggplot(data, aes_string(x_value, fill = x_value, )) +
+      geom_bar() +
+      theme(panel.background = element_rect(fill = 'wheat'),
+            panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
+            panel.grid.minor = element_line(color = '#714423'))
+  }
+
+  ## Dot Plot,
+  if(type == "Dot"){
+    ggplot(data, aes_string(x_value, fill = x_value), size = 4) +
+      geom_dotplot() +
+      theme(panel.background = element_rect(fill = 'wheat'),
             panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
             panel.grid.minor = element_line(color = '#714423'))
   }
 
 
-  ##Include an iteration to handle multiple data output.
+  ## Box-Plot
 
+#----## This one needs a lot of work done to it. ##--------------------------
+  if(type == "Box"){
+    ggplot(data, aes_string(x_value, y_value), size = 4) +
+      geom_boxplot() +
+      theme(panel.background = element_rect(fill = 'wheat'),
+            panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
+            panel.grid.minor = element_line(color = '#714423'))
+  }
+
+
+
+  ## Pie
+  if(type == "Pie"){
+    ggplot(data2, aes(species)) +
+      geom_bar() +
+      coord_polar(theta = Y)
+  }
+
+  ##Include an iteration to handle multiple data output.
 
 
 
