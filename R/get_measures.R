@@ -36,11 +36,11 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, freq = c(1), frequen
         stop(paste("Error: Please ensure that your input values are of equal lenght."))
       }
       data <- cbind(X,Y)
-      data <- as.data.frame(data)
+      data <- as.matrix(data) ## I changed this to as.matrix instead of as.data.frame() If it breaks this might be why.
     }else if(!is.null(X)){
-      data <- X
+      data <- as.matrix(X)
     }else if(!is.null(Y)){
-      data <- Y
+      data <- as.matrix(Y)
     }
   }
 
