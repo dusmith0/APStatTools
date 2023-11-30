@@ -11,7 +11,11 @@
 #'
 #' Note: This function will allow you to enter you data set name as
 get_data <- function(data_name = NULL,ap_data_set = TRUE){
-  if(data_name = "help" | "list"){
+  if(!(grepl(".",data_name,fixed = TRUE))){
+    stop(paste("Error: Please ensure to include your .extention for your data name. Such as .csv or .tst"))
+  }
+
+  if(data_name == "help"){
     list <- c("fastfood2.csv","fastfood3.csv","indianrestaurant.csv","indianrestaurant2.csv","Moneyball.txt",
               "Moneyball(titled).txt","movies.csv","potter.csv","vacations.csv","videogames.csv")
     stop(cat("Below is a list the avalible data sets. You can also type data() to find many R defined data sets:",list,sep = "\n"))
