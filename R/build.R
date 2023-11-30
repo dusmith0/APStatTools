@@ -33,7 +33,6 @@ build <- function(data, x_values, y_values = NULL, type = "Hist", analysis=FALSE
     }else{
       bins <- bins
     }
-
     ggplot(data, aes_string(x = x_value)) +
       geom_histogram(bins = bins, fill = "#4B527E") +
       theme(panel.background = element_rect(fill = '#E5C3A6'),
@@ -81,7 +80,32 @@ build <- function(data, x_values, y_values = NULL, type = "Hist", analysis=FALSE
       coord_polar(theta = Y)
   }
 
-  ##Include an iteration to handle multiple data output.
+  ## Mosaic
+
+  ## Stacked
+
+  ## Segmented
+
+  ## Back to Back
+
+
+  ##-------------------------------------------------------------------------##
+  ## regression
+
+  ## Add Residual Plots
+
+  ## Add diagnostics Plots
+
+  ## Allow for logarithmic transformation
+
+  ##-------------------------------------------------------------------------##
+  ## Density
+
+  ## Tests
+
+  ## QQ Plots vs specified distributions, option to include Wilcoxon test value.
+
+  ##
 
 
 
