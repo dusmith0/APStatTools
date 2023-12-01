@@ -1,5 +1,6 @@
 ##usethis::use_package("ggplot2", type = "Imports")
 library(ggplot2)
+library("ggfortify")
 ##This function is used only to allow the user to input graphic options in the list.
 ##The function will contain the default data settings. It would be nice to have some basic templetes that can
 ##be used as well. The main and labels will be difficult.
@@ -9,13 +10,13 @@ Options <- function(type,xlim,ylim,main,xlab,ylab,sub,frame.plot,number_of_plots
   palette_ap <- c("wheat","#5a95b3","#b2c8df","#ddb695","#ac754c","#714423")
 }
 
-types <- list(C("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","LSRL","Multi-regression","Distrubution",
+types <- list(C("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","Regression","Multi-regression","Distrubution",
                 "segmented","stacked","side-by-side","Mosaic","Back-Back","Pyramid"))
 
 ##-----------------------------------------------------------------------------##
 # Note: This function is not designed to clean your data. The data should be first assigned using
 # Create() then place in the name for data1, data2...
-build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist", analysis=FALSE){
+build <- function(input = FALSE, data, X, Y = NULL, type = "Hist", analysis=FALSE){
   ## Build an 'options' selection for usage in default plots
     ##if dedicated term exists in Options() functions set values, else set default values.
     ##likely easiest to place those options in par() it may change with GGplot2,
@@ -39,7 +40,7 @@ build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist",
     }else{
       bins <- bins
     }
-    ggplot(data, aes_string(x = x_value)) +
+    ggplot(data, aes_string(x = X)) +
       geom_histogram(bins = bins, fill = "#4B527E") +
       theme(panel.background = element_rect(fill = '#E5C3A6'),
                 panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
@@ -49,7 +50,7 @@ build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist",
   ## Bar
   ##//data
   if(type == "Bar"){
-    ggplot(data, aes_string(x_value, fill = x_value, )) +
+    ggplot(data, aes_string(X, fill = X, )) +
       geom_bar() +
       theme(panel.background = element_rect(fill = 'wheat'),
             panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
@@ -58,7 +59,7 @@ build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist",
 
   ## Dot Plot,
   if(type == "Dot"){
-    ggplot(data, aes_string(x_value, fill = x_value), size = 4) +
+    ggplot(data, aes_string(X, fill = X), size = 4) +
       geom_dotplot() +
       theme(panel.background = element_rect(fill = 'wheat'),
             panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
@@ -70,7 +71,7 @@ build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist",
 
 #----## This one needs a lot of work done to it. ##--------------------------
   if(type == "Box"){
-    ggplot(data, aes_string(x_value, y_value), size = 4) +
+    ggplot(data, aes_string(X, Y), size = 4) +
       geom_boxplot() +
       theme(panel.background = element_rect(fill = 'wheat'),
             panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
@@ -97,12 +98,35 @@ build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist",
 
   ##-------------------------------------------------------------------------##
   ## regression
+  if(type == "Regression"){
+    ggplot(data, aes(x = X, y = Y)) +
+      geom_point(size = 2) +
+      geom_smooth(method = "lm", se = FALSE) +
+      theme(panel.background = element_rect(fill = 'wheat'),
+            panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
+            panel.grid.minor = element_line(color = '#714423'))
+  }
 
-  ## Add Residual Plots
-
-  ## Add diagnostics Plots
-
+  ## regression diagnosis.
+  if(type == "Regression_diag"){
+    ggplot2::autoplot(lm(Y ~ X, data = data), label.size = 3) +
+      theme(panel.background = element_rect(fill = 'wheat'),
+            panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
+            panel.grid.minor = element_line(color = '#714423'))
+  }
   ## Allow for logarithmic transformation
+  if(type == "Regression_log"){
+    X <- log(X)
+    ggplot(data, aes(x = X, y = Y)) +
+      geom_point(size = 2) +
+      geom_smooth(method = "lm", se = FALSE) +
+      theme(panel.background = element_rect(fill = 'wheat'),
+            panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
+            panel.grid.minor = element_line(color = '#714423'))
+  }
+
+
+
 
   ##-------------------------------------------------------------------------##
   ## Density
