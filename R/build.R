@@ -15,11 +15,17 @@ types <- list(C("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","LSRL
 ##-----------------------------------------------------------------------------##
 # Note: This function is not designed to clean your data. The data should be first assigned using
 # Create() then place in the name for data1, data2...
-build <- function(data, x_values, y_values = NULL, type = "Hist", analysis=FALSE){ ##Explore continent methods for imputing multiple data types.
+build <- function(input = FALSE, data, x_values, y_values = NULL, type = "Hist", analysis=FALSE){
   ## Build an 'options' selection for usage in default plots
     ##if dedicated term exists in Options() functions set values, else set default values.
     ##likely easiest to place those options in par() it may change with GGplot2,
     ##alternatively try grid::grid.arrange() or grid::grid.layout
+  if(input == TRUE){
+    data <- data.frame()
+    data <- edit(data)
+    data <- as.data.frame(data)
+  }
+
 
   ##Split into smaller function per type.
 
