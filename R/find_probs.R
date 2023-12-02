@@ -1,30 +1,64 @@
 
 #' Title find_probs()
 #'
-#' Description: This is a simple wrapper function for finding the probabilities for various distributions.
+#' @Description: This is a simple wrapper function for finding the probabilities for various distributions.
 #'
-#'
-#' @param bound Vector of length one or two: c(left,right). This is to define the boundaries of the shaded region of the graph.
+#' @param bound Input Vector of length one or two: c(left,right).
+#'        This is to define the boundaries of the shaded region of the graph.
 #'        Notes: "inner" and "two" require both the left and right input.
-#' @param type String being any of "normal", "t-dist", "chi-squared", "binomial"
-#' @param tail String being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
+#'        Notes: The default of NULL will always produce an error. (This is intentional)
+#' @param type Input String being any of "normal", "t-dist", "chi-squared", "binomial"
+#' @param tail Input String being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
 #'        Notes: "left_not_equal" and "left_not_equal" are intended for the "binomial" only.
 #'        Notes: "out" and "two" will produce the same output.
-#' @param mean Numeric: vector of one value. The mean of the distribution
-#' @param sd Numeric: vector of one value. The standard deviation of a distribution.
-#' @param df Numeric: vector of one value. The degree of freedom of a distribution.
-#' @param prob Numeric: vector of one value. The probability of success in the binomial distribution.
-#' @param trials Numeric: vector of one value. The number of trials in the binomial distribution.
-#' @param inverse Logical: If true the function will assume bound is a Area, and the function will attempt to find the
+#' @param mean Input Numeric: Default = 0
+#'        Vector of one value. The mean of the distribution
+#' @param sd Input Numeric: Default = 1
+#'        Vector of one value. The standard deviation of a distribution.
+#' @param df Input Numeric: Default = 1
+#'        Vector of one value. The degree of freedom of a distribution.
+#' @param prob Input Numeric: Default = .5
+#'        Vector of one value. The probability of success in the binomial distribution.
+#' @param trials Input Numeric: Default = 10
+#'        Vector of one value. The number of trials in the binomial distribution.
+#' @param inverse Input Logical: Default = FALSE
+#'        If true the function will assume bound is a Area, and the function will attempt to find the
 #'        quantile that produces a probability of "bound"
 #'        Note: This function assumes only "left" as a tail. Imputing other tails will have no effect on the output.
 #'
 #' @return Numeric: Probability = being the calculated probability of the region supplied. (The cdf)
 #'         Numeric: Value = being the calculated value that produces the area supplied in bound. (the quantile)
+#'
+#' @Notes: One: This function is not indented to explicitly push out p-values. You will need to standardize and find
+#'         the appropriate Standard Errors before hand. (As in two-sided hypothises tests will not be multiplied by 2.)
+#'         Two: If you wish for the a graphic of the distribution try build_dist(...display_prob=TRUE)
 #' @export
 #'
 #' @examples
-find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df = 1, prob = .5, trials = 10, inverse = FALSE){
+#' #Will assume Normal
+#' find_probs(1.5)
+#'
+#' #For multiple outputs for the Normal
+#' find_probs(c(-3,-2,-1,0,1,2,3))
+#'
+#'
+#' #Probability between two points of a chi-squared
+#' find_probs(c(-1,3),type="chi-squared",tail="inner",df=4)
+#'
+#' #Using a t-distribution
+#' find_probs(c(-1,3),type="t-dist",tail="right",df=4)
+#'
+#' #To find the outside tailed probabilities
+#' find_probs(c(2,6),type="binomial",tail="two")
+#' find_probs(c(2,6),type="binomial",tail="outer")
+#' find_probs(4,type="binomial",tail="left")
+#' find_probs(4,type="binomial",tail="left_not_equal")
+#'
+#'
+find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sd = 1, df = 1, prob = .5, trials = 10, inverse = FALSE){
+  if(is.null(bound)){
+    stop(paste("Error: Please enter a value for bound."))
+  }
   ## reading in the bounds for the calculations
   if(tail == "left"){
     logic <- TRUE
@@ -56,6 +90,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
     if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
+        warning(paste("Your bound was great then one. Thus a Percentage input was assumed and ",bound,"was used for the calcuation."))
       }
       value <- qnorm(bound,mean,sd,lower.tail = TRUE)
       warning("This function finds percentile values (the area to the left) only.")
@@ -86,6 +121,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
     if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
+        warning(paste("Your bound was great then one. Thus a Percentage input was assumed and ",bound,"was used for the calcuation."))
       }
       value <- qt(bound,df,lower.tail = TRUE)
       warning("This function finds percentile values (the area to the left) only.")
@@ -116,6 +152,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
     if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
+        warning(paste("Your bound was great then one. Thus a Percentage input was assumed and ",bound,"was used for the calcuation."))
       }
       value <- qchisq(bound,df,lower.tail = TRUE)
       warning("This function finds percentile values (the area to the left) only.")
@@ -127,6 +164,12 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
     #one tailed
     if(tail == "left" | tail == "right"){
       probability <- pbinom(bound,trials,prob,lower.tail = logic)
+    }
+    if(tail == "left_not_equal"){
+      probability <- pbinom(bound-1,trials,prob,lower.tail = TRUE)
+    }
+    if(tail == "right_not_equal"){
+      probability <- pbinom(bound+1,trials,prob,lower.tail = FALSE)
     }
     #interior
     if(tail == "inner"){
@@ -146,6 +189,7 @@ find_probs <- function(bound, type="normal", tail="left", mean = 0, sd = 1, df =
     if(inverse == TRUE){
       if(bound > 1){
         bound <- bound/100
+        warning(paste("Your bound was great then one. Thus a Percentage input was assumed and ",bound,"was used for the calcuation."))
       }
       value <- qbinom(bound,trials,prob,lower.tail = TRUE)
       warning("This function finds percentile values (the area to the left) only.")

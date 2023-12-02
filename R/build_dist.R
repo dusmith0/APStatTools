@@ -1,14 +1,7 @@
-##----------------------------------------------------------------------------##
-
 #' Title build_dist()
 #'
-#'
-#' Description: This function is designed to build a set of distributions and shade in
-#' the various regions of interest.
-#'
-#' Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
-#' Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
-#'        large trials. (that is much more than 1000)
+#' @Description: This function is designed to build a set of distributions and shade in
+#'               the various regions of interest.
 #'
 #' @param type string being any of "normal", "t-dist", "chi-squared", "binomial"
 #' @param tail string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
@@ -22,6 +15,10 @@
 #' @param display_prob logical If true this will print the probability of the shaded region along with the graphic.
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
+#'
+#' @Notes: Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
+#'         Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
+#'         large trials. (that is much more than 1000)
 #' @export
 #'
 #' @examples
