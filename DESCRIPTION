@@ -13,5 +13,10 @@ License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    ggplot2
+    usethis::use_package ("ggplot2"),
+    type = "Imports")
+    usethis::use_package ("readxl"),
+    type = "Imports",
+    ggplot2,
+    readxl
 RoxygenNote: 7.2.3

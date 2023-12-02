@@ -1,4 +1,4 @@
-#' Title
+#' Title get_data
 #'
 #' @param data_name
 #'
@@ -10,7 +10,6 @@
 #'
 #'
 #' Note: This function will allow you to enter you data set name as
-library(readxl)
 
 get_data <- function(data_name = NULL, ap_data_set = TRUE, get_pdf = FALSE, path = NULL){
   ## For imputing pre-built data in this packages
