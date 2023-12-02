@@ -1,4 +1,24 @@
-build_qq <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
+#' Title build_QQ
+#'
+#' @param data Input Vector of numeric data.
+#' @param vs_dist Input String being one of:
+#'        "normal","gamma","uniform","poisson","binomial","geometric","chi-squared"
+#' @param alpha Input Numeric:
+#'         This is the default parameter for the above distributions.
+#' @param beta Input Numeric:
+#'         This is a slot for the second parameter for the above distributions.
+#'
+#' @return QQ-Plot and density plot of the data.
+#' @export
+#'
+#' @examples
+#' data <- sample(1:1000,100)
+#' build_QQ(data)
+#'
+#' build_QQ(data, vs_dist = "gamma", alpha = 2, beta = 4)
+#'
+#' build_QQ(data, vs_dist = "poisson", alpha = 10)
+build_QQ <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
   list <- c("normal","gamma","uniform","poisson","binomial","geometric","chi-squared")
 
   ## Setting up needed values.
