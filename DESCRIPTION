@@ -6,9 +6,17 @@ Author: person("Dustin", "Smith",
         email = "dusmith0@tamu.edu",
         role = "cre")
 Maintainer: The package maintainer <dusmith0@tamu.edu>
-Description: This package can function in place of the TI-Nspire or Desmos for all AP Statistics calculaitons. It also comes equipt
-    with many real life data sets, animated similations, demonstrations, and methods for generating graphics and analysis. 
-    This package aims to simplify the usage of R as much as possible for introductory level Statistics courses.  
+Description: This packages contains some simple wrapper functions to make computing AP Level statistics simple
+             and easy in R. 
+             get_data() will read in any .xlsx, .xls, .txt, .csv file with only the file name as input.
+             get_measures() will allow users to input a vector of matrix and produce all 
+                  measures computed in the TI-Inspire used in AP statitics.
+             find_probs() will find the probabilities of several basic distributions.
+             build_dist() will build a several standard distributions, highlight their desired areas, and print probabilities.
+             sim() contains several usefull simulations for demenstations in class.
+             QQ_me()
+             build() is a wrapper function to produce many ggplot graphics.
+             test() Will preform all of the statisticsal tests used in AP statistics, and confidence intervals.
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
