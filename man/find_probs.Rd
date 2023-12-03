@@ -5,7 +5,7 @@
 \title{Title find_probs()}
 \usage{
 find_probs(
-  bound,
+  bound = NULL,
   type = "normal",
   tail = "left",
   mean = 0,
@@ -17,26 +17,34 @@ find_probs(
 )
 }
 \arguments{
-\item{bound}{Vector of length one or two: c(left,right). This is to define the boundaries of the shaded region of the graph.
-Notes: "inner" and "two" require both the left and right input.}
+\item{bound}{Input Vector of length one or two: c(left,right).
+This is to define the boundaries of the shaded region of the graph.
+Notes: "inner" and "two" require both the left and right input.
+Notes: The default of NULL will always produce an error. (This is intentional)}
 
-\item{type}{String being any of "normal", "t-dist", "chi-squared", "binomial"}
+\item{type}{Input String being any of "normal", "t-dist", "chi-squared", "binomial"}
 
-\item{tail}{String being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
+\item{tail}{Input String being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
 Notes: "left_not_equal" and "left_not_equal" are intended for the "binomial" only.
 Notes: "out" and "two" will produce the same output.}
 
-\item{mean}{Numeric: vector of one value. The mean of the distribution}
+\item{mean}{Input Numeric: Default = 0
+Vector of one value. The mean of the distribution}
 
-\item{sd}{Numeric: vector of one value. The standard deviation of a distribution.}
+\item{sd}{Input Numeric: Default = 1
+Vector of one value. The standard deviation of a distribution.}
 
-\item{df}{Numeric: vector of one value. The degree of freedom of a distribution.}
+\item{df}{Input Numeric: Default = 1
+Vector of one value. The degree of freedom of a distribution.}
 
-\item{prob}{Numeric: vector of one value. The probability of success in the binomial distribution.}
+\item{prob}{Input Numeric: Default = .5
+Vector of one value. The probability of success in the binomial distribution.}
 
-\item{trials}{Numeric: vector of one value. The number of trials in the binomial distribution.}
+\item{trials}{Input Numeric: Default = 10
+Vector of one value. The number of trials in the binomial distribution.}
 
-\item{inverse}{Logical: If true the function will assume bound is a Area, and the function will attempt to find the
+\item{inverse}{Input Logical: Default = FALSE
+If true the function will assume bound is a Area, and the function will attempt to find the
 quantile that produces a probability of "bound"
 Note: This function assumes only "left" as a tail. Imputing other tails will have no effect on the output.}
 }
@@ -45,5 +53,27 @@ Numeric: Probability = being the calculated probability of the region supplied. 
         Numeric: Value = being the calculated value that produces the area supplied in bound. (the quantile)
 }
 \description{
-Description: This is a simple wrapper function for finding the probabilities for various distributions.
+Title find_probs()
+}
+\examples{
+# Will assume Normal
+find_probs(1.5)
+
+# For multiple outputs for the Normal
+find_probs(c(-3,-2,-1,0,1,2,3))
+
+
+# Probability between two points of a chi-squared
+find_probs(c(-1,3),type="chi-squared",tail="inner",df=4)
+
+# Using a t-distribution
+find_probs(c(-1,3),type="t-dist",tail="right",df=4)
+
+# To find the outside tailed probabilities
+find_probs(c(2,6),type="binomial",tail="two")
+find_probs(c(2,6),type="binomial",tail="outer")
+find_probs(4,type="binomial",tail="left")
+find_probs(4,type="binomial",tail="left_not_equal")
+
+
 }

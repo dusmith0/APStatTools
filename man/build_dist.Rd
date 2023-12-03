@@ -18,7 +18,7 @@ build_dist(
 \item{type}{string being any of "normal", "t-dist", "chi-squared", "binomial"}
 
 \item{tail}{string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
-Notes: "left_not_equal" and "left_not_equal" are intended for the "binomial" only.
+Notes: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
 Notes: "out" and "two" will produce the same output.}
 
 \item{bound}{vector of length one or two: c(left,right). This is to define the boundaries of the shaded region of the graph.
@@ -36,9 +36,28 @@ Notes: "inner" and "two" require both the left and right input.}
 Graph using the plot() function, along with an optional numeric vector of one.
 }
 \description{
-Description: This function is designed to build a set of distributions and shade in
-the various regions of interest.
+Title build_dist()
 }
-\details{
-Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
+\examples{
+# For the Standard Normal
+build_dist()
+
+# For t-distribution with a degree of freedom of 1
+build_dist(type = "t-dist")
+
+# For a binomial distribution
+build_dist(type = "binomial")
+
+# Shading different sections
+build_dist(type = "normal", bound = -1)
+build_dist(type = "normal", bound = c(-1,2), tail = "inner")
+build_dist(type = "t-dist", bound = c(-1,0), tail = "two")
+build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20)
+
+# adding probabilities to the graphics
+build_dist(type = "normal", bound = -1, display_prob = TRUE)
+build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
+build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
+build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
+
 }

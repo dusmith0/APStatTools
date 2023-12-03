@@ -2,19 +2,57 @@
 % Please edit documentation in R/get_data.R
 \name{get_data}
 \alias{get_data}
-\title{Title}
+\title{Title get_data}
 \usage{
-get_data(data_name = NULL, ap_data_set = TRUE)
+get_data(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL)
 }
 \arguments{
-\item{data_name}{}
+\item{data_name}{Input String. This can either be a data set name in apdata, or your own file path.
+If you leave this as the default "Empty" you will be prompted to input your data file name.
+Here is a list of available data sets:
+ "fastfood2.csv"
+ "fastfood3.csv"
+ "indianrestaurant.csv"
+ "indianrestaurant2.csv"
+ "Moneyball.txt"
+ "Moneyball(titled).txt"
+ "movies.csv"
+ "potter.csv"
+ "vacations.csv"
+ "videogames.csv"
+ "HurricaneCindy05.xlsx"
+ "HurricaneKatrina05.xlsx"
+ "USPovertyLevels.xlsx"
+ "YoutuberPay.xlsx"
+
+ Please type the data sets above exactly as seen. The function should produce an error otherwise.}
+
+\item{ap_data_set}{Input Logical. If TRUE the function will assume you want to use one of the above data sets.
+Change the value to FALSE if you wish to work with you own data sets. As of now this will work for
+either .csv, .txt, .xls, and .xlsx files.}
+
+\item{get_pdf}{Input Logical. Change to TRUE if you want to data to be saved as a pdf file to your system.}
+
+\item{path}{Input String. If get_pdf is FALSE please leave this as NULL. If get_pdf is TRUE, you can use this
+to input the location you want your pdf saved to. You will also be prompted for a path if this is FALSE and get_pdf is TRUE.}
+}
+\value{
+Output Data.Frame called data.set. You will need to explicitly assign the data to a named location inorder to use the data later.
+That is data <- get_data("potter.csv")
 }
 \description{
-Title
+Title get_data
 }
 \examples{
+# Easy use for prebuilt data.
+get_data("potter.csv")
+
+# To allow for saving of the data.
+get_data("USPovertyLevels.xlsx",get_pdf = TRUE)
+
+# This will allow you to enter your own data set.
+get_data(ap_data_set = FALSE)
 
 
 
-Note: This function will allow you to enter you data set name as
 }
