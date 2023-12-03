@@ -1,7 +1,7 @@
 ##-------------------------------------------------------------------------##
 ## t_test family of functions
 ## One sample t-test for means.
-t_test_one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
+t_test.one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
   # calculates needed values
   df <- n - 1
   standard_error <- sd / sqrt(n)
@@ -21,7 +21,7 @@ t_test_one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
 }
 
 ## Two sample t-test on means
-t_test_two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
+t_test.two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
     null <- diff(null)
@@ -46,7 +46,7 @@ t_test_two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
 ## Pooled two sample t-test
 ## Note: This will assume the expected difference is calculated as table_one - table_two.
 ## Please input the data in the order you would like them subtracted, to match the above.
-t_test_paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
+t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
     null <- diff(null)
@@ -76,7 +76,7 @@ t_test_paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   }
   #prints a flagged distribution
   if(graph == TRUE){
-    build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df,graph=TRUE)
+    build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
   return(data.frame(test = "Two Sample Paired t-test", paired_data = paired_data, p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
 }
@@ -84,7 +84,8 @@ t_test_paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
 
 ##-------------------------------------------------------------------------##
 ## z-test family
-z_test_one <- function(null,p_hat,n,tail="left",graph=TRUE){
+## Note: This test will fail if null = 0
+z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
   #finding standard error.
   standard_error <- sqrt(null * (1 - null) / n)
   test_statistic <- (p_hat - null) / standard_error
@@ -104,7 +105,7 @@ z_test_one <- function(null,p_hat,n,tail="left",graph=TRUE){
 }
 
 ## Two sample test on proportions.
-z_test_pooled <- function(p_hat,n,tail="left",graph=TRUE){
+z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
   #finding standard error.
   pc <- sum(p_hat * n) / sum(n)
   standard_error <- sqrt(pc * (1 - pc) * (sum(1 / n)))
@@ -127,12 +128,15 @@ z_test_pooled <- function(p_hat,n,tail="left",graph=TRUE){
 ##--------------------------------------------------------------------------##
 ## Chi-squared family
 ## Please note that the base::chisq.test() is much more robust to this function. The blow
-## is only intended to mimic the question stlye of stimulous used in AP Statistics.
+## is only intended to mimic the question style of stimulus used in AP Statistics.
 ## It is not intended as a replacement to the base function.
-chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE,graph=TRUE){
-  ## Cheching some conditions.
+chi_squared.gof <- function(null_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, graph=TRUE){
+  ## Checking some conditions.
   if(row_totals == TRUE){
     null_table <- null_table[-length(null_table)]
+    if(expected_as_count == TRUE){
+      expected_table <- expected_table[-length(expected_table)]
+    }
   }
 
   if(length(null_table) != length(expected_table)){
@@ -175,7 +179,7 @@ chi_squared_gof <- function(null_table, expected_table = NULL, expected_as_count
 
 
 ##Chi-Squared Test for Homogenaity or Independence.
-chi_squared_ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
+chi_squared.ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
   #Generating totals if not provided
   if(mat_totals == FALSE){
     null_table <- rbind(null_table,colSums(null_table))
