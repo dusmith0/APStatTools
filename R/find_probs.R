@@ -35,20 +35,20 @@
 #' @export
 #'
 #' @examples
-#' #Will assume Normal
+#' # Will assume Normal
 #' find_probs(1.5)
 #'
-#' #For multiple outputs for the Normal
+#' # For multiple outputs for the Normal
 #' find_probs(c(-3,-2,-1,0,1,2,3))
 #'
 #'
-#' #Probability between two points of a chi-squared
+#' # Probability between two points of a chi-squared
 #' find_probs(c(-1,3),type="chi-squared",tail="inner",df=4)
 #'
-#' #Using a t-distribution
+#' # Using a t-distribution
 #' find_probs(c(-1,3),type="t-dist",tail="right",df=4)
 #'
-#' #To find the outside tailed probabilities
+#' # To find the outside tailed probabilities
 #' find_probs(c(2,6),type="binomial",tail="two")
 #' find_probs(c(2,6),type="binomial",tail="outer")
 #' find_probs(4,type="binomial",tail="left")

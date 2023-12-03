@@ -5,7 +5,7 @@
 #'
 #' @param type string being any of "normal", "t-dist", "chi-squared", "binomial"
 #' @param tail string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
-#'        Notes: "left_not_equal" and "left_not_equal" are intended for the "binomial" only.
+#'        Notes: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
 #'        Notes: "out" and "two" will produce the same output.
 #' @param bound vector of length one or two: c(left,right). This is to define the boundaries of the shaded region of the graph.
 #'        Notes: "inner" and "two" require both the left and right input.
@@ -22,6 +22,27 @@
 #' @export
 #'
 #' @examples
+#' # For the Standard Normal
+#' build_dist()
+#'
+#' # For t-distribution with a degree of freedom of 1
+#' build_dist(type = "t-dist")
+#'
+#' # For a binomial distribution
+#' build_dist(type = "binomial")
+#'
+#' # Shading different sections
+#' build_dist(type = "normal", bound = -1)
+#' build_dist(type = "normal", bound = c(-1,2), tail = "inner")
+#' build_dist(type = "t-dist", bound = c(-1,0), tail = "two")
+#' build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20)
+#'
+#' # adding probabilities to the graphics
+#' build_dist(type = "normal", bound = -1, display_prob = TRUE)
+#' build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
+#' build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
+#' build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
+#'
 build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, display_prob=FALSE){
   ## Below are some error checks.
   if(display_prob == TRUE & is.null(bound)){
@@ -51,6 +72,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
                Binomial Distribution
                type = 'binomial', bound = c(left,right), prob = .5, trials = 10
+                  tails = list('left','right','inner','two','left_not_equal','right_not_equal','inner_not_equal','two_not_equal')
                "))
   }
 
@@ -62,32 +84,33 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
   }
   if(!is.null(bound) & type != "binomial"){
     if(tail == "left"){
-      lower <- -5000
+      lower <- -500
       upper <- bound
       fill <- seq(lower,upper,.01)
     }else if(tail == "right"){
       lower <- bound
-      upper <- 5000
+      upper <- 500
       fill <- seq(lower,upper,.01)
     }else if(tail == "inner"){
       lower <- bound[1]
       upper <- bound[2]
       fill <- seq(lower,upper,.01)
     }else if(tail == "outer" | tail == "two"){
-      if(any(bound <= 0)){
-        bound <- -1*bound
-      }
-      lower <- -5000
+      #if(any(bound <= 0)){
+      #  bound <- -1*bound
+      #}
+      lower <- -500
       upper <- bound[1]
       fill <- seq(lower,upper,.01)
       lower_right <- bound[2]
-      upper_right <- 5000
+      upper_right <- 500
       fill_right <- seq(lower_right,upper_right,.01)
     }
   }
-
+  ## The below uses logical subsetting to color the graphs. Logical being 0 + 1, or 1 + 1,
+  ## Two and One receive a different color layout in the polynomial script for the binomail.
   if(!is.null(bound) & type == "binomial"){
-    x <- 1:trials
+    x <- 0:(trials)
     if(tail == "left"){
       logical <- ((x <= bound) + 1)
     }else if(tail == "right"){
@@ -96,6 +119,14 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
       logical <- ((x < bound) + 1)
     }else if(tail == "right_not_equal"){
       logical <- ((x > bound) + 1)
+    }else if(tail == "two" | tail == "outer"){
+      logical <- ((x <= bound[1] | x >= bound[2]) + 1)
+    }else if(tail == "inner"){
+      logical <- ((x >= bound[1] & x <= bound[2]) + 1)
+    }else if(tail == "two_not_equal" | tail == "outer_not_equal"){
+      logical <- ((x < bound[1] | x > bound[2]) + 1)
+    }else if(tail == "inner_not_equal"){
+      logical <- ((x > bound[1] & x < bound[2]) + 1)
     }
   }else{logical <- rep(1,length(trials))}
 
@@ -120,7 +151,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
          xlab = "Z-scores",ylab="Probability")
     polygon(x = c(lower,fill,upper),y = c(0, dt(fill,df),0),border = NA, col = "#5a95b3")
     if(tail == "outer" | tail == "two"){
-      polygon(x = c(lower_right,fill_right,upper_right),y = c(0, dnorm(fill_right,0,1),0),border = NA, col = "#5a95b3")
+      polygon(x = c(lower_right,fill_right,upper_right),y = c(0, dt(fill_right,df),0),border = NA, col = "#5a95b3")
     }
     if(display_prob == TRUE){
       probability <- find_probs(bound = bound, type = "t-dist", tail = tail, df = df)
@@ -130,7 +161,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
   if(type == "chi-squared"){
     ## Refits the bounds to ensure shading occurs below the graph.
-    ## This is not designed to work tails other then "right" or "left"
+    ## This is not designed to work on tails other then "right" or "left"
     if(tail == "left" | is.null(tail)){
       lower <- 0.0000001
       fill <- seq(lower,upper,.01)
