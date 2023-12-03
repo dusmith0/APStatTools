@@ -2,18 +2,17 @@
 #'
 #' Description: This function will take user input data or data sets and compute a large number of statistical values.
 #'
-#'
-#' @param input logical. If TRUE it will prompt the user to input their data into a spreadsheet.
+#' @param input Input logical. If TRUE it will prompt the user to input their data into a spreadsheet.
 #'              If FALSE the function will expect the user to input the data into X and/or Y.
-#' @param X Vector of numeric data. This is not intended to be used for a Matrix. Please use input = TRUE to input a matrix.
-#' @param Y Vector of numeric data
-#' @param freq
-#' @param frequency
-#' @param regression logical. IF TRUE the function will print out the summary(lm) for Y ~ X.
-#' @param outliers String being any of "FALSE", "1.5 IQR", "3sd Rule".
+#' @param X Input Vector of numeric data.
+#' @param Y Inopt Vector of numeric data.
+#' @param regression Input logical. IF TRUE the function will print out the summary(lm) for Y ~ X.
+#' @param outliers Input String being any of "FALSE", "1.5 IQR", "3sd Rule".
 #'                 If FALSE the function will not print bounds for outliers. If a rule is implemented the function will
 #'                 print a lower and upper boundary for outliers of the given rule.
-#'
+#' @param names Input String. This is a vector of strings if you wish to provide your data with
+#'        specific column names. If you used input = TRUE, please leave this NULL, and input your
+#'        names into the prompted window.
 #' @return list($data, $measures, $LSRL)
 #'         data: Matrix that contains the data the user input.
 #'         measures: is a data.frame() containing statistical measures about the users data.
@@ -22,13 +21,34 @@
 #' @export
 #'
 #' @examples
-get_measures <- function(input = FALSE, X = NULL, Y = NULL, freq = c(1), frequency = FALSE, regression = FALSE, outliers = FALSE){
+#' # This will prompt you to input a set of data.
+#' get_measures(input=TRUE)
+#'
+#' data <- c(sample(1:100,15))
+#' get_measures(X = data)
+#'
+#' # This will allow for outliers to be printed, and will assing the name "BOB" to the data.
+#' get_measures(X = data, outliers = TRUE, names = "BOB")
+#'
+#' # Two variate data
+#' data <- c(sample(1:100,15))
+#' data2 <- seq(1:15)
+#' get_measures(X = data, Y = data2, outliers = TRUE, names = "BOB")
+#' get_measures(X = data, Y = data2, regression = TRUE, outliers = TRUE, names = "BOB")
+#'
+#' data <- matrix(sample(1:100, 50), ncol <- 25)
+#' get_measures(X = data, outliers = TRUE, names = c("BOB","JILL"))
+#'
+#'
+get_measures <- function(input = FALSE, X = NULL, Y = NULL, regression = FALSE, outliers = FALSE, names = NULL){
   ## A piece to allow for user input for data, and reading it into different columns
   if(input == TRUE){
     data <- data.frame()
     data <- edit(data)
     data <- as.matrix(data)
   }
+
+  data <- as.matrix(X)
 
   if(input == FALSE){
     if(!is.null(X) & !is.null(Y)){
@@ -44,7 +64,16 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, freq = c(1), frequen
     }
   }
 
-  ## A piece to check if frequency or regression is intended or not intended
+  if(is.null(colnames(data))){
+    if(!is.null(names)){
+      if(ncol(data) != length(names)){
+        stop(paste("Error: It seems that your choice of names does not match the number of columns you have."))
+      }
+      colnames(data) <- names
+    }else{
+      colnames(data) <- as.character(seq(1:ncol(data)))
+    }
+  }
 
   ## Setting data types for quantile values
   Q1 <- rep(0,ncol(data))
@@ -75,7 +104,7 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, freq = c(1), frequen
       names(measures) <- c("data","totals","n","mean","pop_sd","sample_sd","Q1","Q2","Q3","IQR")
 
       if(outliers != FALSE){
-        if(outliers == "1.5 IQR"){
+        if(outliers == "1.5 IQR" | outliers == TRUE){
           lower_outliers <- Q1 - 1.5 * IQR
           upper_outliers <- Q3 + 1.5 * IQR
         }else if(outliers == "3sd Rule"){

@@ -10,7 +10,7 @@ Options <- function(type,xlim,ylim,main,xlab,ylab,sub,frame.plot,number_of_plots
   palette_ap <- c("wheat","#5a95b3","#b2c8df","#ddb695","#ac754c","#714423")
 }
 
-types <- list(C("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","Regression","Multi-regression","Distrubution",
+types <- list(c("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","Regression","Multi-regression","Distrubution",
                 "segmented","stacked","side-by-side","Mosaic","Back-Back","Pyramid"))
 
 ##-----------------------------------------------------------------------------##
