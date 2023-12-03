@@ -86,6 +86,9 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
 ## z-test family
 ## Note: This test will fail if null = 0
 z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
+  if(p_hat >= 1){
+    stop(paste("Error: This function requires that the p_hat is a decimal number."))
+  }
   #finding standard error.
   standard_error <- sqrt(null * (1 - null) / n)
   test_statistic <- (p_hat - null) / standard_error
@@ -106,6 +109,9 @@ z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
 
 ## Two sample test on proportions.
 z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
+  if(any(p_hat >= 1)){
+    stop(paste("Error: This function requires that the p_hat is a decimal number."))
+  }
   #finding standard error.
   pc <- sum(p_hat * n) / sum(n)
   standard_error <- sqrt(pc * (1 - pc) * (sum(1 / n)))
@@ -174,7 +180,7 @@ chi_squared.gof <- function(null_table, expected_table = NULL, expected_as_count
   if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
-  return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+  return(data.frame(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
 }
 
 
@@ -208,7 +214,7 @@ chi_squared.ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
   if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
-  return(list(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+  return(data.frame(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
 
 }
 

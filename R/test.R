@@ -1,27 +1,50 @@
 #' Title test()
 #'
-#' @param test
-#' @param tail
-#' @param null
-#' @param x_bar
-#' @param table_one
-#' @param table_two
-#' @param p_hat
-#' @param sd
-#' @param n
-#' @param df
-#' @param null_table
-#' @param expected_table
-#' @param expected_as_count
-#' @param row_totals
-#' @param mat_totals
-#' @param data
-#' @param graph
+#' @param test Input String: Can be any of one of the following
+#'        "t_test.one","t_test.two","t_test.paired","z_test.one","z-test.pooled","chi_squared.gof","chi_squared.ind"
+#' @param tail Input String: Being one of "left" or "right".
+#'         Note: this function will not assume two tailed or multiply the p-value by 2.
+#' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param x_bar Input Vector: This is the value of the sample means. It assumes the standard error adjustment has not been taken.
+#'         Note: This can be a vector of one or two values depending on the test used.
+#' @param table_one Input Vector: This is a vector of numeric values intended for the
+#'         t_test.paired test only. This is the first vector to be compared. The function will assume table_one - table_two.
+#' @param table_two Input Vector: This is a vector of numeric values intended for the
+#'         t_test.paired test only. This is the second vector to be compared. The function will assume table_one - table_two.
+#' @param p_hat Input Vector: This is the value of the sample proportions.
+#'         It assumes the standard error adjustment has not been taken, and that the value is in decimal form.
+#'         Note: This can be a vector of one or two values depending on the test used.
+#' @param sd Input Vector: This is the value of the sample standard deviations.
+#'         Note: This can be a vector of one or two values depending on the test used.
+#' @param n Input Vector: This is the value of the sample sizes.
+#'         Note: This can be a vector of one or two values depending on the test used.
+#' @param null_table Input Numeric Vector: This is the observed vector of categorical values.
+#'         Note: If the total is included please set row_totals = TRUE
+#' @param expected_table Input Numeric Vector: This is a vector of either expected
+#'         values or proportions to be computed in Pearson's Chi-Squared test.
+#'         If the values are counts and not proportions, please set expected_as_count = TRUE.
+#' @param expected_as_count Input Logical. If expected_table is of proportions let this be FALSE.
+#'         If the expected_table is of counts let this be TRUE.
+#' @param row_totals Input Logical: If the null_table includes the total, let this be TRUE.
+#'         Note: It is defaulted to be FALSE, and will include the total in the calculation
+#'         if a total is actually included. This will lead to errors. Also, you will want to ensure
+#'         that both the null_table and expected_table either both have totals or both do not. The
+#'         function will either remove the last element of both vectors, or neither vectors.
+#' @param mat_totals Input Logical: If FALSE this function will generate the total columns and rows for the user.
+#'         However, it will add both the row and column totals. It is not recommended to use this feature
+#'         to add just one of the row's or column's totals, as you will end up with an additional unwanted set of totals.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain some of the following values, given the appropriate test.
+#'         Test Name, p_value, test_statistic, n, standard_error, df, null_table, expected_count,
+#'         and chi_squared_values test statistic values.
 #' @export
 #'
 #' @examples
+#' # help
+#' test("help")
+#'
 #' # One sample test on means
 #' test(test = "t_test.one", null = 10, x_bar = 11, sd = 3, n = 25, tail = "left", graph = TRUE)
 #'
@@ -52,11 +75,11 @@
 #'
 #' # Chi-squared test for independence
 #' X <- matrix(rnorm(20,10,3), nrow = 4)
-#' test(test = 'chi_squared.ind', null_table = X, mat_totals = FALSE, graph)
+#' test(test = 'chi_squared.ind', null_table = X, mat_totals = FALSE, graph = TRUE)
 #'
-test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, p_hat, sd, n, df,
+test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, p_hat, sd, n,
                  null_table = NULL, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, mat_totals = FALSE,
-                 data=NULL,graph=TRUE){
+                 graph=TRUE){
 
   ## This is to allow the user to see what is needed for each test type.
   if(test == "help"){
@@ -96,8 +119,6 @@ test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, 
   return(stats)
 }
 
-
-tests <- list("t_test","t_test.paired","z_test.one","z_test.two","z-test.pooled","chi-squared","ANOVA",
-              "chi-squared.GOF","chi-squared.homogeneity","chi-squared.independence")
-
 tail <- list("left","right","two")
+
+
