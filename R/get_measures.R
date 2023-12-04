@@ -40,7 +40,7 @@
 #' get_measures(X = data, outliers = TRUE, names = c("BOB","JILL"))
 #'
 #'
-get_measures <- function(input = FALSE, X = NULL, Y = NULL, regression = FALSE, outliers = FALSE, names = NULL){
+get_measures <- function(X = NULL, input = FALSE, Y = NULL, regression = FALSE, outliers = FALSE, names = NULL){
   ## A piece to allow for user input for data, and reading it into different columns
   if(input == TRUE){
     data <- data.frame()
@@ -84,17 +84,17 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, regression = FALSE, 
   upper_outliers <- rep(0,ncol(data))
   measures <- data.frame(colnames(data))
 
-  ## A peice to calculate all types of measures
+  ## A piece to calculate all types of measures
     ## List(n, pop_mean, sample_mean, pop_sd, sample_sd, , Q1, Q2, Q3, IQR, r, r-squared, a, b for LSRL)
       measures[,2] <- totals <- colSums(data)
       measures[,3] <- n <- nrow(data)
       measures[,4] <- mean <- colMeans(data)
-      measures[,5] <- pop_sd <- apply(data,2,function(z) sd(z))
+      measures[,5] <- pop_sd <- apply(data,2,function(z) sd(z) * sqrt((n - 1) / n))
       measures[,6] <- sample_sd <- apply(data,2,function(z) sd(z))
       for(i in 1:ncol(data)){
-        Q1[i] <- mean(data[floor((n + 1) / 4),i], data[ceiling((n + 1) / 4),i])
-        Q2[i] <- mean(data[floor((n + 1) / 2),i], data[ceiling((n + 1) / 2),i])
-        Q3[i] <- mean(data[floor(3 * (n + 1) / 4),i], data[ceiling(3 * (n + 1) / 4),i])
+        Q1[i] <- mean(c(data[floor((n + 1) / 4),i], data[ceiling((n + 1) / 4),i]))
+        Q2[i] <- mean(c(data[floor((n + 1) / 2),i], data[ceiling((n + 1) / 2),i]))
+        Q3[i] <- mean(c(data[floor(3 * (n + 1) / 4),i], data[ceiling(3 * (n + 1) / 4),i]))
       }
       measures[,7] <- Q1
       measures[,8] <- Q2
@@ -109,7 +109,7 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, regression = FALSE, 
           upper_outliers <- Q3 + 1.5 * IQR
         }else if(outliers == "3sd Rule"){
           lower_outliers <- mean - (3 * sample_sd)
-          upper_outliers <- mean - (3 * sample_sd)
+          upper_outliers <- mean + (3 * sample_sd)
         }
         measures[,11] <- lower_outliers
         measures[,12] <- upper_outliers
@@ -126,7 +126,7 @@ get_measures <- function(input = FALSE, X = NULL, Y = NULL, regression = FALSE, 
         return(list(data = data, measures = measures))
       }
 
-      if(regression == TRUE & outliers == TRUE){
+      if(regression == TRUE){
         return(list(data = data, measures = measures, LSRL = LSRL))
       }
 }
