@@ -27,7 +27,9 @@ test(
 "t_test.one","t_test.two","t_test.paired","z_test.one","z-test.pooled","chi_squared.gof","chi_squared.ind"}
 
 \item{tail}{Input String: Being one of "left" or "right".
-Note: this function will not assume two tailed or multiply the p-value by 2.}
+Note: this function will assume two tailed null hypothesis if anything other
+then "left" or "right" is used. Be aware that the function will also assume a "left" tail when preforming
+the two tailed calculation. To avoid this, set tail to "right" and multiply by 2.}
 
 \item{null}{Input Numeric: This is a single value for the Null Hypothesis's expected value.}
 

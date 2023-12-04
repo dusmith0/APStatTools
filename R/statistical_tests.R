@@ -24,7 +24,7 @@ t_test.one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
 t_test.two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
-    null <- diff(null)
+    null <- diff(-null)
   }
   # calculates error and statistic
   df <- ((sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2]) ^ 2) / sum((1 / (n - 1)) * (sd ^ 2 / n) ^ 2)
@@ -51,7 +51,7 @@ t_test.two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
 t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
-    null <- diff(null)
+    null <- diff(-null)
   }
 
   if(length(table_one) != length(table_two)){
@@ -117,7 +117,7 @@ z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
   #finding standard error.
   pc <- sum(p_hat * n) / sum(n)
   standard_error <- sqrt(pc * (1 - pc) * (sum(1 / n)))
-  test_statistic <- (diff(p_hat)) / standard_error
+  test_statistic <- (p_hat[1] - p_hat[2]) / standard_error
 
   #runs the p_value through the normal cdf based on value of tail.
   if(tail == "left"){
@@ -142,10 +142,9 @@ chi_squared.gof <- function(null_table, expected_table = NULL, expected_as_count
   ## Checking some conditions.
   if(row_totals == TRUE){
     null_table <- null_table[-length(null_table)]
-    if(expected_as_count == TRUE){
-      expected_table <- expected_table[-length(expected_table)]
-    }
+    expected_table <- expected_table[-length(expected_table)]
   }
+
 
   if(length(null_table) != length(expected_table)){
     stop(paste("Error: Please ensure your table lenghts are equal in size. Also this function runs assuming that you did not

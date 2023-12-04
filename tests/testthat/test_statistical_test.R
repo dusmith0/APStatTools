@@ -65,4 +65,64 @@ test_that("test preforms the one sample z-test correclty", {
 })
 
 
+test_that("test preforms the two sample z-test correclty", {
+  found <- test(test = 'z_test.pooled', p_hat = c(.4,.6), n = c(20,30), tail = "left", graph = FALSE)
+
+  expect_equal(found$n, c(20,30))
+  pc <- (.4*(20) + .6*(30))/50
+  expect_equal(found$standard_error[1], sqrt(pc*(1 - pc)*(1/20 + 1/30)))
+  expect_equal(found$test_statistic[1], (.4 - .6)/sqrt(pc*(1 - pc)*(1/20 + 1/30)))
+  expect_equal(found$p_value[1], pnorm((.4 - .6)/sqrt(pc*(1 - pc)*(1/20 + 1/30))))
+
+  #Testing for right tails
+  found <- test(test = 'z_test.pooled', p_hat = c(.4,.6), n = c(20,30), tail = "right", graph = FALSE)
+  expect_equal(found$p_value[1], pnorm((.4 - .6)/sqrt(pc*(1 - pc)*(1/20 + 1/30)),lower.tail = FALSE))
+
+  #testing for two tails
+  found <- test(test = 'z_test.pooled', p_hat = c(.4,.6), n = c(20,30), tail = "two", graph = FALSE)
+  expect_equal(found$p_value[1], pnorm((.4 - .6)/sqrt(pc*(1 - pc)*(1/20 + 1/30)),lower.tail = TRUE) * 2)
+
+})
+
+
+test_that("test preforms the two sample z-test correclty", {
+   X <- c(10,13,14,20,16)
+   Y <- c(.2,.2,.2,.2,.2)
+
+   found <- test(test = 'chi_squared.gof', null_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = FALSE)
+   expect_equal(found$null_table, X)
+   expect_equal(found$expected_count, rep(.2 * 73, 5))
+   expect_equal(found$df[1], 4)
+   expect_equal(found$chi_squared_values, (X - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5))
+   expect_equal(found$test_statistic[1], sum((X - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5)))
+   expect_equal(found$p_value[1], pchisq(sum((X - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5)), 4, lower.tail = FALSE))
+
+   #Checking when the total is given.
+   x <- c(10,13,14,20,16,73)
+   y <- c(.2,.2,.2,.2,.2,1)
+
+   found <- test(test = 'chi_squared.gof', null_table = x, expected_table = y, expected_as_count = FALSE, row_totals = TRUE, graph = FALSE)
+   expect_equal(found$null_table, c(10,13,14,20,16))
+   expect_equal(found$expected_count, rep(.2 * 73, 5))
+   expect_equal(found$df[1], 4)
+   expect_equal(found$chi_squared_values, (X[-6] - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5))
+   expect_equal(found$test_statistic[1], sum((X[-6] - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5)))
+   expect_equal(found$p_value[1], pchisq(sum((X[-6] - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5)), 4, lower.tail = FALSE))
+
+
+   #Checking when the total is given, and count is given.
+   x <- c(10,13,14,20,16,73)
+   Y <- c(8,12,8,16,13,57)
+
+   found <- test(test = 'chi_squared.gof', null_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = FALSE)
+   expect_equal(found$null_table, c(10,13,14,20,16))
+   expect_equal(found$expected_count, c(8,12,8,16,13))
+   expect_equal(found$df[1], 4)
+   expect_equal(found$chi_squared_values, (X[-6] - c(8,12,8,16,13)) ^ 2 / c(8,12,8,16,13))
+   expect_equal(found$test_statistic[1], sum((X[-6] - c(8,12,8,16,13))^2 / c(8,12,8,16,13)))
+   expect_equal(found$p_value[1], pchisq(sum((X[-6] - c(8,12,8,16,13))^2 / c(8,12,8,16,13)), 4, lower.tail = FALSE))
+
+})
+
+
 
