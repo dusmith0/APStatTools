@@ -28,8 +28,9 @@ t_test.two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
   }
   # calculates error and statistic
   df <- ((sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2]) ^ 2) / sum((1 / (n - 1)) * (sd ^ 2 / n) ^ 2)
-  standard_error <- sqrt( sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2])
-  test_statistic <- (diff(x_bar) - null) / standard_error
+  standard_error <- c(sd[1]/sqrt(n[1]), sd[2]/sqrt(n[2]))
+  standard_error_combined <- sqrt( sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2])
+  test_statistic <- (diff(-x_bar) - null) / standard_error_combined
   #runs the p_value through the normal cdf based on value of tail.
   if(tail == "left"){
     p_value <- pt(test_statistic,df,lower.tail = TRUE)
@@ -40,7 +41,8 @@ t_test.two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
   if(graph == TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
-  return(data.frame(test = "Two Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
+  return(data.frame(test = "Two Sample t-test", p_value = p_value, test_statistic = test_statistic,
+                    n = n, standard_error = standard_error, standard_error_combined = standard_error_combined, df = df))
 }
 
 ## Pooled two sample t-test
