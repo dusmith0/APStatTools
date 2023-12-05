@@ -138,17 +138,17 @@ z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
 ## Please note that the base::chisq.test() is much more robust to this function. The blow
 ## is only intended to mimic the question style of stimulus used in AP Statistics.
 ## It is not intended as a replacement to the base function.
-chi_squared.gof <- function(null_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, graph=TRUE){
+chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, graph=TRUE){
   ## Checking some conditions.
   if(row_totals == TRUE){
-    null_table <- null_table[-length(null_table)]
+    obs_table <- obs_table[-length(obs_table)]
     expected_table <- expected_table[-length(expected_table)]
   }
 
 
-  if(length(null_table) != length(expected_table)){
+  if(length(obs_table) != length(expected_table)){
     stop(paste("Error: Please ensure your table lenghts are equal in size. Also this function runs assuming that you did not
-                 input the 'Total' column into your null_table. If you did please add
+                 input the 'Total' column into your obs_table. If you did please add
                  row_tatals == TRUE to your input."))
   }
 
@@ -166,14 +166,14 @@ chi_squared.gof <- function(null_table, expected_table = NULL, expected_as_count
 
   ##This piece reads in the expected_table and generates a count for calculation.
   if(expected_as_count == FALSE){
-    expected_count <- sum(null_table) * expected_table
+    expected_count <- sum(obs_table) * expected_table
   }else{
     expected_count <- expected_table
   }
 
   ##Here we compute the actual calculation.
-  df <- length(null_table) - 1
-  chi_squared_values <- (( expected_count - null_table) ^ 2) / expected_count
+  df <- length(obs_table) - 1
+  chi_squared_values <- (( expected_count - obs_table) ^ 2) / expected_count
   test_statistic <- sum(chi_squared_values)
   p_value <- pchisq(test_statistic,df,lower.tail = FALSE)
 
@@ -181,30 +181,30 @@ chi_squared.gof <- function(null_table, expected_table = NULL, expected_as_count
   if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
-  return(data.frame(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+  return(data.frame(test = "Pearson's Chi-Squared GOF Test", obs_table = obs_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
 }
 
 
-##Chi-Squared Test for Homogenaity or Independence.
-chi_squared.ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
+##Chi-Squared Test for Homogeneity or Independence.
+chi_squared.ind <- function(obs_table, mat_totals = FALSE,graph=TRUE){
   #Generating totals if not provided
   if(mat_totals == FALSE){
-    null_table <- rbind(null_table,colSums(null_table))
-    null_table <- cbind(null_table,rowSums(null_table))
+    obs_table <- rbind(obs_table,colSums(obs_table))
+    obs_table <- cbind(obs_table,rowSums(obs_table))
   }
 
   #Generating the expected tables
-  expected <- matrix(0,nrow=nrow(null_table), ncol=ncol(null_table))
-  for(i in 1:nrow(null_table)){
-    for(j in 1:ncol(null_table)){
-      expected[i,j] <- null_table[i,ncol(null_table)] * null_table[nrow(null_table),j]
+  expected <- matrix(0,nrow=nrow(obs_table), ncol=ncol(obs_table))
+  for(i in 1:nrow(obs_table)){
+    for(j in 1:ncol(obs_table)){
+      expected[i,j] <- obs_table[i,ncol(obs_table)] * obs_table[nrow(obs_table),j]
     }
   }
-  expected_count <- expected / null_table[nrow(null_table),ncol(null_table)]
+  expected_count <- expected / obs_table[nrow(obs_table),ncol(obs_table)]
 
   # Calculating the Chi-Squared Statistic
   exp_count <- expected_count[-nrow(expected_count),-ncol(expected_count)]
-  null <- null_table[-nrow(null_table),-ncol(null_table)]
+  null <- obs_table[-nrow(obs_table),-ncol(obs_table)]
   df <- (ncol(null) - 1) * (nrow(null) - 1)
 
   chi_squared_values <- ((exp_count-null) ^ 2) / exp_count
@@ -215,7 +215,7 @@ chi_squared.ind <- function(null_table, mat_totals = FALSE,graph=TRUE){
   if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
-  return(data.frame(test = "Pearson's Chi-Squared GOF Test", null_table = null_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+  return(list(test = "Pearson's Chi-Squared GOF Test", obs_table = obs_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
 
 }
 

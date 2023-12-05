@@ -85,12 +85,12 @@ test_that("test preforms the two sample z-test correclty", {
 })
 
 
-test_that("test preforms the two sample z-test correclty", {
+test_that("test preforms the chi-squared GOF correclty", {
    X <- c(10,13,14,20,16)
    Y <- c(.2,.2,.2,.2,.2)
 
-   found <- test(test = 'chi_squared.gof', null_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = FALSE)
-   expect_equal(found$null_table, X)
+   found <- test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = FALSE)
+   expect_equal(found$obs_table, X)
    expect_equal(found$expected_count, rep(.2 * 73, 5))
    expect_equal(found$df[1], 4)
    expect_equal(found$chi_squared_values, (X - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5))
@@ -101,8 +101,8 @@ test_that("test preforms the two sample z-test correclty", {
    x <- c(10,13,14,20,16,73)
    y <- c(.2,.2,.2,.2,.2,1)
 
-   found <- test(test = 'chi_squared.gof', null_table = x, expected_table = y, expected_as_count = FALSE, row_totals = TRUE, graph = FALSE)
-   expect_equal(found$null_table, c(10,13,14,20,16))
+   found <- test(test = 'chi_squared.gof', obs_table = x, expected_table = y, expected_as_count = FALSE, row_totals = TRUE, graph = FALSE)
+   expect_equal(found$obs_table, c(10,13,14,20,16))
    expect_equal(found$expected_count, rep(.2 * 73, 5))
    expect_equal(found$df[1], 4)
    expect_equal(found$chi_squared_values, (X[-6] - rep(.2 * 73, 5))^2 / rep(.2 * 73, 5))
@@ -111,11 +111,11 @@ test_that("test preforms the two sample z-test correclty", {
 
 
    #Checking when the total is given, and count is given.
-   x <- c(10,13,14,20,16,73)
+   X <- c(10,13,14,20,16,73)
    Y <- c(8,12,8,16,13,57)
 
-   found <- test(test = 'chi_squared.gof', null_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = FALSE)
-   expect_equal(found$null_table, c(10,13,14,20,16))
+   found <- test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = FALSE)
+   expect_equal(found$obs_table, c(10,13,14,20,16))
    expect_equal(found$expected_count, c(8,12,8,16,13))
    expect_equal(found$df[1], 4)
    expect_equal(found$chi_squared_values, (X[-6] - c(8,12,8,16,13)) ^ 2 / c(8,12,8,16,13))
@@ -124,5 +124,12 @@ test_that("test preforms the two sample z-test correclty", {
 
 })
 
+test_that("test preforms the chi-squared Independence test correclty", {
+
+   X <- matrix(sample(1:20,15), nrow = 3)
+   found <- test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = FALSE)
+
+   expect_equal(found$obs_table[1:3,1:5], (X))
 
 
+})
