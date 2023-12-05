@@ -2,7 +2,9 @@
 #' Title find_probs()
 #'
 #' @Description: This is a simple wrapper function for finding the probabilities for various distributions.
-#'
+#'         Notes One: This function is not indented to explicitly push out p-values. You will need to standardize and find
+#'               the appropriate Standard Errors before hand. (As in two-sided hypothesis tests will not be multiplied by 2.)
+#'               Two: If you wish for the a graphic of the distribution try build_dist(...display_prob=TRUE)
 #' @param bound Input Vector of length one or two: c(left,right).
 #'        This is to define the boundaries of the shaded region of the graph.
 #'        Notes: "inner" and "two" require both the left and right input.
@@ -29,9 +31,6 @@
 #' @return Numeric: Probability = being the calculated probability of the region supplied. (The cdf)
 #'         Numeric: Value = being the calculated value that produces the area supplied in bound. (the quantile)
 #'
-#' @Notes: One: This function is not indented to explicitly push out p-values. You will need to standardize and find
-#'         the appropriate Standard Errors before hand. (As in two-sided hypothises tests will not be multiplied by 2.)
-#'         Two: If you wish for the a graphic of the distribution try build_dist(...display_prob=TRUE)
 #' @export
 #'
 #' @examples
@@ -54,6 +53,9 @@
 #' find_probs(4,type="binomial",tail="left")
 #' find_probs(4,type="binomial",tail="left_not_equal")
 #'
+#' # Finding inverses
+#' find_probs(bound = .4, inverse = TRUE)
+#' find_probs(bound = .8, mean = 10, sd = 4, inverse = TRUE)
 #'
 find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sd = 1, df = 1, prob = .5, trials = 10, inverse = FALSE){
   if(is.null(bound)){
