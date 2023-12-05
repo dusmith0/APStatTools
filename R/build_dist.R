@@ -3,6 +3,10 @@
 #' @Description: This function is designed to build a set of distributions and shade in
 #'               the various regions of interest.
 #'
+#'               Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
+#'               Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
+#'                      large trials. (that is much more than 1000)
+#'
 #' @param type string being any of "normal", "t-dist", "chi-squared", "binomial"
 #' @param tail string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
 #'        Notes: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
@@ -16,9 +20,6 @@
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
 #'
-#' @Notes: Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
-#'         Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
-#'         large trials. (that is much more than 1000)
 #' @export
 #'
 #' @examples
@@ -96,9 +97,6 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
       upper <- bound[2]
       fill <- seq(lower,upper,.01)
     }else if(tail == "outer" | tail == "two"){
-      #if(any(bound <= 0)){
-      #  bound <- -1*bound
-      #}
       lower <- -500
       upper <- bound[1]
       fill <- seq(lower,upper,.01)
