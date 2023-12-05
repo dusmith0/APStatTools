@@ -75,5 +75,8 @@ find_probs(c(2,6),type="binomial",tail="outer")
 find_probs(4,type="binomial",tail="left")
 find_probs(4,type="binomial",tail="left_not_equal")
 
+# Finding inverses
+find_probs(bound = .4, inverse = TRUE)
+find_probs(bound = .8, mean = 10, sd = 4, inverse = TRUE)
 
 }

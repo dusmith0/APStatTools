@@ -14,7 +14,7 @@ test(
   p_hat,
   sd,
   n,
-  null_table = NULL,
+  obs_table = NULL,
   expected_table = NULL,
   expected_as_count = FALSE,
   row_totals = FALSE,
@@ -52,7 +52,7 @@ Note: This can be a vector of one or two values depending on the test used.}
 \item{n}{Input Vector: This is the value of the sample sizes.
 Note: This can be a vector of one or two values depending on the test used.}
 
-\item{null_table}{Input Numeric Vector: This is the observed vector of categorical values.
+\item{obs_table}{Input Numeric Vector: This is the observed vector of categorical values.
 Note: If the total is included please set row_totals = TRUE}
 
 \item{expected_table}{Input Numeric Vector: This is a vector of either expected
@@ -62,10 +62,10 @@ If the values are counts and not proportions, please set expected_as_count = TRU
 \item{expected_as_count}{Input Logical. If expected_table is of proportions let this be FALSE.
 If the expected_table is of counts let this be TRUE.}
 
-\item{row_totals}{Input Logical: If the null_table includes the total, let this be TRUE.
+\item{row_totals}{Input Logical: If the obs_table includes the total, let this be TRUE.
 Note: It is defaulted to be FALSE, and will include the total in the calculation
 if a total is actually included. This will lead to errors. Also, you will want to ensure
-that both the null_table and expected_table either both have totals or both do not. The
+that both the obs_table and expected_table either both have totals or both do not. The
 function will either remove the last element of both vectors, or neither vectors.}
 
 \item{mat_totals}{Input Logical: If FALSE this function will generate the total columns and rows for the user.
@@ -77,7 +77,7 @@ to add just one of the row's or column's totals, as you will end up with an addi
 \value{
 Output: This will return a data.frame of statistical values and a graphic if desired.
         the data frame will contain some of the following values, given the appropriate test.
-        Test Name, p_value, test_statistic, n, standard_error, df, null_table, expected_count,
+        Test Name, p_value, test_statistic, n, standard_error, df, obs_table, expected_count,
         and chi_squared_values test statistic values.
 }
 \description{
@@ -107,16 +107,16 @@ test(test = 'z_test.pooled', p_hat = c(.4,.5), n = c(25,24), tail = "left", grap
 # GOF Chi-squared test.
 X <- c(10,13,14,20,16)
 Y <- c(.2,.2,.2,.2,.2)
-test(test = 'chi_squared.gof', null_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
+test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
 
 # This vector included a total at the end, and has the expected table as a count instead of frequency.
 # Note the function will assume that both expected an null contain totals.
 X <- c(10,13,14,20,16,73)
 Y <- c(8,12,8,16,13,57)
-test(test = 'chi_squared.gof', null_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
+test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
 
 # Chi-squared test for independence
 X <- matrix(rnorm(20,10,3), nrow = 4)
-test(test = 'chi_squared.ind', null_table = X, mat_totals = FALSE, graph = TRUE)
+test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = TRUE)
 
 }
