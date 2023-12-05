@@ -130,6 +130,8 @@ test_that("test preforms the chi-squared Independence test correclty", {
    found <- test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = FALSE)
 
    expect_equal(found$obs_table[1:3,1:5], (X))
-
-
+   expect_table <- matrix(c(9.568,10.185,11.420,7.716,11.111,10.525,
+                            11.204,12.562,8.488,12.222,10.907,11.611,13.019,8.796,12.667)
+                          ,nrow = 3, byrow = TRUE )
+   expect_equal(round(found$expected_count[1:3,1:5],3), expect_table)
 })
