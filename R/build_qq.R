@@ -47,12 +47,12 @@ build_QQ <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
     #vs <- qchisq(1000,alpha)
   }
 
-  par(mfrow=c(1,2),bg="wheat")
+  par(mfrow=c(1,2),bg="wheat1")
   plot(Z, sort(data), xlab="Perfect Normal", ylab="Data's Quantiles", main="QQ Plot", col="#5a95b3", pch = 16)
-  abline(lm(sort(data)~Z),col="#714423",lwd = 2)
+  abline(lm(sort(data)~Z),col="salmon1",lwd = 2)
 
   #plot(density(vs),main="Estimated Density", col="#714423", lwd = 2)
 
   hist(data, main="Data Histogram\n Estimated Density", prob = TRUE)
-  lines(density(data),main="Estimated Density", col="#714423", lwd = 2)
+  lines(density(data),main="Estimated Density", col="salmon1", lwd = 2)
 }

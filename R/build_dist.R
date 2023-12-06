@@ -130,7 +130,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
-  par(mfrow = c(1,1), bg="wheat")
+  par(mfrow = c(1,1), bg="wheat1")
   if(type == "normal"){
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
          xlab = "Z-scores",ylab="Probability")
@@ -175,7 +175,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
   }
 
   if(type == "binomial"){
-    color <- c("#b2c8df","#5a95b3")
+    color <- c("salmon1","#5a95b3")
     names <- c(0:trials)
     barplot(dbinom(0:trials,trials,prob), ylab = "Probability", xlab = "# of Successes",
             main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "), col = color[logical],

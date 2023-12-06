@@ -47,6 +47,7 @@
 get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL){
   ## For imputing pre-built data in this packages
   if(ap_data_set == TRUE){
+    setwd(system.file("apdata", package = "APStatTools"))
 
     ## A list of the current data sets loaded into this package
     if(data_name == "help"){

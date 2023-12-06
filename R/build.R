@@ -7,7 +7,7 @@ library("ggfortify")
 
 Options <- function(type,xlim,ylim,main,xlab,ylab,sub,frame.plot,number_of_plots,color,pch,cex,bg,lty,lwd){
   ## Create a running color template for use in bar or pie graphs. They can choose the theme.
-  palette_ap <- c("wheat","#5a95b3","#b2c8df","#ddb695","#ac754c","#714423")
+  palette_ap <- c("wheat1","#5a95b3","salmon1","#ddb695","#ac754c","#714423")
 }
 
 types <- list(c("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","Regression","Multi-regression","Distrubution",
@@ -16,7 +16,7 @@ types <- list(c("Hist","Bar","Pie","Dot","Box","Multi-Box","QQ","Residual","Regr
 ##-----------------------------------------------------------------------------##
 # Note: This function is not designed to clean your data. The data should be first assigned using
 # Create() then place in the name for data1, data2...
-build <- function(input = FALSE, data, X, Y = NULL, type = "Hist", analysis=FALSE){
+build <- function(X,input = FALSE, X, Y = NULL, type = "Hist", analysis = FALSE){
   ## Build an 'options' selection for usage in default plots
     ##if dedicated term exists in Options() functions set values, else set default values.
     ##likely easiest to place those options in par() it may change with GGplot2,
@@ -29,10 +29,12 @@ build <- function(input = FALSE, data, X, Y = NULL, type = "Hist", analysis=FALS
   if(input == TRUE){
     data <- data.frame()
     data <- edit(data)
-    data <- as.data.frame(data)
+    X <- as.data.frame(data)
+  }else{
+    X <- as.data.frame(X)
   }
 
-  theme <- ggplot2::theme(panel.background = element_rect(fill = '#E5C3A6'),
+  theme <- ggplot2::theme(panel.background = element_rect(fill = 'wheat1'),
         panel.grid.major = element_line(color = '#714423', linetype = 'dotted'),
         panel.grid.minor = element_line(color = '#714423'))
 
@@ -40,6 +42,7 @@ build <- function(input = FALSE, data, X, Y = NULL, type = "Hist", analysis=FALS
   ##Graphics are built below here.
   ## Histogram
   ##// Inputs   type, bins,
+  bins <- 0
   if(type == "Hist"){
     if(is.null(bins)){
       bins <- ceiling((nrow(data) / 10))
@@ -132,9 +135,9 @@ build <- function(input = FALSE, data, X, Y = NULL, type = "Hist", analysis=FALS
 
   ##Include a section to print a generic list of analysis. 5 number summary in a pretty mannor.
   ##If possible a dedicated AP analysis function.
-  if(analyis==TRUE){
+  #if(analyis==TRUE){
 
-  }
+  #}
 
   plot(X)
 }
