@@ -1,10 +1,10 @@
 ##-------------------------------------------------------------------------##
 ## t_test family of functions
 ## One sample t-test for means.
-t_test.one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
+t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
   # calculates needed values
   df <- n - 1
-  standard_error <- sd / sqrt(n)
+  standard_error <- sigma / sqrt(n)
   test_statistic <- (x_bar - null) / standard_error
   #runs the p_value through the normal cdf based on value of tail.
   if(tail == "left"){
@@ -21,15 +21,15 @@ t_test.one <- function(null,x_bar,sd,n,tail="left",graph=TRUE){
 }
 
 ## Two sample t-test on means
-t_test.two <- function(null = 0,x_bar,sd,n,tail="left",graph=TRUE){
+t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
     null <- diff(-null)
   }
   # calculates error and statistic
-  df <- ((sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2]) ^ 2) / sum((1 / (n - 1)) * (sd ^ 2 / n) ^ 2)
-  standard_error <- c(sd[1]/sqrt(n[1]), sd[2]/sqrt(n[2]))
-  standard_error_combined <- sqrt( sd[1] ^ 2 / n[1] + sd[2] ^ 2 / n[2])
+  df <- ((sigma[1] ^ 2 / n[1] + sigma[2] ^ 2 / n[2]) ^ 2) / sum((1 / (n - 1)) * (sigma ^ 2 / n) ^ 2)
+  standard_error <- c(sigma[1]/sqrt(n[1]), sigma[2]/sqrt(n[2]))
+  standard_error_combined <- sqrt( sigma[1] ^ 2 / n[1] + sigma[2] ^ 2 / n[2])
   test_statistic <- (diff(-x_bar) - null) / standard_error_combined
   #runs the p_value through the normal cdf based on value of tail.
   if(tail == "left"){
@@ -63,7 +63,7 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   n <- length(paired_data)
   df <- n - 1
   x_bar <- mean(paired_data)
-  standard_error <- sd(paired_data)/sqrt(n)
+  standard_error <- sigma(paired_data)/sqrt(n)
 
   test_statistic <- (x_bar - null) / standard_error
   #runs the p_value through the normal cdf based on value of tail.
