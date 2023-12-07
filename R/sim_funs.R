@@ -1,7 +1,25 @@
-###The function below is designed to simulate the Birthday Problem.
-###Note the input for size assumes a vector of somethings. Values below 50 are best.
-###The function also assumes a length of 4 for graphical output.
-###The function gets slow at around 2000 Iterations. However, 200 is enough to see convergence.
+
+#' Title Birthday_fun
+#'
+#' @param Iter Input numeric: This is the number of iterations the function will run through.
+#'             Note: The function can be quite slow if Iter >= 1000. However, 200 is more
+#'             then enough to show convergance.
+#' @param size Input numeric vector: This is a vector containing the different
+#'             people group sizes you would like. Default is c(10,20,30,40)
+#'             Note: Values below 50 work best.
+#' @param plot Input logical: Setting this to FALSE will suppress the graphing.
+#'
+#' @return Output data.frame of each size value and their running probabilities.
+#'
+#'
+#' @export
+#'
+#' @examples
+#'
+#' Birthday_fun()
+#'
+#' Birthday_fun(Iter = 100, size = c(1,5,10,15,20))
+#'
 Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
   #Figure out how to make the size allow many inputs with c.
   if(is.null(size)){
@@ -15,8 +33,8 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
   par(mfrow=c(2,2),bg="wheat")
   for(j in seq_along(size)){
     for(i in 1:Iter){
-      population <- sample(seq(1:365),size[j],replace = TRUE)
-      ifelse(length(unique(population)) == length(population),test[i,j]<-0,test[i,j]<-1)
+      birthdays <- sample(seq(1:365),size[j],replace = TRUE)
+      ifelse(length(unique(birthdays)) == length(birthdays),test[i,j]<-0,test[i,j]<-1)
       prob[i,j] <- sum(test[1:i,j])/i
 
     }
@@ -26,13 +44,28 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
       abline(h = mean(prob[,j]),col = "purple",lwd=2)
     }
   }
-
+ return(data.frame(Size = prob))
 }
 
-### 21 and safe Busting
-### Note the graphic is not the best tool ever. It does not display dot of large trials e.g. more than 100.
 
-### This is a function needed to calculate the below simulations.
+#' Title card_count()
+#'       This function will calculate card values and is needed for other simulation
+#'       functions in the APStatTools package.
+#'
+#' @param draw Input String: A list of drawn card values
+#'        being "2","3","4","5","6","7","8","9","A","J","K","Q"
+#' @param draw_values Input numeric: This is for a previously defined total card values.
+#'        You will usually leave this as 0
+#'
+#' @return Output list of c((draw, draw_values, value))
+#'         draw = your cards
+#'         draw_values = each card's worth
+#'         value = the total worth.
+#' @export
+#'
+#' @examples
+#'
+#' card_count(draw = c("2","3","4"))
 card_count <- function(draw, draw_values = 0){
   # counting total points
   for(k in 1:length(draw)){
@@ -49,6 +82,26 @@ card_count <- function(draw, draw_values = 0){
 }
 
 
+#' Title blakcjack_bust_auto
+#'
+#'    This will simulate drawing hand of BlackJack and count the number of draws
+#'    needed to "Bust:.
+#' @param trials Input numeric length 1. It is the number of trials of the game.
+#'        It is not recommended to make the trials much more than 50
+#'        as the graph will not display that many dots well.
+#'
+#' @return list of c(time_to_bust, data)
+#'         time_to_bust = List of draws need to "bust"
+#'         data = list of "time_to_bust", Frequency of the number of cards
+#'         at "bust", and probabilities.
+#' @export
+#'
+#' @examples
+#'
+#' blackjack_bust_auto()
+#' blackjack_bust_auto(trials = 25)
+#'
+#'
 blackjack_bust_auto <- function(trials = 10){
   ##setting values
   cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
@@ -84,16 +137,32 @@ blackjack_bust_auto <- function(trials = 10){
     #end loop for many games
   }
   ## Building a graphic
-  par(bg = "wheat")
-  stripchart(time_to_bust, method = "stack",pch = 19, at = .08, cex = 1, col = "#714423",
+  par(bg = "linen")
+  stripchart(time_to_bust, method = "stack",pch = 19, at = .08, cex = 1, col = "#5a95b3",
              xlab = "Draws to bust\nIncluding initial draw",ylab = "Frequency", main="Black Jack draws to Bust")
   ## Building a subspace for the probabilities to fit.
   bjack_table <- data.frame(table(time_to_bust))
   bjack_table[,3] <- data.frame(Perc = (bjack_table$Freq/trials))
-  return(list(time_to_bust = time_to_bust,bjack_table = bjack_table))
+  return(list(time_to_bust = time_to_bust, data = bjack_table))
 }
-## Input Driven Black-Jack Bust Simulation
-## Note: at the moment this function does not produce graphics automatically.
+
+
+#' Title blackjack_bust()
+#'
+#'  This is an Input Driven Black-Jack Bust Simulation version of
+#'  blackjack_bust_auto()
+#'  Note: at the moment this function does not produce graphics automatically.
+#'
+#' @return list of c(time_to_bust, data)
+#'         time_to_bust = List of draws need to "bust"
+#'         data = list of "time_to_bust", Frequency of the number of cards
+#'         at "bust", and probabilities.
+#' @export
+#'
+#' @examples
+#'
+#' blackjack_bust()
+#'
 blackjack_bust <- function(){
   ##setting values
   cards <- c(rep(seq(2,9,1),4),rep(c("A","J","K","Q"),4)) ### list of all of the card values.
@@ -114,7 +183,7 @@ blackjack_bust <- function(){
     ## reading and printing card values.
     count <- card_count(draw, draw_values)
     draw_values <- count$draw_values
-    print(count) #Create a nice data frame to print.
+    print(count)
 
     if(count$value > 21){
       print("BUSTED!!!!!")
@@ -127,9 +196,19 @@ blackjack_bust <- function(){
 }
 
 
-## QQ-Demonstration
-## This plot will build a lot of QQ plots vs normal plots, and histograms of the simulated data.
-## In Rstudio you can click through the arrows to look through various examples. In R, click on the graph to see the next on.
+#' Title qq_dem()
+#'
+#'    This is to demonstrate the effectiveness of the QQ plots against various distributions.
+#' @return Plot:
+#'         This plot will build a lot of QQ plots vs normal plots, and histograms of the simulated data.
+#'         In Rstudio you can click through the arrows to look through various examples. In R, click on the graph to see the next on.
+#' @export
+#'
+#' @examples
+#'
+#' qq_dem()
+#'
+#'
 qq_dem <- function(){
   plot_QQ <- function(data){
     build_dist(type = "QQ", data = data)
@@ -157,6 +236,24 @@ qq_dem <- function(){
 
 }
 
+#' Title confidence_interval
+#'
+#'    This is designed to build a confidence interval plot.
+#'
+#' @param mean Input numeric: The mean value of your prior.
+#' @param sigma Input numeric: The standard deviation of your prior.
+#' @param n Input numeric: The sample size you would like to take.
+#' @param level Input numeric: The confidence level between 0 and 1.
+#' @param trials Input numeric. Number of times you would like to run the graph.
+#'
+#' @return Plot
+#' @export
+#'
+#' @examples
+#'
+#' confidence_interval(mean = 0, sigma = 1, n = 20, level = .95, trials = 20)
+#' confidence_interval(mean = 10, sigma = 3, n = 50, level = .90, trials = 30)
+#'
 confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials = 25){
   intervals <- matrix(0,nrow = trials, ncol = 2)
   point <- c(0)
