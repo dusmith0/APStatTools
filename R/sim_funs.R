@@ -132,19 +132,7 @@ blackjack_bust <- function(){
 ## In Rstudio you can click through the arrows to look through various examples. In R, click on the graph to see the next on.
 qq_dem <- function(){
   plot_QQ <- function(data){
-    n = length(data)
-    i = seq(1:n)
-    u=(i-.5)/n
-    z=sort(qnorm(u))
-
-    par(mfrow=c(2,2),bg="linen")
-    plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Quantile's", main="QQ Plot", col="#5a95b3", pch = 16)
-    abline(lm(sort(data)~z),col="salmon1",lwd = 2)
-
-    hist(data, main="Actual Histogram of the data", col = "#5a95b3")
-
-    plot(density(data),main="Estimated Histogram of the data", col="salmon1", lwd = 2, xlab = "Propotion")
-    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2, xlab = "Z-Scores", ylab = "Propotion") #Note this will fail if the data is not centered around one. Which it will not be many times.
+    build_dist(type = "QQ", data = data)
   }
 
   ### Here are some random data points to apply with the function.

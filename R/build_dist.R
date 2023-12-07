@@ -44,14 +44,20 @@
 #' build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
 #' build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 #'
-build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, display_prob=FALSE){
+build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, data = NULL, display_prob=FALSE){
   ## Below are some error checks.
   if(display_prob == TRUE & is.null(bound)){
     stop(paste("Error: The display_prob option requires a value for bound as an input."))
   }
 
-  if(type != "normal" & type !=  "binomial" & type !=  "t-dist" & type !=  "chi-squared"){
-    stop(paste("Error: Your type choice is not an option. Please choose either 'normal', 'binomial', 't-dist', or 'chi-squared'"))
+  if(type != "normal"
+     & type !=  "binomial"
+     & type !=  "t-dist"
+     & type !=  "chi-squared"
+     & type !=  "QQ"
+     & type !=  "regression"){
+    stop(paste("Error: Your type choice is not an option. Please choose either:
+               'normal', 'binomial', 't-dist', or 'chi-squared', 'QQ', or 'regression'"))
   }
 
   if(tail != "left" & tail !=  "right" & tail !=  "inner" & tail !=  "outer" & tail != "two" & tail != "left_no_equal" & tail != "right_not_equal"){
@@ -130,7 +136,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
-  par(mfrow = c(1,1), bg="wheat1")
+  par(mfrow = c(1,1), bg="linen")
   if(type == "normal"){
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
          xlab = "Z-scores",ylab="Probability")
@@ -188,6 +194,24 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
         }else(x_placement <- (1 / 10) * (trials))
       text(x_placement, .8 * max(dbinom(0:trials,trials,prob)),paste("Prob: ",round(probability,digits = 3),set = ""))
     }
+  }
+
+  if(type == "QQ"){
+    n = length(data)
+    i = seq(1:n)
+    u=(i-.5)/n
+    z=sort(qnorm(u))
+
+    par(mfrow=c(2,2),bg="linen")
+    plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Quantile's", main="QQ Plot", col="#5a95b3", pch = 16)
+    abline(lm(sort(data)~z),col="salmon1",lwd = 2)
+
+    hist(data, main="Actual Histogram of the data", col = "#5a95b3")
+
+    plot(density(data),main="Estimated Histogram of the data", col="salmon1", lwd = 2, xlab = "Propotion")
+    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2, xlab = "Z-Scores", ylab = "Propotion")
+
+    message("Warning: This function will only test against the normal distribution.")
   }
 
 }
