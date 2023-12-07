@@ -120,4 +120,10 @@ test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_co
 X <- matrix(rnorm(20,10,3), nrow = 4)
 test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = TRUE)
 
+# Finding confidence Interval
+test(test = "t_conf.one", x_bar = 12, sigma = 3, level = .95, n = 20)
+test(test = "t_conf.two", x_bar = c(12,10), sigma = c(3,2), level = .95, n = c(20,30))
+test(test = "z_conf.one", p_hat = .4, level = .90, n = 20)
+test(test = "z_conf.two", p_hat = c(.4,.6), level = .99, n = c(20,30))
+
 }
