@@ -15,7 +15,7 @@
 #'        Notes: "out" and "two" will produce the same output.
 #' @param mean Input Numeric: Default = 0
 #'        Vector of one value. The mean of the distribution
-#' @param sd Input Numeric: Default = 1
+#' @param sigma Input Numeric: Default = 1
 #'        Vector of one value. The standard deviation of a distribution.
 #' @param df Input Numeric: Default = 1
 #'        Vector of one value. The degree of freedom of a distribution.
@@ -55,9 +55,9 @@
 #'
 #' # Finding inverses
 #' find_probs(bound = .4, inverse = TRUE)
-#' find_probs(bound = .8, mean = 10, sd = 4, inverse = TRUE)
+#' find_probs(bound = .8, mean = 10, sigma = 4, inverse = TRUE)
 #'
-find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sd = 1, df = 1, prob = .5, trials = 10, inverse = FALSE){
+find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sigma = 1, df = 1, prob = .5, trials = 10, inverse = FALSE){
   if(is.null(bound)){
     stop(paste("Error: Please enter a value for bound."))
   }
@@ -72,21 +72,21 @@ find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sd = 
   if(type == "normal"){
     #one tailed
     if(tail == "left" | tail == "right"){
-      probability <- pnorm(bound,mean,sd,lower.tail = logic)
+      probability <- pnorm(bound,mean,sigma,lower.tail = logic)
     }
     #interior
     if(tail == "inner"){
       if(length(bound) != 2){
         stop(paste("Error: Please ensure that you enter and upper and lower bound when you use the 'inner' tails."))
       }
-      probability <- pnorm(max(bound),mean,sd,lower.tail = TRUE) - pnorm(min(bound),mean,sd,lower.tail = TRUE)
+      probability <- pnorm(max(bound),mean,sigma,lower.tail = TRUE) - pnorm(min(bound),mean,sigma,lower.tail = TRUE)
     }
     #two tailed
     if(tail == "two" | tail == "outer"){
       if(length(bound) != 2){
         stop(paste("Error: Please ensure that you enter and upper and lower bound when you use the 'inner' tails."))
       }
-      probability <- pnorm(max(bound),mean,sd,lower.tail = FALSE) + pnorm(min(bound),mean,sd,lower.tail = TRUE)
+      probability <- pnorm(max(bound),mean,sigma,lower.tail = FALSE) + pnorm(min(bound),mean,sigma,lower.tail = TRUE)
     }
     # Inverse
     if(inverse == TRUE){
@@ -94,7 +94,7 @@ find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sd = 
         bound <- bound/100
         warning(paste("Your bound was great then one. Thus a Percentage input was assumed and ",bound,"was used for the calcuation."))
       }
-      value <- qnorm(bound,mean,sd,lower.tail = TRUE)
+      value <- qnorm(bound,mean,sigma,lower.tail = TRUE)
       warning("This function finds percentile values (the area to the left) only.")
     }
   }
