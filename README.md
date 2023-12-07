@@ -63,3 +63,31 @@ build_dist(type = "t-dist", df = 5)
 ```
 ![image](https://github.com/dusmith0/APStatTools/assets/128092158/ab99d2e3-6d80-4460-b692-6ccd00ae266e)
 
+You can also edit your image to show different shaded areas.
+```{r, eval = T, echo = T}
+# To allow for several graphs to be displayed.
+par(mfrow = c(2,2))
+
+build_dist(type = "normal", bound = -1)
+build_dist(type = "normal", bound = c(-1,2), tail = "inner")
+build_dist(type = "t-dist", bound = c(-1,0), tail = "two")
+build_dist(type = "binomial",bound = c(6,12),
+    tail = "outer", p = .5, trials = 20)
+```
+To add probably values turn display_prob = TRUE
+```{r, eval = T, echo = T}
+# To allow for several graphs to be displayed.
+par(mfrow = c(2,2))
+
+build_dist(type = "normal", bound = -1, display_prob = TRUE)
+build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
+build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
+build_dist(type = "binomial",bound = c(6,12),
+    tail = "outer", p = .5, trials = 20, display_prob = TRUE)
+```
+
+
+
+
+
+

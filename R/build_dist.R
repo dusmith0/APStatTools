@@ -161,7 +161,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
-  par(mfrow = c(1,1), bg="linen")
+  par(bg="linen")
   if(type == "normal"){
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
          xlab = "Z-scores",ylab="Probability")
@@ -184,7 +184,7 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
     }
     if(display_prob == TRUE){
       probability <- find_probs(bound = bound, type = "t-dist", tail = tail, df = df)
-      text(2.5,.3,paste("Prob: ",round(probability,digits = 3),set = ""))
+      text(2.5,.25,paste("Prob: ",round(probability,digits = 3),set = ""))
     }
   }
 
@@ -214,9 +214,13 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
     if(display_prob == TRUE){
       probability <- find_probs(bound = bound, type = "binomial", tail = tail, prob = prob, trials = trials)
-        if(prob <= .5){
-          x_placement <- (9 / 10) * trials
-        }else(x_placement <- (1 / 10) * (trials))
+        if(prob < .5){
+          x_placement <- (3 / 4) * trials
+        }else if(prob > .5){
+          x_placement <- (1 / 3) * (trials)
+        }else if(prob == .5){
+          x_placement = (44/45) * trials
+        }
       text(x_placement, .8 * max(dbinom(0:trials,trials,prob)),paste("Prob: ",round(probability,digits = 3),set = ""))
     }
   }
