@@ -7,7 +7,7 @@
 #'               Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
 #'                      large trials. (that is much more than 1000)
 #'
-#' @param type string being any of "normal", "t-dist", "chi-squared", "binomial"
+#' @param type string being any of "normal", "t-dist", "chi-squared", "binomial", "QQ", "regression"
 #' @param tail string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
 #'        Notes: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
 #'        Notes: "out" and "two" will produce the same output.
@@ -17,6 +17,7 @@
 #' @param prob numeric value for the probability of success. Imputing values of greater than 1 may cause errors.
 #' @param trials numeric value for the number of trials that will occur for the "binomial"
 #' @param display_prob logical If true this will print the probability of the shaded region along with the graphic.
+#'        If the type = "regression" setting display_prob = TRUE will call get_measures() on your data.
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
 #'
@@ -44,10 +45,22 @@
 #' build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
 #' build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 #'
-build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, data = NULL, display_prob=FALSE){
+#' # Regression
+#' X <- rnorm(25,0,1)
+#' Y <- sample(1:10,25,replace = TRUE)
+#' build_dist(type = "regression", X = X, Y = Y)
+#' build_dist(type = "regression", X = X, Y = Y, display_prob = TRUE)
+#'
+#' # QQ plots
+#' build_dist(type = "QQ", data = X)
+#' build_dist(type = "QQ", data = Y)
+#'
+build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, data = NULL, X = NULL, Y = NULL, display_prob = FALSE){
   ## Below are some error checks.
   if(display_prob == TRUE & is.null(bound)){
-    stop(paste("Error: The display_prob option requires a value for bound as an input."))
+    if(type != "regression"){
+      stop(paste("Error: The display_prob option requires a value for bound as an input."))
+    }
   }
 
   if(type != "normal"
@@ -60,7 +73,13 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
                'normal', 'binomial', 't-dist', or 'chi-squared', 'QQ', or 'regression'"))
   }
 
-  if(tail != "left" & tail !=  "right" & tail !=  "inner" & tail !=  "outer" & tail != "two" & tail != "left_no_equal" & tail != "right_not_equal"){
+  if(tail != "left"
+     & tail !=  "right"
+     & tail !=  "inner"
+     & tail !=  "outer"
+     & tail != "two"
+     & tail != "left_no_equal"
+     & tail != "right_not_equal"){
     stop(paste("Error: Your tail choice is not an option. Please choose either 'left','right','inner','two', 'right_not_equal', or 'left_not_equal'"))
   }
   ## Help options are below
@@ -197,11 +216,17 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
   }
 
   if(type == "QQ"){
+    if(is.null(data)){
+      stop(paste("Error: Please include a data set to check against the Normal."))
+    }
+
+    # Building initial conditions
     n = length(data)
     i = seq(1:n)
     u=(i-.5)/n
     z=sort(qnorm(u))
 
+    # Building the 4 part graph to assess normality.
     par(mfrow=c(2,2),bg="linen")
     plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Quantile's", main="QQ Plot", col="#5a95b3", pch = 16)
     abline(lm(sort(data)~z),col="salmon1",lwd = 2)
@@ -210,9 +235,35 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
     plot(density(data),main="Estimated Histogram of the data", col="salmon1", lwd = 2, xlab = "Propotion")
     plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2, xlab = "Z-Scores", ylab = "Propotion")
-
-    message("Warning: This function will only test against the normal distribution.")
   }
 
+  if(type == "regression"){
+    if(is.null(data)){
+      if(is.null(X) & is.null(Y)){
+        stop(paste("Error: Please input both an X and Y data set."))
+      }
+    }
+
+    if(!is.null(data)){
+      data <- as.matrix(data)
+      X <- data[,1]
+      Y <- data[,2]
+    }else if(length(X) == length(Y)){
+      X <- X
+      Y <- Y
+    }else{
+      stop(paste("Error: Please input a valid data set into either:
+                 X = c() and Y = c()
+                 or data = matrix()"))
+    }
+
+    plot((Y ~ X), pch = 16, col = "#5a95b3", main = "Regression")
+    abline(lm(Y ~ X), lwd = 2, col = "salmon1")
+
+    if(display_prob == TRUE){
+      return(get_measures(X = X, Y = Y, regression = TRUE))
+    }
+
+  }
 }
 
