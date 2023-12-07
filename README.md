@@ -86,6 +86,7 @@ build_dist(type = "binomial",bound = c(6,12),
     tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 ```
 
+![image](https://github.com/dusmith0/APStatTools/assets/128092158/2ce612dc-d699-4e5d-afba-6545ab388311)
 
 
 
