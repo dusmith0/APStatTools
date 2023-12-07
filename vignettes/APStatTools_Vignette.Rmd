@@ -1,3 +1,24 @@
+---
+title: "APStatTools"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{This is the title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(APStatTools)
+```
+
+
 # APStatTools 
 
 **Description** The reason for this function is to make R accessible for many of the tools and calculation used in AP Statistics and Undergraduate Statistics.
@@ -64,3 +85,26 @@ To build Student's t-distribution use: (Where df can be adjusted to any positive
 ```{r, eval = F, echo = T}
 build_dist(type = "t-dist", df = 5)
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

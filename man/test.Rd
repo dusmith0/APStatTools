@@ -2,7 +2,7 @@
 % Please edit documentation in R/test.R
 \name{test}
 \alias{test}
-\title{Title test()}
+\title{Title test}
 \usage{
 test(
   test = "help",
@@ -53,6 +53,10 @@ Note: This can be a vector of one or two values depending on the test used.}
 \item{n}{Input Vector: This is the value of the sample sizes.
 Note: This can be a vector of one or two values depending on the test used.}
 
+\item{level}{Input numeric: It can be any value between 0 and 1. This function
+expects the value to be of length one. Imputing more significance levels
+will cause the function to override them and return only the last value given.}
+
 \item{obs_table}{Input Numeric Vector: This is the observed vector of categorical values.
 Note: If the total is included please set row_totals = TRUE}
 
@@ -82,7 +86,7 @@ Output: This will return a data.frame of statistical values and a graphic if des
         and chi_squared_values test statistic values.
 }
 \description{
-Title test()
+Title test
 }
 \examples{
 # help

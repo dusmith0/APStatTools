@@ -47,7 +47,7 @@ build_QQ <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
     #vs <- qchisq(1000,alpha)
   }
 
-  par(mfrow=c(1,2),bg="wheat1")
+  par(mfrow=c(1,2),bg="linen")
   plot(Z, sort(data), xlab="Perfect Normal", ylab="Data's Quantiles", main="QQ Plot", col="#5a95b3", pch = 16)
   abline(lm(sort(data)~Z),col="salmon1",lwd = 2)
 
