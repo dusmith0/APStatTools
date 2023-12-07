@@ -1,4 +1,4 @@
-#' Title test()
+#' Title test
 #'
 #' @param test Input String: Can be any of one of the following
 #'        "t_test.one","t_test.two","t_test.paired","z_test.one","z-test.pooled","chi_squared.gof","chi_squared.ind"
@@ -20,6 +20,9 @@
 #'         Note: This can be a vector of one or two values depending on the test used.
 #' @param n Input Vector: This is the value of the sample sizes.
 #'         Note: This can be a vector of one or two values depending on the test used.
+#' @param level Input numeric: It can be any value between 0 and 1. This function
+#'              expects the value to be of length one. Imputing more significance levels
+#'              will cause the function to override them and return only the last value given.
 #' @param obs_table Input Numeric Vector: This is the observed vector of categorical values.
 #'         Note: If the total is included please set row_totals = TRUE
 #' @param expected_table Input Numeric Vector: This is a vector of either expected

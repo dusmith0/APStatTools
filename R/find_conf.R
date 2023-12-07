@@ -1,4 +1,4 @@
-#' Title find_conf() aka find_confidence intervals
+#' Title find_conf aka find_confidence intervals
 #'
 #' @param type Input String: any of
 #'        "t_conf.one"

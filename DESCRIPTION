@@ -1,6 +1,6 @@
 Package: APStatTools
 Type: Package
-Title: Making R easily usable for all AP and introductory level statistics computations for both teachers and students. 
+Title: Making R easily usable for all AP and introductory level statistics computations for both teachers and students 
 Version: 0.1.0
 Author: person("Dustin", "Smith",
         email = "dusmith0@tamu.edu",
@@ -13,9 +13,7 @@ Description: This packages contains some simple wrapper functions to make comput
                   measures computed in the TI-Inspire used in AP statitics.
              find_probs() will find the probabilities of several basic distributions.
              build_dist() will build a several standard distributions, highlight their desired areas, and print probabilities.
-             sim() contains several usefull simulations for demenstations in class.
              build_QQ() This will build a quick and dirty QQ plot to compair distributions. 
-             build() is a wrapper function to produce many ggplot graphics.
              test() Will preform all of the statisticsal tests used in AP statistics, and confidence intervals.
 License: GPL (>= 3)
 Encoding: UTF-8

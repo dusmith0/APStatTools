@@ -48,7 +48,7 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
 }
 
 
-#' Title card_count()
+#' Title card_count
 #'       This function will calculate card values and is needed for other simulation
 #'       functions in the APStatTools package.
 #'
@@ -147,7 +147,7 @@ blackjack_bust_auto <- function(trials = 10){
 }
 
 
-#' Title blackjack_bust()
+#' Title blackjack_bust
 #'
 #'  This is an Input Driven Black-Jack Bust Simulation version of
 #'  blackjack_bust_auto()
@@ -196,7 +196,7 @@ blackjack_bust <- function(){
 }
 
 
-#' Title qq_dem()
+#' Title qq_dem
 #'
 #'    This is to demonstrate the effectiveness of the QQ plots against various distributions.
 #' @return Plot:

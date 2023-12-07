@@ -1,6 +1,6 @@
-#' Title build_dist()
+#' Title build_dist
 #'
-#' @Description: This function is designed to build a set of distributions and shade in
+#' Description: This function is designed to build a set of distributions and shade in
 #'               the various regions of interest.
 #'
 #'               Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
@@ -18,6 +18,8 @@
 #' @param trials numeric value for the number of trials that will occur for the "binomial"
 #' @param display_prob logical If true this will print the probability of the shaded region along with the graphic.
 #'        If the type = "regression" setting display_prob = TRUE will call get_measures() on your data.
+#' @param X numeric vector Specifically for type = "regression"
+#' @param Y numeric vector Specifically for type = "regression"
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
 #'
@@ -37,13 +39,17 @@
 #' build_dist(type = "normal", bound = -1)
 #' build_dist(type = "normal", bound = c(-1,2), tail = "inner")
 #' build_dist(type = "t-dist", bound = c(-1,0), tail = "two")
-#' build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20)
+#' build_dist(type = "binomial",bound = c(6,12),
+#'    tail = "outer", p = .5, trials = 20)
 #'
 #' # adding probabilities to the graphics
 #' build_dist(type = "normal", bound = -1, display_prob = TRUE)
-#' build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
-#' build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
-#' build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
+#' build_dist(type = "normal", bound = c(-1,2),
+#'    tail = "inner", display_prob = TRUE)
+#' build_dist(type = "t-dist", bound = c(-1,0),
+#'    tail = "two", display_prob = TRUE)
+#' build_dist(type = "binomial",bound = c(6,12),
+#'    tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 #'
 #' # Regression
 #' X <- rnorm(25,0,1)
