@@ -52,15 +52,12 @@ bound = c(left, right).
 ### Examples
 
 To build the Standard Normal use:
-```{r, eval = F, echo = T}
+```{r, eval = T, echo = T}
 build_dist()
 ```
 
-```{r, eval = TRUE, echo = FALSE}
-build_dist()
-```
 
 To build Student's t-distribution use: (Where df can be adjusted to any positive value).
-```{r, eval = F, echo = T}
+```{r, eval = T, echo = T}
 build_dist(type = "t-dist", df = 5)
 ```
