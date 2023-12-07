@@ -1,4 +1,4 @@
-#' Title get_measures()
+#' Title get_measures
 #'
 #' Description: This function will take user input data or data sets and compute a large number of statistical values.
 #'

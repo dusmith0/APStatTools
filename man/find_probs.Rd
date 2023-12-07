@@ -53,7 +53,10 @@ Numeric: Probability = being the calculated probability of the region supplied. 
         Numeric: Value = being the calculated value that produces the area supplied in bound. (the quantile)
 }
 \description{
-Title find_probs()
+Description: This is a simple wrapper function for finding the probabilities for various distributions.
+        Notes One: This function is not indented to explicitly push out p-values. You will need to standardize and find
+              the appropriate Standard Errors before hand. (As in two-sided hypothesis tests will not be multiplied by 2.)
+              Two: If you wish for the a graphic of the distribution try build_dist(...display_prob=TRUE)
 }
 \examples{
 # Will assume Normal

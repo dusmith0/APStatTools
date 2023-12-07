@@ -19,7 +19,7 @@ get_measures(
 \item{input}{Input logical. If TRUE it will prompt the user to input their data into a spreadsheet.
 If FALSE the function will expect the user to input the data into X and/or Y.}
 
-\item{Y}{Inopt Vector of numeric data.}
+\item{Y}{Input Vector of numeric data.}
 
 \item{regression}{Input logical. IF TRUE the function will print out the summary(lm) for Y ~ X.}
 
@@ -29,7 +29,9 @@ print a lower and upper boundary for outliers of the given rule.}
 
 \item{names}{Input String. This is a vector of strings if you wish to provide your data with
 specific column names. If you used input = TRUE, please leave this NULL, and input your
-names into the prompted window.}
+names into the prompted window.
+Note: This feature will only work if the input data is a matrix in X only. It will
+not input your name choices if you input both X and Y.}
 }
 \value{
 list($data, $measures, $LSRL)
@@ -48,17 +50,17 @@ get_measures(input=TRUE)
 data <- c(sample(1:100,15))
 get_measures(X = data)
 
-# This will allow for outliers to be printed, and will assing the name "BOB" to the data.
+# This will allow for outliers to be printed, and will assign the name "BOB" to the data.
 get_measures(X = data, outliers = TRUE, names = "BOB")
 
 # Two variate data
 data <- c(sample(1:100,15))
 data2 <- seq(1:15)
-get_measures(X = data, Y = data2, outliers = TRUE, names = "BOB")
-get_measures(X = data, Y = data2, regression = TRUE, outliers = TRUE, names = "BOB")
+get_measures(X = data, Y = data2, outliers = TRUE, names = c("BOB","JILL"))
+get_measures(X = data, Y = data2, regression = TRUE, outliers = TRUE)
 
 data <- matrix(sample(1:100, 50), ncol <- 25)
-get_measures(X = data, outliers = TRUE, names = c("BOB","JILL"))
+get_measures(X = data, outliers = TRUE, names = c("BOB","JILL"), regression = TRUE)
 
 
 }

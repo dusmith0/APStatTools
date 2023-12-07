@@ -11,11 +11,14 @@ build_dist(
   df = 1,
   prob = 0.5,
   trials = 10,
+  data = NULL,
+  X = NULL,
+  Y = NULL,
   display_prob = FALSE
 )
 }
 \arguments{
-\item{type}{string being any of "normal", "t-dist", "chi-squared", "binomial"}
+\item{type}{string being any of "normal", "t-dist", "chi-squared", "binomial", "QQ", "regression"}
 
 \item{tail}{string being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
 Notes: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
@@ -30,13 +33,20 @@ Notes: "inner" and "two" require both the left and right input.}
 
 \item{trials}{numeric value for the number of trials that will occur for the "binomial"}
 
-\item{display_prob}{logical If true this will print the probability of the shaded region along with the graphic.}
+\item{display_prob}{logical If true this will print the probability of the shaded region along with the graphic.
+If the type = "regression" setting display_prob = TRUE will call get_measures() on your data.}
 }
 \value{
 Graph using the plot() function, along with an optional numeric vector of one.
 }
 \description{
-Title build_dist()
+Description: This function is designed to build a set of distributions and shade in
+              the various regions of interest.
+}
+\details{
+Note: This builds only standardized distributions. It assumes the mean=0 and sd=1 in many situations.
+              Note2: The graphics provided for the binomial distribution, while correct, may not provide pleasing images for
+                     large trials. (that is much more than 1000)
 }
 \examples{
 # For the Standard Normal
@@ -59,5 +69,15 @@ build_dist(type = "normal", bound = -1, display_prob = TRUE)
 build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
 build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
 build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
+
+# Regression
+X <- rnorm(25,0,1)
+Y <- sample(1:10,25,replace = TRUE)
+build_dist(type = "regression", X = X, Y = Y)
+build_dist(type = "regression", X = X, Y = Y, display_prob = TRUE)
+
+# QQ plots
+build_dist(type = "QQ", data = X)
+build_dist(type = "QQ", data = Y)
 
 }
