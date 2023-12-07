@@ -12,8 +12,9 @@ test(
   table_one,
   table_two,
   p_hat,
-  sd,
+  sigma,
   n,
+  level,
   obs_table = NULL,
   expected_table = NULL,
   expected_as_count = FALSE,
@@ -46,7 +47,7 @@ t_test.paired test only. This is the second vector to be compared. The function 
 It assumes the standard error adjustment has not been taken, and that the value is in decimal form.
 Note: This can be a vector of one or two values depending on the test used.}
 
-\item{sd}{Input Vector: This is the value of the sample standard deviations.
+\item{sigma}{Input Vector: This is the value of the sample standard deviations.
 Note: This can be a vector of one or two values depending on the test used.}
 
 \item{n}{Input Vector: This is the value of the sample sizes.
@@ -88,10 +89,10 @@ Title test()
 test("help")
 
 # One sample test on means
-test(test = "t_test.one", null = 10, x_bar = 11, sd = 3, n = 25, tail = "left", graph = TRUE)
+test(test = "t_test.one", null = 10, x_bar = 11, sigma = 3, n = 25, tail = "left", graph = TRUE)
 
 # Two sample test on means
-test(test = "t_test.two", null = 0, x_bar = c(12,11), sd = c(2,3), n = c(25,25), tail = "left", graph = TRUE)
+test(test = "t_test.two", null = 0, x_bar = c(12,11), sigma = c(2,3), n = c(25,25), tail = "left", graph = TRUE)
 
 # Paired t-test
 X <- c(10,11,12,13,14,15,16,17,18,19,20)

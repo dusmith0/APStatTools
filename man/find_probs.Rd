@@ -9,7 +9,7 @@ find_probs(
   type = "normal",
   tail = "left",
   mean = 0,
-  sd = 1,
+  sigma = 1,
   df = 1,
   prob = 0.5,
   trials = 10,
@@ -31,7 +31,7 @@ Notes: "out" and "two" will produce the same output.}
 \item{mean}{Input Numeric: Default = 0
 Vector of one value. The mean of the distribution}
 
-\item{sd}{Input Numeric: Default = 1
+\item{sigma}{Input Numeric: Default = 1
 Vector of one value. The standard deviation of a distribution.}
 
 \item{df}{Input Numeric: Default = 1
@@ -77,6 +77,6 @@ find_probs(4,type="binomial",tail="left_not_equal")
 
 # Finding inverses
 find_probs(bound = .4, inverse = TRUE)
-find_probs(bound = .8, mean = 10, sd = 4, inverse = TRUE)
+find_probs(bound = .8, mean = 10, sigma = 4, inverse = TRUE)
 
 }

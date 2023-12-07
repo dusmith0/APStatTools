@@ -79,6 +79,12 @@
 #' X <- matrix(rnorm(20,10,3), nrow = 4)
 #' test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = TRUE)
 #'
+#' # Finding confidence Interval
+#' test(test = "t_conf.one", x_bar = 12, sigma = 3, level = .95, n = 20)
+#' test(test = "t_conf.two", x_bar = c(12,10), sigma = c(3,2), level = .95, n = c(20,30))
+#' test(test = "z_conf.one", p_hat = .4, level = .90, n = 20)
+#' test(test = "z_conf.two", p_hat = c(.4,.6), level = .99, n = c(20,30))
+#'
 test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, p_hat, sigma, n, level,
                  obs_table = NULL, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, mat_totals = FALSE,
                  graph=TRUE){
@@ -123,10 +129,10 @@ test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, 
     stats <- chi_squared.ind(obs_table = obs_table, mat_totals = mat_totals, graph = graph)
   }
   if(test == "t_conf.two" | test == "t_conf.one"){
-    stats <- find_conf(type = test, point = x_bar, sigma, level, n)
+    stats <- find_conf(type = test, point = x_bar, sigma = sigma, level = level, n = n)
   }
   if(test == "z_conf.two" | test == "z_conf.one"){
-    stats <- find_conf(type = test, point = p_hat, level, n)
+    stats <- find_conf(type = test, point = p_hat, level = level, n = n)
   }
 
   return(stats)

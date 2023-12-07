@@ -1,3 +1,37 @@
+#' Title find_conf() aka find_confidence intervals
+#'
+#' @param type Input String: any of
+#'        "t_conf.one"
+#'        "t_conf.two"
+#'        "z_conf.one"
+#'        "z_conf.two"
+#'        "help"
+#'
+#' @param point Input numeric vector: This is the point-estimate for the Wald interval.
+#'              it can be a single value or a vector of length 2. This function will
+#'              assume a difference of means/proportions CI if a length of 2 is given.
+#'              It will fallow the calculation of point[1] - point[2] given
+#'              point <- c(point[1],point[2])
+#' @param sigma Input numeric vector: This is the standard deviation.
+#'              it can be a single value or a vector of length 2. This function will
+#'              assume a difference of means/proportions CI if a length of 2 is given.
+#'              It will fallow the calculation of sigma[1] - sigma[2] given
+#'              sigma <- c(sigma[1],sigma[2])
+#' @param level Input numeric: It can be any value between 0 and 1. This function
+#'              expects the value to be of length one. Imputing more significance levels
+#'              will cause the function to override them and return only the last value given.
+#' @param n Input numeric: Length of sample size. This will calculate Standard Error for you.
+#'
+#' @return Data.frame containing only $lower_bound and $upper_bound
+#' @export
+#'
+#' @examples
+#'
+#'   find_conf(type = "t_conf.one", point = 12, sigma = 3, level = c(.95), n = 20)
+#'   find_conf(type = "t_conf.two", point = c(12,10), sigma = c(3,2), level = .95, n = c(20,30))
+#'   find_conf(type = "z_conf.one", point = .4, level = .90, n = 20)
+#'   find_conf(type = "z_conf.one", point = .4, level = .90, n = 20)
+#'
 find_conf <- function(type = "help", point, sigma = 0, level, n){
   if(type == "help"){
     stope(paste("Help:Please enter one of the following:
