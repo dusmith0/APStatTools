@@ -86,7 +86,7 @@ get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, p
       data.set <- try(readxl::read_excel(paste("apdata",data_file,sep="/")))
       data.set <- as.data.frame(data.set)
     }
-  }
+
 
   ## A wrapper for reading in user created data files.
   if(ap_data_set == FALSE){

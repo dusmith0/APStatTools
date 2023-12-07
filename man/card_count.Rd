@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_funs.R
 \name{card_count}
 \alias{card_count}
-\title{Title card_count()
+\title{Title card_count
       This function will calculate card values and is needed for other simulation
       functions in the APStatTools package.}
 \usage{
@@ -22,7 +22,7 @@ Output list of c((draw, draw_values, value))
         value = the total worth.
 }
 \description{
-Title card_count()
+Title card_count
       This function will calculate card values and is needed for other simulation
       functions in the APStatTools package.
 }

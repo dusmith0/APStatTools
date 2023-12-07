@@ -2,7 +2,7 @@
 % Please edit documentation in R/build_dist.R
 \name{build_dist}
 \alias{build_dist}
-\title{Title build_dist()}
+\title{Title build_dist}
 \usage{
 build_dist(
   type = "normal",
@@ -33,6 +33,10 @@ Notes: "inner" and "two" require both the left and right input.}
 
 \item{trials}{numeric value for the number of trials that will occur for the "binomial"}
 
+\item{X}{numeric vector Specifically for type = "regression"}
+
+\item{Y}{numeric vector Specifically for type = "regression"}
+
 \item{display_prob}{logical If true this will print the probability of the shaded region along with the graphic.
 If the type = "regression" setting display_prob = TRUE will call get_measures() on your data.}
 }
@@ -62,13 +66,17 @@ build_dist(type = "binomial")
 build_dist(type = "normal", bound = -1)
 build_dist(type = "normal", bound = c(-1,2), tail = "inner")
 build_dist(type = "t-dist", bound = c(-1,0), tail = "two")
-build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20)
+build_dist(type = "binomial",bound = c(6,12),
+   tail = "outer", p = .5, trials = 20)
 
 # adding probabilities to the graphics
 build_dist(type = "normal", bound = -1, display_prob = TRUE)
-build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
-build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
-build_dist(type = "binomial",bound = c(6,12), tail = "outer", p = .5, trials = 20, display_prob = TRUE)
+build_dist(type = "normal", bound = c(-1,2),
+   tail = "inner", display_prob = TRUE)
+build_dist(type = "t-dist", bound = c(-1,0),
+   tail = "two", display_prob = TRUE)
+build_dist(type = "binomial",bound = c(6,12),
+   tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 
 # Regression
 X <- rnorm(25,0,1)

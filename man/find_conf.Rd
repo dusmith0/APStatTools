@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_conf.R
 \name{find_conf}
 \alias{find_conf}
-\title{Title find_conf() aka find_confidence intervals}
+\title{Title find_conf aka find_confidence intervals}
 \usage{
 find_conf(type = "help", point, sigma = 0, level, n)
 }
@@ -36,7 +36,7 @@ will cause the function to override them and return only the last value given.}
 Data.frame containing only $lower_bound and $upper_bound
 }
 \description{
-Title find_conf() aka find_confidence intervals
+Title find_conf aka find_confidence intervals
 }
 \examples{
 

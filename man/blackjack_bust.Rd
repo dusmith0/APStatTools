@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_funs.R
 \name{blackjack_bust}
 \alias{blackjack_bust}
-\title{Title blackjack_bust()}
+\title{Title blackjack_bust}
 \usage{
 blackjack_bust()
 }

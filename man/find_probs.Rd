@@ -2,7 +2,7 @@
 % Please edit documentation in R/find_probs.R
 \name{find_probs}
 \alias{find_probs}
-\title{Title find_probs()}
+\title{Title find_probs}
 \usage{
 find_probs(
   bound = NULL,

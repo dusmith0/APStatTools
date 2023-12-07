@@ -2,7 +2,7 @@
 % Please edit documentation in R/sim_funs.R
 \name{qq_dem}
 \alias{qq_dem}
-\title{Title qq_dem()}
+\title{Title qq_dem}
 \usage{
 qq_dem()
 }

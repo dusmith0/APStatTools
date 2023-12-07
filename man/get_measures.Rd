@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_measures.R
 \name{get_measures}
 \alias{get_measures}
-\title{Title get_measures()}
+\title{Title get_measures}
 \usage{
 get_measures(
   X = NULL,
