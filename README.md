@@ -55,7 +55,7 @@ To build the Standard Normal use:
 ```{r, eval = T, echo = T}
 build_dist()
 ```
-
+http://127.0.0.1:18973/graphics/1fd1f9aa-2678-4a59-bc4e-ae247787ab34.png
 
 To build Student's t-distribution use: (Where df can be adjusted to any positive value).
 ```{r, eval = T, echo = T}
