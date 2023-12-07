@@ -92,9 +92,7 @@ blackjack_bust_auto <- function(trials = 10){
   bjack_table[,3] <- data.frame(Perc = (bjack_table$Freq/trials))
   return(list(time_to_bust = time_to_bust,bjack_table = bjack_table))
 }
-
-
-## Input Driven Black-Jack Bust Similation
+## Input Driven Black-Jack Bust Simulation
 ## Note: at the moment this function does not produce graphics automatically.
 blackjack_bust <- function(){
   ##setting values
@@ -139,15 +137,14 @@ qq_dem <- function(){
     u=(i-.5)/n
     z=sort(qnorm(u))
 
-    par(mfrow=c(1,3),bg="wheat")
-    plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Values", main="QQ Plot", col="#5a95b3", pch = 16)
-    abline(lm(sort(data)~z),col="#714423",lwd = 2)
+    par(mfrow=c(2,2),bg="linen")
+    plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Quantile's", main="QQ Plot", col="#5a95b3", pch = 16)
+    abline(lm(sort(data)~z),col="salmon1",lwd = 2)
 
-    plot(density(data),main="Estimated Histogram of the data", col="#714423", lwd = 2)
-    lines(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2) #Note this will fail if the data is not centered around one. Which it will not be many times.
+    hist(data, main="Actual Histogram of the data", col = "#5a95b3")
 
-    #This is a quick fix for the problem above. Not a good fix though.
-    hist(data, main="Actual Histogram of the data")
+    plot(density(data),main="Estimated Histogram of the data", col="salmon1", lwd = 2, xlab = "Propotion")
+    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2, xlab = "Z-Scores", ylab = "Propotion") #Note this will fail if the data is not centered around one. Which it will not be many times.
   }
 
   ### Here are some random data points to apply with the function.
@@ -171,3 +168,50 @@ qq_dem <- function(){
   plot_QQ(data)
 
 }
+
+confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials = 25){
+  intervals <- matrix(0,nrow = trials, ncol = 2)
+  point <- c(0)
+  standard_error <- c(0)
+  count <- 0
+  for(i in 1:trials){
+    pulls <- rnorm(n,mean,sigma)
+    point[i] <- mean(pulls)
+    standard_error[i] <- sd(pulls)
+    found <- find_conf(type = "t_conf.one", point = point[i], sigma = standard_error[i], level = level,  n = n)
+    intervals[i,1] <- found$lower_bound
+    intervals[i,2] <- found$upper_bound
+  }
+
+  par(mfrow = c(1,2), bg = "linen")
+  plot(density(point),xlim = c((mean -2 * sigma),(mean + 2 * sigma)), col = "salmon1", lwd = 2,
+       main = "Sampling vs Normal", xlab = "Z-scores", ylab = "Proportion")
+  lines(x<-seq((mean - 3.5 * sigma), (mean + 3.5 * sigma),.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
+       xlab = "Z-scores",ylab="Probability")
+  abline(v = mean(point), col = "salmon1", lty=2, lwd = 1)
+  abline(v = mean, col = "#5a95b3", lty=2, lwd = 1)
+
+  plot(x = 1,
+       xlab = "Intervals",
+       ylab = "Count",
+       xlim = c((mean -1.5 * sigma),(mean + 1.5 * sigma)),
+       ylim = c(0, trials),
+       main = "Confidence Intervals",
+       type = "n")
+  abline(v = mean, col = "salmon1", lwd = 2,lty=2)
+
+  for(i in 1:length(point)){
+    segments(x0 = intervals[i,1], x1 = intervals[i,2],y0 = i, col = "#5a95b3",lwd = 2)
+    points(mean(intervals[i,]),i,col = "salmon1", pch = 16)
+    count[i] <- (intervals[i,1] <= mean & intervals[i,2] >= mean)
+  }
+
+  mtext(paste("% Hit",sum((count))/trials))
+
+}
+
+
+
+
+
+
