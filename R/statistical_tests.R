@@ -63,7 +63,7 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   n <- length(paired_data)
   df <- n - 1
   x_bar <- mean(paired_data)
-  standard_error <- sigma(paired_data)/sqrt(n)
+  standard_error <- sd(paired_data)/sqrt(n)
 
   test_statistic <- (x_bar - null) / standard_error
   #runs the p_value through the normal cdf based on value of tail.

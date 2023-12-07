@@ -1,7 +1,9 @@
 #' Title test
 #'
 #' @param test Input String: Can be any of one of the following
-#'        "t_test.one","t_test.two","t_test.paired","z_test.one","z-test.pooled","chi_squared.gof","chi_squared.ind"
+#'        "t_test.one","t_test.two","t_test.paired","z_test.one","z-test.pooled","chi_squared.gof","chi_squared.ind",
+#'        "t_conf.one", "t_conf.two", "z_conf.one", "z_conf.two"
+#' test(test = "z_conf.two"
 #' @param tail Input String: Being one of "left" or "right".
 #'         Note: this function will assume two tailed null hypothesis if anything other
 #'         then "left" or "right" is used. Be aware that the function will also assume a "left" tail when preforming

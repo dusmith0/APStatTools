@@ -128,6 +128,9 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
       upper <- bound[2]
       fill <- seq(lower,upper,.01)
     }else if(tail == "outer" | tail == "two"){
+      if(length(bound) == 1){
+        bound <- c(-bound,bound)
+      }
       lower <- -500
       upper <- bound[1]
       fill <- seq(lower,upper,.01)

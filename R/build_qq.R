@@ -53,6 +53,6 @@ build_QQ <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
 
   #plot(density(vs),main="Estimated Density", col="#714423", lwd = 2)
 
-  hist(data, main="Data Histogram\n Estimated Density", prob = TRUE)
+  hist(data, main="Data Histogram\n Estimated Density", prob = TRUE, col = "#5a95b3")
   lines(density(data),main="Estimated Density", col="salmon1", lwd = 2)
 }

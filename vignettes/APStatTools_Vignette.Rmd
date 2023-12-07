@@ -24,23 +24,16 @@ library(APStatTools)
 **Description** The reason for this function is to make R accessible for many of the tools and calculation used in AP Statistics and Undergraduate Statistics.
 
 **Included Functions**
-*build_dist()*  This will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. 
-*build_qq()* This will allow the user to build a quick QQ plot that can be tested against a number of distributions. 
-*find_conf()* This function contains code that can calculate simple Wald Confidence Intervals
-*find_probs()* This function can find various probabilities based on a number of distributions.  
-*get_data()* This is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. 
-*get_measures()* This will allow the user to input data or data sets, and return a large list of statistical measures.
-*test()* This can preform many of the statistical tests and confidence intervals used in AP Statistics. 
+*build_dist()*  This will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_qq()* This will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* This function contains code that can calculate simple Wald Confidence Intervals *find_probs()* This function can find various probabilities based on a number of distributions. *get_data()* This is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()* This will allow the user to input data or data sets, and return a large list of statistical measures.*test()* This can preform many of the statistical tests and confidence intervals used in AP Statistics. 
 
 # The functions
-## build.dist()
+## **build_dist()**
 
-The purpose of this function is to allow users to build a number of common distributions, shade in regions that 
-we may want to find proportions of, and display their probabilities. 
+The purpose of this function is to allow users to build a number of common distributions, shade in regions that we may want to find proportions of, and display their probabilities. 
 
 The function contains the "Normal", "Student's T", "Chi-Squared", "Binomial", "QQ", and "Regression" plots. 
 
-It can calculate probabilities to the left, right, inbetween two points, or two tailed distributions. 
+It can calculate probabilities to the left, right, in between two points, or two tailed distributions. 
 
 ### How to use:
 
@@ -63,13 +56,12 @@ This function will accept the following arguments:
 
 *tail = "direction"* will allow you to change in what direction is the area being calculated or shaded. "Direction" can be any one of the following:
 
- "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal"
-      Note: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
+ "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal", Note: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
       
 *bound = c(value)* will designate where the boundaries of the shaded region will go. 
-If this value is left as NULL, it will produce the distribution. If you need an interior or two-tailed boundry, you can set 
-bound = c(left, right). 
+If this value is left as NULL, it will produce the distribution. If you need an interior or two-tailed boundry, you can set bound = c(left, right). 
 
+### Examples
 To build the Standard Normal use:
 ```{r, eval = T, echo = T}
 build_dist()
@@ -107,6 +99,110 @@ build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
 build_dist(type = "binomial",bound = c(6,12),
     tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 ```
+
+## **build_qq()**
+
+The purpose of this function is to allow users to build simple QQ plots in R.
+
+### How to use:
+This function only takes four arguments
+1. data
+2. vs_dist = "normal"
+3. alpha = 1
+4. beta = 1
+
+vs_dist can be any of the following types: 
+"normal","gamma","uniform","poisson","binomial","geometric","chi-squared"
+
+### Examples:
+```{r, eval = T, echo = T}
+data <- rnorm(100,0,1)
+par(mfrow = c(2,3))
+build_QQ(data)
+build_QQ(data, vs_dist = "gamma", alpha = 2, beta = 4)
+build_QQ(data, vs_dist = "poisson", alpha = 10)
+```
+
+
+## **test()**
+
+This is a rather large wrapper function that contains most tests run in AP Statisticsl including:
+1.One sample t-test on means called "t_test.one"
+2.Two sample t-test on means called "t_test.two"
+3.Paired t-test on means called "t_test.paired"
+4.One sample z-test on proportions called "z_test.one"
+5.Two sample z-test on proportions called "z-test.pooled"
+6.Chi-Squared Goodness of Fit Test called "chi_squared.gof"
+7.Chi-Squared Independence or Homogeneity tests called "chi_squared.ind"
+8.One sample confidence Interval on means called "t_conf.one"
+9.Two sample difference of means confidence interval called "t_conf.two"
+10.One sample confidence Interval on proportions called "z_conf.one"
+11.Two sample difference of proportions confidence interval called "z_conf.two"
+
+This function also contains many arguments, many of which are not needed for any given test. Notable ones are below:
+1. null = is used for the null hypothesis's measure. 
+2. graph = TRUE will call build_dist() when applicable. 
+3. expect_as_count should be set to TRUE if you have already calculated your expected table. The function will assume you are imputing expected proportions otherwise. 
+4. row_totals should be set to TRUE if your expected and observed table (obs_table) have totals included. The function can handle totals if it knows it needs too. Otherwise you will still find calculations, but they will be very wrong. 
+
+It is easiest to see what each test needs by typing in test("help")
+```{r, eval = T, echo = T}
+test("help")
+```
+
+### Examples
+Here are some examples of using this function
+```{r, eval = T, echo = T}
+# One sample t=test
+test(test = 'z_test.one', null = .4, p_hat = .6, n = 10, tail = "right", graph = TRUE)
+
+```
+
+```{r, eval = T, echo = T}
+# Paired t-test
+X <- c(10,11,12,13,14,15,16,17,18,19,20)
+Y <- c(12,11,13,14,14,9,15,13,20,14,18)
+test(test = 't_test.paired', null = 0, table_one = X, table_two = Y, tail = "two", graph = TRUE)
+```
+
+```{r, eval = T, echo = T}
+# Chi-Squared test for independence on a 3X4 matrix
+X <- matrix(rnorm(20,10,3), nrow = 4)
+test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = TRUE)
+```
+
+## **get_measures()**
+
+get_measures can work well in two ways. It will allow you to input data sets you already have, or it will allowyou to create a new data set. The function will then generate a large number of useful statistical measures. 
+
+Arguments include:
+1. X = NULL
+2. input = FALSE
+3. Y = NULL
+4. regression = FALSE
+5. outliers = FALSE
+6. names = NULL
+
+If you have data you would like to input, place that in X = data. This can be a vector of data, or a matrix. However, if you do not have a data set and need to type one in, leave X = NULL and set input = TRUE. This will prompt you to input your own data. You can name your data in prompt window and it will be maintained. Note: sometimes the window will open but not pop up. Look at your dashboard on the bottom of your computer for a flashing icon. 
+
+If you are using regression, you can input into either X, and Y, or use a matrix with two rows. Note though, that names will not work if you use X and Y as your inputs. 
+
+The names argument will allow you to name your created data set for you. 
+
+Outliers can be calculated using the "1.5 IQR" or "3sd Rule". The default is "1.5 IQR". Simply type outliers = "3sd Rule" if you would like to use that rule. 
+
+### Examples
+
+
+
+
+
+
+
+
+
+
+
 
 
 

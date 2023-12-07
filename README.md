@@ -12,14 +12,14 @@
 *test()* This can preform many of the statistical tests and confidence intervals used in AP Statistics. 
 
 # The functions
-## build.dist()
+## build_dist()
 
 The purpose of this function is to allow users to build a number of common distributions, shade in regions that 
 we may want to find proportions of, and display their probabilities. 
 
 The function contains the "Normal", "Student's T", "Chi-Squared", "Binomial", "QQ", and "Regression" plots. 
 
-It can calculate probabilities to the left, right, inbetween two points, or two tailed distributions. 
+It can calculate probabilities to the left, right, in between two points, or two tailed distributions. 
 
 ### How to use:
 
