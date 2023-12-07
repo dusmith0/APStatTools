@@ -268,11 +268,11 @@ confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials
     intervals[i,2] <- found$upper_bound
   }
 
-  par(mfrow = c(1,2), bg = "linen")
+  par(mfrow = c(1,3), bg = "linen")
+  plot(x<-seq((mean - 3.5 * sigma), (mean + 3.5 * sigma),.01),dnorm(x, mean, sigma),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
+       xlab = "Z-scores",ylab="Proportion")
   plot(density(point),xlim = c((mean -2 * sigma),(mean + 2 * sigma)), col = "salmon1", lwd = 2,
-       main = "Sampling vs Normal", xlab = "Z-scores", ylab = "Proportion")
-  lines(x<-seq((mean - 3.5 * sigma), (mean + 3.5 * sigma),.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
-       xlab = "Z-scores",ylab="Probability")
+       main = "Sampling", xlab = "Z-scores", ylab = "Proportion")
   abline(v = mean(point), col = "salmon1", lty=2, lwd = 1)
   abline(v = mean, col = "#5a95b3", lty=2, lwd = 1)
 
