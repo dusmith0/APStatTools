@@ -61,3 +61,5 @@ To build Student's t-distribution use: (Where df can be adjusted to any positive
 ```{r, eval = T, echo = T}
 build_dist(type = "t-dist", df = 5)
 ```
+![image](https://github.com/dusmith0/APStatTools/assets/128092158/ab99d2e3-6d80-4460-b692-6ccd00ae266e)
+
