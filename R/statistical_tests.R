@@ -1,19 +1,22 @@
-##-------------------------------------------------------------------------##
-## t_test family of functions
-## One sample t-test for means.
-#' Title
+
+#' Title t_test.one   One sample t-test for means.
 #'
-#' @param null
-#' @param x_bar
-#' @param sigma
-#' @param n
-#' @param tail
-#' @param graph
+#' @param nullInput Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param x_bar Input Vector: This is the value of the sample means. It assumes the standard error adjustment has not been taken.
+#' @param sigma Input Vector: This is the value of the sample standard deviations.
+#' @param n Input Vector: This is the value of the sample sizes.
+#' @param tail Input String: Being one of "left" or "right".
+#'         Note: this function will assume two tailed null hypothesis if anything other
+#'         then "left" or "right" is used.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain Test Name, p_value, test_statistic, n, standard_error, df,
 #' @export
 #'
 #' @examples
+#' t_test.one(null = 12, x_bar = 10, sigma = 5, n = 25, tail = "left", graph = TRUE)
+#'
 t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
   # calculates needed values
   df <- n - 1
@@ -36,17 +39,23 @@ t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
 ## Two sample t-test on means
 #' Title
 #'
-#' @param null
-#' @param x_bar
-#' @param sigma
-#' @param n
-#' @param tail
-#' @param graph
+#' @param nullInput Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param x_bar Input Vector of two: This is the value of the sample means c(left, right). It assumes the standard error adjustment has not been taken.
+#' @param sigma Input Vector of two: This is the value of the sample standard deviations c(left, right).
+#' @param n Input Vector f two: This is the value of the sample sizes c(left, right).
+#' @param tail Input String: Being one of "left" or "right".
+#'         Note: this function will assume two tailed null hypothesis if anything other
+#'         then "left" or "right" is used.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain Test Name, p_value, test_statistic, n, standard_error, df,
 #' @export
 #'
 #' @examples
+#' t_test.two(null = 0, x_bar = c(11,10), sigma = c(4,5), n = c(30,25), tail = "left", graph = TRUE)
+#'
+#'
 t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
@@ -76,16 +85,25 @@ t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
 ## Please input the data in the order you would like them subtracted, to match the above.
 #' Title
 #'
-#' @param null
-#' @param table_one
-#' @param table_two
-#' @param tail
-#' @param graph
+#' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param table_one Input Vector: This is a vector of numeric values intended for the
+#'         t_test.paired test only. This is the first vector to be compared. The function will assume table_one - table_two.
+#' @param table_two Input Vector: This is a vector of numeric values intended for the
+#'         t_test.paired test only. This is the second vector to be compared. The function will assume table_one - table_two.
+#' @param tail Input String: Being one of "left" or "right".
+#'         Note: this function will assume two tailed null hypothesis if anything other
+#'         then "left" or "right" is used.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain Test Name, p_value, test_statistic, n, standard_error, df,
 #' @export
 #'
 #' @examples
+#' X <- c(10,11,12,13,14,15,16,17,18,19,20)
+#' Y <- c(12,11,13,14,14,9,15,13,20,14,18)
+#' t_test.paired(null = 0, table_one = X, table_two = Y, tail = "left", graph = TRUE)
+#'
 t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
@@ -127,16 +145,26 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
 ## Note: This test will fail if null = 0
 #' Title
 #'
-#' @param null
-#' @param p_hat
-#' @param n
-#' @param tail
-#' @param graph
+#' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param p_hat Input Vector: This is the value of the sample proportions.
+#'         It assumes the standard error adjustment has not been taken, and that the value is in decimal form.
+#' @param n Input Vector: This is the value of the sample sizes.
+#' @param tail Input String: Being one of "left" or "right".
+#'         Note: this function will assume two tailed null hypothesis if anything other
+#'         then "left" or "right" is used. Be aware that the function will also assume a "left" tail when preforming
+#'         the two tailed calculation. To avoid this, set tail to "right" and multiply by 2.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain some of the following values, given the appropriate test.
+#'         Test Name, p_value, test_statistic, n, standard_error.
 #' @export
 #'
 #' @examples
+#'
+#' z_test.one(null = .4, p_hat = .6, n = 10, tail = "left", graph = TRUE)
+#'
+#'
 z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
   if(p_hat >= 1){
     stop(paste("Error: This function requires that the p_hat is a decimal number."))
@@ -162,12 +190,18 @@ z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
 ## Two sample test on proportions.
 #' Title
 #'
-#' @param p_hat
-#' @param n
-#' @param tail
-#' @param graph
+#' @param p_hat Input Vector of two: This is the value of the sample proportions c(left,right)
+#'         It assumes the standard error adjustment has not been taken, and that the value is in decimal form.
+#' @param n Input Vector of two: This is the value of the sample sizes  c(left,right).
+#' @param tail Input String: Being one of "left" or "right".
+#'         Note: this function will assume two tailed null hypothesis if anything other
+#'         then "left" or "right" is used. Be aware that the function will also assume a "left" tail when preforming
+#'         the two tailed calculation. To avoid this, set tail to "right" and multiply by 2.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain some of the following values, given the appropriate test.
+#'         Test Name, p_value, test_statistic, n, standard_error.
 #' @export
 #'
 #' @examples
