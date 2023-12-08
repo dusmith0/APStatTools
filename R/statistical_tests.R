@@ -36,8 +36,9 @@ t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
   return(data.frame(test = "One Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
 }
 
-## Two sample t-test on means
-#' Title
+
+
+#' Title t_test.two   Two sample t-test on means
 #'
 #' @param nullInput Numeric: This is a single value for the Null Hypothesis's expected value.
 #' @param x_bar Input Vector of two: This is the value of the sample means c(left, right). It assumes the standard error adjustment has not been taken.
@@ -80,10 +81,10 @@ t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
                     n = n, standard_error = standard_error, standard_error_combined = standard_error_combined, df = df))
 }
 
-## Pooled two sample t-test
-## Note: This will assume the expected difference is calculated as table_one - table_two.
-## Please input the data in the order you would like them subtracted, to match the above.
-#' Title
+
+#' Title t_test.paired   Pooled two sample t-test
+#'
+#'    Note: This will assume the expected difference is calculated as table_one - table_two. Please input the data in the order you would like them subtracted, to match the above.
 #'
 #' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
 #' @param table_one Input Vector: This is a vector of numeric values intended for the
@@ -140,10 +141,9 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
 }
 
 
-##-------------------------------------------------------------------------##
-## z-test family
-## Note: This test will fail if null = 0
-#' Title
+#' Title z_test.one  one sample proportion test.
+#'
+#'    Note: This test will fail if null = 0
 #'
 #' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
 #' @param p_hat Input Vector: This is the value of the sample proportions.
@@ -187,8 +187,8 @@ z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
   return(data.frame(test = "One Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
 }
 
-## Two sample test on proportions.
-#' Title
+
+#' Title z_test.pooled    Two sample test on proportions.
 #'
 #' @param p_hat Input Vector of two: This is the value of the sample proportions c(left,right)
 #'         It assumes the standard error adjustment has not been taken, and that the value is in decimal form.
@@ -205,6 +205,10 @@ z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
 #' @export
 #'
 #' @examples
+#'
+#' z_test.pooled(p_hat = c(.4,.5), n = c(25,24), tail = "left", graph = TRUE)
+#'
+#'
 z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
   if(any(p_hat >= 1)){
     stop(paste("Error: This function requires that the p_hat is a decimal number."))
@@ -228,23 +232,35 @@ z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
 }
 
 
-##--------------------------------------------------------------------------##
-## Chi-squared family
-## Please note that the base::chisq.test() is much more robust to this function. The blow
-## is only intended to mimic the question style of stimulus used in AP Statistics.
-## It is not intended as a replacement to the base function.
-#' Title
+
+#' Title chi_squared.gof
 #'
-#' @param obs_table
-#' @param expected_table
-#' @param expected_as_count
-#' @param row_totals
-#' @param graph
+#' @param obs_table Input Numeric Vector: This is the observed vector of categorical values.
+#'         Note: If the total is included please set row_totals = TRUE
+#' @param expected_table Input Numeric Vector: This is a vector of either expected
+#'         values or proportions to be computed in Pearson's Chi-Squared test.
+#'         If the values are counts and not proportions, please set expected_as_count = TRUE.
+#' @param expected_as_count Input Logical. If expected_table is of proportions let this be FALSE.
+#'         If the expected_table is of counts let this be TRUE.
+#' @param row_totals Input Logical: If the obs_table includes the total, let this be TRUE.
+#'         Note: It is defaulted to be FALSE, and will include the total in the calculation
+#'         if a total is actually included. This will lead to errors. Also, you will want to ensure
+#'         that both the obs_table and expected_table either both have totals or both do not. The
+#'         function will either remove the last element of both vectors, or neither vectors.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain some of the following values, given the appropriate test.
+#'         Test Name, p_value, test_statistic, obs_table, expected_count,
+#'         and chi_squared_values test statistic values.
 #' @export
 #'
 #' @examples
+#'
+#' X <- c(10,13,14,20,16,73)
+#' Y <- c(8,12,8,16,13,57)
+#' chi_squared.gof(obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
+#'
 chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, graph=TRUE){
   ## Checking some conditions.
   if(row_totals == TRUE){
@@ -292,17 +308,27 @@ chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count 
 }
 
 
-##Chi-Squared Test for Homogeneity or Independence.
-#' Title
+
+#' Title chi_squared.ind   Chi-Squared Test for Homogeneity or Independence.
 #'
-#' @param obs_table
-#' @param mat_totals
-#' @param graph
+#' @param obs_table Input Numeric Vector: This is the observed vector of categorical values.
+#'         Note: If the total is included please set row_totals = TRUE
+#' @param mat_totals Input Logical: If FALSE this function will generate the total columns and rows for the user.
+#'         However, it will add both the row and column totals. It is not recommended to use this feature
+#'         to add just one of the row's or column's totals, as you will end up with an additional unwanted set of totals.
+#' @param graph Input Logical: Set this to FALSE if you want to suppress graphing the density function.
 #'
-#' @return
+#' @return Output: This will return a data.frame of statistical values and a graphic if desired.
+#'         the data frame will contain some of the following values, given the appropriate test.
+#'         Test Name, p_value, test_statistic, obs_table, expected_count,
+#'         and chi_squared_values test statistic values.
 #' @export
 #'
 #' @examples
+#'
+#' X <- matrix(rnorm(20,10,3), nrow = 4)
+#' chi_squared.ind(obs_table = X, mat_totals = FALSE, graph = TRUE)
+#'
 chi_squared.ind <- function(obs_table, mat_totals = FALSE,graph=TRUE){
   #Generating totals if not provided
   if(mat_totals == FALSE){
