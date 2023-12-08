@@ -20,7 +20,7 @@
 #'
 #' Birthday_fun(Iter = 100, size = c(1,5,10,15,20))
 #'
-Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
+Birthday_fun <- function(Iter = 50, size = NULL, plot=TRUE){
   #Figure out how to make the size allow many inputs with c.
   if(is.null(size)){
     size <- c(10,20,30,40)
@@ -30,7 +30,7 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
   test <- prob
   names(prob) <- as.character(size)
 
-  par(mfrow=c(2,2),bg="wheat")
+  par(mfrow=c(2,2),bg="linen")
   for(j in seq_along(size)){
     for(i in 1:Iter){
       birthdays <- sample(seq(1:365),size[j],replace = TRUE)
@@ -41,7 +41,7 @@ Birthday_fun <- function(Iter = 50,size = NULL,plot=TRUE){
     if(plot == TRUE){
       plot(prob[,j],main=paste("Size",size[j]),xlab="interations",ylab="prob",xlim=c(1,Iter),
            ylim=seq(0,1),col=palette()[3],pch=16)
-      abline(h = mean(prob[,j]),col = "purple",lwd=2)
+      abline(h = mean(prob[,j]),col = "salmon1",lwd=2)
     }
   }
  return(data.frame(Size = prob))
