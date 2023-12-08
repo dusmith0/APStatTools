@@ -44,7 +44,7 @@
 #'
 #'
 #'
-get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL){
+get_data <- function(data_name = "Empty", ap_data_set = FALSE, get_pdf = FALSE, path = NULL){
     ## A list of the current data sets loaded into this package
     if(data_name == "help"){
       list <- c("fastfood2.csv","fastfood3.csv","indianrestaurant.csv","indianrestaurant2.csv","Moneyball.txt",
@@ -73,17 +73,17 @@ get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, p
       stop(paste("Error: Please ensure to include your .extention for your data name. Such as .csv or .tst"))
     }
 
-    ## Reading in different types of datasets
+    ## Reading in different types of data sets
     if(substr(data_file,(n-2),(n)) == "txt"){
-      data.set <- try(read.table(paste("apdata",data_file,sep="/"),header = T))
+      data.set <- try(read.table(paste("data",data_file,sep="/")))
     }
 
     if(substr(data_file,(n-2),(n)) == "csv"){
-      data.set <- try(read.csv(paste("apdata",data_file,sep="/"),header = T))
+      data.set <- try(read.csv(paste("data",data_file,sep="/"),header = T))
     }
 
     if(substr(data_file,(n-3),(n)) == "xlsx" | substr(data_file,(n-2),(n)) == "xls"){
-      data.set <- try(readxl::read_excel(paste("apdata",data_file,sep="/")))
+      data.set <- try(readxl::read_excel(paste("data",data_file,sep="/")))
       data.set <- as.data.frame(data.set)
     }
 

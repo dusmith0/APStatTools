@@ -1,7 +1,7 @@
 
 #' Title t_test.one   One sample t-test for means.
 #'
-#' @param nullInput Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
 #' @param x_bar Input Vector: This is the value of the sample means. It assumes the standard error adjustment has not been taken.
 #' @param sigma Input Vector: This is the value of the sample standard deviations.
 #' @param n Input Vector: This is the value of the sample sizes.
@@ -40,7 +40,7 @@ t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
 
 #' Title t_test.two   Two sample t-test on means
 #'
-#' @param nullInput Numeric: This is a single value for the Null Hypothesis's expected value.
+#' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
 #' @param x_bar Input Vector of two: This is the value of the sample means c(left, right). It assumes the standard error adjustment has not been taken.
 #' @param sigma Input Vector of two: This is the value of the sample standard deviations c(left, right).
 #' @param n Input Vector f two: This is the value of the sample sizes c(left, right).

@@ -1,7 +1,7 @@
 Package: APStatTools
 Type: Package
 Title: Making R easily usable for all AP and introductory level statistics computations for both teachers and students 
-Version: 0.1.0
+Version: 1.0.0
 Author: person("Dustin", "Smith",
         email = "dusmith0@tamu.edu",
         role = "cre")
@@ -18,7 +18,7 @@ Description: This packages contains some simple wrapper functions to make comput
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports: ggplot2,readxl
+Imports: readxl
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,

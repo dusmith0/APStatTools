@@ -56,7 +56,8 @@
 #' test(test = "t_test.one", null = 10, x_bar = 11, sigma = 3, n = 25, tail = "left", graph = TRUE)
 #'
 #' # Two sample test on means
-#' test(test = "t_test.two", null = 0, x_bar = c(12,11), sigma = c(2,3), n = c(25,25), tail = "left", graph = TRUE)
+#' test(test = "t_test.two", null = 0, x_bar = c(12,11), sigma = c(2,3),
+#'      n = c(25,25), tail = "left", graph = TRUE)
 #'
 #' # Paired t-test
 #' X <- c(10,11,12,13,14,15,16,17,18,19,20)
@@ -72,13 +73,15 @@
 #' # GOF Chi-squared test.
 #' X <- c(10,13,14,20,16)
 #' Y <- c(.2,.2,.2,.2,.2)
-#' test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
+#' test(test = 'chi_squared.gof', obs_table = X, expected_table = Y,
+#'      expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
 #'
 #' # This vector included a total at the end, and has the expected table as a count instead of frequency.
 #' # Note the function will assume that both expected an null contain totals.
 #' X <- c(10,13,14,20,16,73)
 #' Y <- c(8,12,8,16,13,57)
-#' test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
+#' test(test = 'chi_squared.gof', obs_table = X, expected_table = Y,
+#'      expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
 #'
 #' # Chi-squared test for independence
 #' X <- matrix(rnorm(20,10,3), nrow = 4)
@@ -91,8 +94,8 @@
 #' test(test = "z_conf.two", p_hat = c(.4,.6), level = .99, n = c(20,30))
 #'
 test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, p_hat, sigma, n, level,
-                 obs_table = NULL, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, mat_totals = FALSE,
-                 graph=TRUE){
+                 obs_table = NULL, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE,
+                 mat_totals = FALSE, graph=TRUE){
 
   ## This is to allow the user to see what is needed for each test type.
   if(test == "help"){
@@ -128,7 +131,8 @@ test <- function(test = "help", tail="left", null, x_bar, table_one, table_two, 
     stats <- z_test.pooled(p_hat = p_hat, n = n, tail = tail, graph = graph)
   }
   if(test == "chi_squared.gof"){
-    stats <- chi_squared.gof(obs_table = obs_table, expected_table = expected_table, expected_as_count = expected_as_count, row_totals = row_totals, graph = graph)
+    stats <- chi_squared.gof(obs_table = obs_table, expected_table = expected_table,
+                             expected_as_count = expected_as_count, row_totals = row_totals, graph = graph)
   }
   if(test == "chi_squared.ind"){
     stats <- chi_squared.ind(obs_table = obs_table, mat_totals = mat_totals, graph = graph)

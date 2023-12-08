@@ -20,6 +20,7 @@
 #'        If the type = "regression" setting display_prob = TRUE will call get_measures() on your data.
 #' @param X numeric vector Specifically for type = "regression"
 #' @param Y numeric vector Specifically for type = "regression"
+#' @param data numeric matirx that can be used instead of inputing X and Y for regression.
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
 #'
@@ -61,7 +62,8 @@
 #' build_dist(type = "QQ", data = X)
 #' build_dist(type = "QQ", data = Y)
 #'
-build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5, trials = 10, data = NULL, X = NULL, Y = NULL, display_prob = FALSE){
+build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5,
+                       trials = 10, data = NULL, X = NULL, Y = NULL, display_prob = FALSE){
   ## Below are some error checks.
   if(display_prob == TRUE & is.null(bound)){
     if(type != "regression"){
