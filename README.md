@@ -4,7 +4,7 @@
 **Description** The reason for this function is to make R accessible for many of the tools and calculation used in AP Statistics and Undergraduate Statistics.
 
 **Included Functions**
-*build_dist()*  This will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_qq()* This will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* This function contains code that can calculate simple Wald Confidence Intervals *find_probs()* This function can find various probabilities based on a number of distributions. *get_data()* This is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()* This will allow the user to input data or data sets, and return a large list of statistical measures.*test()* This can preform many of the statistical tests and confidence intervals used in AP Statistics. 
+*build_dist()* will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_qq()* will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* contains code that can calculate simple Wald Confidence Intervals *find_probs()* function can find various probabilities based on a number of distributions. *get_data()* is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()*  will allow the user to input data or data sets, and return a large list of statistical measures.*test()* can preform many of the statistical tests and confidence intervals used in AP Statistics. 
 
 # The functions
 ## **build_dist()**
@@ -286,7 +286,7 @@ This packages includes a few simulation as well. They include:
 The following can be modified mean, sigma, n, level, trials
 
 #### blackjack_bust_auto()
-trial
+trials can be adjusted to increase trial times.
 
 #### Birthday_fun()
 Iter = number of iterations
