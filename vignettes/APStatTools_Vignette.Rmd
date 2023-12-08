@@ -2,7 +2,7 @@
 title: "APStatTools"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{This is the title}
+  %\VignetteIndexEntry{APStatTools}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -77,8 +77,6 @@ build_dist(type = "t-dist", df = 5)
 You can also edit your image to show different shaded areas.
 ```{r, eval = T, echo = T}
 # To allow for several graphs to be displayed.
-par(mfrow = c(2,2))
-
 build_dist(type = "normal", bound = -1)
 build_dist(type = "normal", bound = c(-1,2), tail = "inner")
 build_dist(type = "t-dist", bound = c(-1,0), tail = "two")
@@ -89,8 +87,6 @@ build_dist(type = "binomial",bound = c(6,12),
 To add probably values turn display_prob = TRUE
 ```{r, eval = T, echo = T}
 # To allow for several graphs to be displayed.
-par(mfrow = c(2,2))
-
 build_dist(type = "normal", bound = -1, display_prob = TRUE)
 build_dist(type = "normal", bound = c(-1,2), tail = "inner", display_prob = TRUE)
 build_dist(type = "t-dist", bound = c(-1,0), tail = "two", display_prob = TRUE)
@@ -306,14 +302,14 @@ This packages includes a few simulation as well. They include:
 The following can be modified mean, sigma, n, level, trials
 
 #### blackjack_bust_auto()
-trial
+trials can be adjusted to increase trial times.
 
 #### Birthday_fun()
 Iter = number of iterations
 size = amount of people included in a room
 plot = FALSE to suppress the graphics. 
 
-```{r, eval = TRUE, echo = TRUE}
+```{r, eval = F, echo = TRUE}
 Birthday_fun(Iter = 20, size = c(5,10,20, 30))
 ```
 
