@@ -1,6 +1,19 @@
 ##-------------------------------------------------------------------------##
 ## t_test family of functions
 ## One sample t-test for means.
+#' Title
+#'
+#' @param null
+#' @param x_bar
+#' @param sigma
+#' @param n
+#' @param tail
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
   # calculates needed values
   df <- n - 1
@@ -21,6 +34,19 @@ t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
 }
 
 ## Two sample t-test on means
+#' Title
+#'
+#' @param null
+#' @param x_bar
+#' @param sigma
+#' @param n
+#' @param tail
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
@@ -48,6 +74,18 @@ t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
 ## Pooled two sample t-test
 ## Note: This will assume the expected difference is calculated as table_one - table_two.
 ## Please input the data in the order you would like them subtracted, to match the above.
+#' Title
+#'
+#' @param null
+#' @param table_one
+#' @param table_two
+#' @param tail
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   # checking input for null
   if(length(null) != 1){
@@ -87,6 +125,18 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
 ##-------------------------------------------------------------------------##
 ## z-test family
 ## Note: This test will fail if null = 0
+#' Title
+#'
+#' @param null
+#' @param p_hat
+#' @param n
+#' @param tail
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
   if(p_hat >= 1){
     stop(paste("Error: This function requires that the p_hat is a decimal number."))
@@ -110,6 +160,17 @@ z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
 }
 
 ## Two sample test on proportions.
+#' Title
+#'
+#' @param p_hat
+#' @param n
+#' @param tail
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
   if(any(p_hat >= 1)){
     stop(paste("Error: This function requires that the p_hat is a decimal number."))
@@ -138,6 +199,18 @@ z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
 ## Please note that the base::chisq.test() is much more robust to this function. The blow
 ## is only intended to mimic the question style of stimulus used in AP Statistics.
 ## It is not intended as a replacement to the base function.
+#' Title
+#'
+#' @param obs_table
+#' @param expected_table
+#' @param expected_as_count
+#' @param row_totals
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, graph=TRUE){
   ## Checking some conditions.
   if(row_totals == TRUE){
@@ -186,6 +259,16 @@ chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count 
 
 
 ##Chi-Squared Test for Homogeneity or Independence.
+#' Title
+#'
+#' @param obs_table
+#' @param mat_totals
+#' @param graph
+#'
+#' @return
+#' @export
+#'
+#' @examples
 chi_squared.ind <- function(obs_table, mat_totals = FALSE,graph=TRUE){
   #Generating totals if not provided
   if(mat_totals == FALSE){
