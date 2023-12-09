@@ -39,9 +39,17 @@ Birthday_fun <- function(Iter = 50, size = NULL, plot=TRUE){
 
     }
     if(plot == TRUE){
-      plot(prob[,j],main=paste("Size",size[j]),xlab="interations",ylab="prob",xlim=c(1,Iter),
-           ylim=seq(0,1),col=palette()[3],pch=16)
-      abline(h = mean(prob[,j]),col = "salmon1",lwd=2)
+      plot(prob[,j],
+           main=paste("Size",size[j]),
+           xlab="interations",
+           ylab="prob",
+           xlim=c(1,Iter),
+           ylim=seq(0,1),
+           col=palette()[3],
+           pch=16)
+      abline(h = mean(prob[,j]),
+             col = "salmon1",
+             lwd=2)
     }
   }
  return(data.frame(Size = prob))
@@ -138,8 +146,15 @@ blackjack_bust_auto <- function(trials = 10){
   }
   ## Building a graphic
   par(bg = "linen")
-  stripchart(time_to_bust, method = "stack",pch = 19, at = .08, cex = 1, col = "#5a95b3",
-             xlab = "Draws to bust\nIncluding initial draw",ylab = "Frequency", main="Black Jack draws to Bust")
+  stripchart(time_to_bust,
+             method = "stack",
+             pch = 19,
+             at = .08,
+             cex = 1,
+             col = "#5a95b3",
+             xlab = "Draws to bust\nIncluding initial draw",
+             ylab = "Frequency",
+             main="Black Jack draws to Bust")
   ## Building a subspace for the probabilities to fit.
   bjack_table <- data.frame(table(time_to_bust))
   bjack_table[,3] <- data.frame(Perc = (bjack_table$Freq/trials))
@@ -263,18 +278,39 @@ confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials
     pulls <- rnorm(n,mean,sigma)
     point[i] <- mean(pulls)
     standard_error[i] <- sd(pulls)
-    found <- find_conf(type = "t_conf.one", point = point[i], sigma = standard_error[i], level = level,  n = n)
+    found <- find_conf(type = "t_conf.one",
+                       point = point[i],
+                       sigma = standard_error[i],
+                       level = level,
+                       n = n)
     intervals[i,1] <- found$lower_bound
     intervals[i,2] <- found$upper_bound
   }
 
   par(mfrow = c(1,3), bg = "linen")
-  plot(x<-seq((mean - 3.5 * sigma), (mean + 3.5 * sigma),.01),dnorm(x, mean, sigma),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
-       xlab = "Z-scores",ylab="Proportion")
-  plot(density(point),xlim = c((mean -2 * sigma),(mean + 2 * sigma)), col = "salmon1", lwd = 2,
-       main = "Sampling", xlab = "Z-scores", ylab = "Proportion")
-  abline(v = mean(point), col = "salmon1", lty=2, lwd = 1)
-  abline(v = mean, col = "#5a95b3", lty=2, lwd = 1)
+  plot(x<-seq((mean - 3.5 * sigma),(mean + 3.5 * sigma),.01),
+       dnorm(x, mean, sigma),
+       col="#5a95b3",
+       lwd=2,
+       type="l",
+       main="Normal Plot",
+       xlab = "Z-scores",
+       ylab="Proportion")
+  plot(density(point),
+       xlim = c((mean -2 * sigma),(mean + 2 * sigma)),
+       col = "salmon1",
+       lwd = 2,
+       main = "Sampling",
+       xlab = "Z-scores",
+       ylab = "Proportion")
+  abline(v = mean(point),
+         col = "salmon1",
+         lty=2,
+         lwd = 1)
+  abline(v = mean,
+         col = "#5a95b3",
+         lty=2,
+         lwd = 1)
 
   plot(x = 1,
        xlab = "Intervals",
@@ -283,11 +319,21 @@ confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials
        ylim = c(0, trials),
        main = "Confidence Intervals",
        type = "n")
-  abline(v = mean, col = "salmon1", lwd = 2,lty=2)
+  abline(v = mean,
+         col = "salmon1",
+         lwd = 2,
+         lty=2)
 
   for(i in 1:length(point)){
-    segments(x0 = intervals[i,1], x1 = intervals[i,2],y0 = i, col = "#5a95b3",lwd = 2)
-    points(mean(intervals[i,]),i,col = "salmon1", pch = 16)
+    segments(x0 = intervals[i,1],
+             x1 = intervals[i,2],
+             y0 = i,
+             col = "#5a95b3",
+             lwd = 2)
+    points(mean(intervals[i,]),
+           i,
+           col = "salmon1",
+           pch = 16)
     count[i] <- (intervals[i,1] <= mean & intervals[i,2] >= mean)
   }
 

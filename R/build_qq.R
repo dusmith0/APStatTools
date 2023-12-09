@@ -18,8 +18,11 @@
 #' build_QQ(data, vs_dist = "gamma", alpha = 2, beta = 4)
 #'
 #' build_QQ(data, vs_dist = "poisson", alpha = 10)
-build_QQ <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
+build_QQ <- function(data, vs_dist = "normal", alpha = 1, beta = 1){
+  if(vs_dist == "help"){
   list <- c("normal","gamma","uniform","poisson","binomial","geometric","chi-squared")
+  stop(cat("Please choose one of the following:", list, sep= "\n"))
+  }
 
   ## Setting up needed values.
   n <- length(data)
@@ -48,11 +51,25 @@ build_QQ <- function(data,vs_dist = "normal", alpha = 1, beta = 1){
   }
 
   par(mfrow=c(1,2),bg="linen")
-  plot(Z, sort(data), xlab="Perfect Normal", ylab="Data's Quantiles", main="QQ Plot", col="#5a95b3", pch = 16)
-  abline(lm(sort(data)~Z),col="salmon1",lwd = 2)
+  plot(Z,
+       sort(data),
+       xlab="Perfect Normal",
+       ylab="Data's Quantiles",
+       main="QQ Plot",
+       col="#5a95b3",
+       pch = 16)
+  abline(lm(sort(data)~Z),
+         col="salmon1",
+         lwd = 2)
 
   #plot(density(vs),main="Estimated Density", col="#714423", lwd = 2)
 
-  hist(data, main="Data Histogram\n Estimated Density", prob = TRUE, col = "#5a95b3")
-  lines(density(data),main="Estimated Density", col="salmon1", lwd = 2)
+  hist(data,
+       main="Data Histogram\n Estimated Density",
+       prob = TRUE,
+       col = "#5a95b3")
+  lines(density(data),
+        main="Estimated Density",
+        col="salmon1",
+        lwd = 2)
 }

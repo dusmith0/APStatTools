@@ -50,10 +50,21 @@ get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, p
       stop(cat("Below is a list the avalible data sets. You can also type data() to find many R defined data sets:",list,sep = "\n"))
     }
     ## Checking to see if the data sets match
-    if(data_name != "fastfood2.csv" & data_name != "fastfood3.csv" & data_name != "indianrestaurant.csv" & data_name != "indianrestaurant2.csv" & data_name != "Moneyball.txt"
-       & data_name != "Moneyball(titled).txt" & data_name != "movies.csv" & data_name != "potter.csv" & data_name != "vacations.csv"
-       & data_name != "videogames.csv" & data_name != "HurricaneCindy05.xlsx" & data_name != "HurricaneKatrina05.xlsx"
-       & data_name != "USPovertyLevels.xlsx" & data_name != "YoutuberPay.xlsx" & data_name != "Empty"){
+    if(data_name != "fastfood2.csv"
+       & data_name != "fastfood3.csv"
+       & data_name != "indianrestaurant.csv"
+       & data_name != "indianrestaurant2.csv"
+       & data_name != "Moneyball.txt"
+       & data_name != "Moneyball(titled).txt"
+       & data_name != "movies.csv"
+       & data_name != "potter.csv"
+       & data_name != "vacations.csv"
+       & data_name != "videogames.csv"
+       & data_name != "HurricaneCindy05.xlsx"
+       & data_name != "HurricaneKatrina05.xlsx"
+       & data_name != "USPovertyLevels.xlsx"
+       & data_name != "YoutuberPay.xlsx"
+       & data_name != "Empty"){
       stop(paste("Error: Your input does not match one of the provided data.sets. Please type get_data('help')."))
     }
    ## The section will read in the preset data sets.

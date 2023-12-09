@@ -59,7 +59,7 @@
 #'
 find_probs <- function(bound = NULL, type="normal", tail="left", mean = 0, sigma = 1, df = 1, prob = .5, trials = 10, inverse = FALSE){
   if(is.null(bound)){
-    stop(paste("Error: Please enter a value for bound."))
+    stop(cat("Error: Please enter a value for bound."))
   }
   ## reading in the bounds for the calculations
   if(tail == "left"){
