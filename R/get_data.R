@@ -39,9 +39,6 @@
 #' # To allow for saving of the data.
 #' get_data("USPovertyLevels.xlsx",get_pdf = TRUE)
 #'
-#' # This will allow you to enter your own data set.
-#' get_data(ap_data_set = FALSE)
-#'
 #'
 #'
 get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL){

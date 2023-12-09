@@ -4,7 +4,12 @@
 \alias{get_data}
 \title{Title get_data}
 \usage{
-get_data(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL)
+get_data(
+  data_name = "Empty",
+  ap_data_set = FALSE,
+  get_pdf = FALSE,
+  path = NULL
+)
 }
 \arguments{
 \item{data_name}{Input String. This can either be a data set name in apdata, or your own file path.

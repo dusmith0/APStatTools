@@ -287,6 +287,10 @@ You can call any of the data sets using
 get_data("potter.csv")
 ```
 
+You can print the data by changing get_pdf = FALSE. Note thought that the function will then require you to input a desired save path.
+```{r, eval = FALSE, echo = TRUE}
+get_data("potter.csv", get_pdf = FALSE)
+```
 
 ## *Included Simulations*
 

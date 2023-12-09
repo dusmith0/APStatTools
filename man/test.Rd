@@ -98,7 +98,8 @@ test("help")
 test(test = "t_test.one", null = 10, x_bar = 11, sigma = 3, n = 25, tail = "left", graph = TRUE)
 
 # Two sample test on means
-test(test = "t_test.two", null = 0, x_bar = c(12,11), sigma = c(2,3), n = c(25,25), tail = "left", graph = TRUE)
+test(test = "t_test.two", null = 0, x_bar = c(12,11), sigma = c(2,3),
+     n = c(25,25), tail = "left", graph = TRUE)
 
 # Paired t-test
 X <- c(10,11,12,13,14,15,16,17,18,19,20)
@@ -114,13 +115,15 @@ test(test = 'z_test.pooled', p_hat = c(.4,.5), n = c(25,24), tail = "left", grap
 # GOF Chi-squared test.
 X <- c(10,13,14,20,16)
 Y <- c(.2,.2,.2,.2,.2)
-test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
+test(test = 'chi_squared.gof', obs_table = X, expected_table = Y,
+     expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
 
 # This vector included a total at the end, and has the expected table as a count instead of frequency.
 # Note the function will assume that both expected an null contain totals.
 X <- c(10,13,14,20,16,73)
 Y <- c(8,12,8,16,13,57)
-test(test = 'chi_squared.gof', obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
+test(test = 'chi_squared.gof', obs_table = X, expected_table = Y,
+     expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
 
 # Chi-squared test for independence
 X <- matrix(rnorm(20,10,3), nrow = 4)

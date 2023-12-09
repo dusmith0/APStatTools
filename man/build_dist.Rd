@@ -33,6 +33,8 @@ Notes: "inner" and "two" require both the left and right input.}
 
 \item{trials}{numeric value for the number of trials that will occur for the "binomial"}
 
+\item{data}{numeric matrix that can be used instead of imputing X and Y for regression.}
+
 \item{X}{numeric vector Specifically for type = "regression"}
 
 \item{Y}{numeric vector Specifically for type = "regression"}

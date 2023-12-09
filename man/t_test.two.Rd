@@ -7,6 +7,8 @@
 t_test.two(null = 0, x_bar, sigma, n, tail = "left", graph = TRUE)
 }
 \arguments{
+\item{null}{Input Numeric: This is a single value for the Null Hypothesis's expected value.}
+
 \item{x_bar}{Input Vector of two: This is the value of the sample means c(left, right). It assumes the standard error adjustment has not been taken.}
 
 \item{sigma}{Input Vector of two: This is the value of the sample standard deviations c(left, right).}
@@ -18,8 +20,6 @@ Note: this function will assume two tailed null hypothesis if anything other
 then "left" or "right" is used.}
 
 \item{graph}{Input Logical: Set this to FALSE if you want to suppress graphing the density function.}
-
-\item{nullInput}{Numeric: This is a single value for the Null Hypothesis's expected value.}
 }
 \value{
 Output: This will return a data.frame of statistical values and a graphic if desired.
