@@ -18,7 +18,9 @@ Description: This packages contains some simple wrapper functions to make comput
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Imports: readxl
+Imports: 
+    readxl,
+    base
 RoxygenNote: 7.2.3
 Suggests: 
     knitr,

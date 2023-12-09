@@ -23,7 +23,6 @@
 #' @param data numeric matrix that can be used instead of imputing X and Y for regression.
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
-#' @import("base")
 #' @export
 #'
 #' @examples
