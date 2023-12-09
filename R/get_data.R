@@ -44,7 +44,7 @@
 #'
 #'
 #'
-get_data <- function(data_name = "Empty", ap_data_set = FALSE, get_pdf = FALSE, path = NULL){
+get_data <- function(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL){
     ## A list of the current data sets loaded into this package
     if(data_name == "help"){
       list <- c("fastfood2.csv","fastfood3.csv","indianrestaurant.csv","indianrestaurant2.csv","Moneyball.txt",
@@ -59,7 +59,11 @@ get_data <- function(data_name = "Empty", ap_data_set = FALSE, get_pdf = FALSE, 
        & data_name != "USPovertyLevels.xlsx" & data_name != "YoutuberPay.xlsx" & data_name != "Empty"){
       stop(paste("Error: Your input does not match one of the provided data.sets. Please type get_data('help')."))
     }
+   ## The section will read in the preset data sets.
+   if(ap_data_set == TRUE){
+    location <- system.file("extdata", package = "APStatTools")
     ## reading or writing in the file name.
+
     if(data_name == "Empty"){
       data_file <- readline(message("Please type in the data set including the .extention:") )
       n <- nchar(data_file)
@@ -68,26 +72,26 @@ get_data <- function(data_name = "Empty", ap_data_set = FALSE, get_pdf = FALSE, 
       n <- nchar(data_file)
     }
 
-    ## Checking for the extensions
-    if(!(grepl(".",data_name,fixed = TRUE))){
-      stop(paste("Error: Please ensure to include your .extention for your data name. Such as .csv or .tst"))
+
+      ## Checking for the extensions
+      if(!(grepl(".",data_name,fixed = TRUE))){
+        stop(paste("Error: Please ensure to include your .extention for your data name. Such as .csv or .tst"))
+      }
+
+      ## Reading in different types of data sets
+      if(substr(data_file,(n-2),(n)) == "txt"){
+        data.set <- try(read.table(paste(location,data_file,sep="/")))
+      }
+
+      if(substr(data_file,(n-2),(n)) == "csv"){
+        data.set <- try(read.csv(paste(location,data_file,sep="/"),header = T))
+      }
+
+      if(substr(data_file,(n-3),(n)) == "xlsx" | substr(data_file,(n-2),(n)) == "xls"){
+        data.set <- try(readxl::read_excel(paste(location,data_file,sep="/")))
+        data.set <- as.data.frame(data.set)
+      }
     }
-
-    ## Reading in different types of data sets
-    if(substr(data_file,(n-2),(n)) == "txt"){
-      data.set <- try(read.table(paste("data",data_file,sep="/")))
-    }
-
-    if(substr(data_file,(n-2),(n)) == "csv"){
-      data.set <- try(read.csv(paste("data",data_file,sep="/"),header = T))
-    }
-
-    if(substr(data_file,(n-3),(n)) == "xlsx" | substr(data_file,(n-2),(n)) == "xls"){
-      data.set <- try(readxl::read_excel(paste("data",data_file,sep="/")))
-      data.set <- as.data.frame(data.set)
-    }
-
-
   ## A wrapper for reading in user created data files.
   if(ap_data_set == FALSE){
     if(data_name == "Empty"){
@@ -99,7 +103,7 @@ get_data <- function(data_name = "Empty", ap_data_set = FALSE, get_pdf = FALSE, 
     }
 
     if(substr(data_file,(n-2),(n)) == "txt"){
-      data.set <- try(read.table(data_file),header = T)
+      data.set <- try(read.table(data_file))
     }
 
     if(substr(data_file,(n-2),(n)) == "csv"){
