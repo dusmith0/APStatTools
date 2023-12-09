@@ -167,28 +167,61 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
   ## I need to add Binomial, Uniform, and Geometric.
   par(bg="linen")
   if(type == "normal"){
-    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2,type="l",main="Normal Plot",
-         xlab = "Z-scores",ylab="Probability")
-    polygon(x = c(lower,fill,upper),y = c(0, dnorm(fill,0,1),0),border = NA, col = "#5a95b3")
-    if(tail == "outer" | tail == "two"){
-      polygon(x = c(lower_right,fill_right,upper_right),y = c(0, dnorm(fill_right,0,1),0),border = NA, col = "#5a95b3")
-    }
-    if(display_prob == TRUE){
-      probability <- find_probs(bound = bound, type = "normal", tail = tail)
-      text(2.5,.3,paste("Prob: ",round(probability,digits = 3),set = ""))
+    plot(x<-seq(-3.5,3.5,.01),
+         dnorm(x),
+         col="#5a95b3",
+         lwd=2,
+         type="l",
+         main="Normal Plot",
+         xlab = "Z-scores",
+         ylab="Probability")
+    polygon(x<-seq(-3.5,3.5,.01),
+            dnorm(x),
+            col="#5a95b3")
+    if(!is.null(bound)){
+      polygon(x = c(lower,fill,upper),
+              y = c(0, dnorm(fill,0,1),0),
+              border = NA,
+              col = "salmon1")
+      if(tail == "outer" | tail == "two"){
+        polygon(x = c(lower_right,fill_right,upper_right),
+                y = c(0, dnorm(fill_right,0,1),0),
+                border = NA,
+                col = "salmon1")
+      }
+      if(display_prob == TRUE){
+        probability <- find_probs(bound = bound, type = "normal", tail = tail)
+        text(2.5,.3,paste("Prob: ",round(probability,digits = 3),set = ""))
+      }
     }
   }
 
   if(type == "t-dist"){
-    plot(x<-seq(-4,4,.01),dt(x,df),col="#5a95b3",lwd=2,type="l",main="Student's t Plot",
-         xlab = "Z-scores",ylab="Probability")
-    polygon(x = c(lower,fill,upper),y = c(0, dt(fill,df),0),border = NA, col = "#5a95b3")
-    if(tail == "outer" | tail == "two"){
-      polygon(x = c(lower_right,fill_right,upper_right),y = c(0, dt(fill_right,df),0),border = NA, col = "#5a95b3")
-    }
-    if(display_prob == TRUE){
-      probability <- find_probs(bound = bound, type = "t-dist", tail = tail, df = df)
-      text(2.5,.25,paste("Prob: ",round(probability,digits = 3),set = ""))
+    plot(x<-seq(-4,4,.01),
+         dt(x,df),
+         col="#5a95b3",
+         lwd=2,type="l",
+         main="Student's t Plot",
+         xlab = "Z-scores",
+         ylab="Probability")
+    polygon(x<-seq(-4,4,.01),
+            dt(x,df),
+            col="#5a95b3")
+    if(!is.null(bound)){
+      polygon(x = c(lower,fill,upper),
+              y = c(0, dt(fill,df),0),
+              border = NA,
+              col = "salmon1")
+      if(tail == "outer" | tail == "two"){
+        polygon(x = c(lower_right,fill_right,upper_right),
+                y = c(0, dt(fill_right,df),0),
+                border = NA,
+                col = "salmon1")
+      }
+      if(display_prob == TRUE){
+        probability <- find_probs(bound = bound, type = "t-dist", tail = tail, df = df)
+        text(2.5,.25,paste("Prob: ",round(probability,digits = 3),set = ""))
+      }
     }
   }
 
@@ -199,23 +232,46 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
       lower <- 0.0000001
       fill <- seq(lower,upper,.01)
     }
-    plot(x<-seq(0,4.5 * df,.01),dchisq(x,df),col="#5a95b3",lwd=2,type="l",main="Chi-Squared Distribution",
-         xlab = "Z-scores",ylab="Probability")
-    polygon(x = c(lower,fill,upper),y = c(0, dchisq(fill,df),0),border = NA, col = "#5a95b3")
+    plot(x<-seq(0,4.5 * df,.01),
+         dchisq(x,df),
+         col="#5a95b3",
+         lwd=2,type="l",
+         main="Chi-Squared Distribution",
+         xlab = "Z-scores",
+         ylab="Probability")
+    if(!is.null(bound)){
+      polygon(x<-seq(0,4.5 * df,.01),
+              dchisq(x,df),
+              col="salmon1")
+      polygon(x = c(lower,fill,upper),
+              y = c(0, dchisq(fill,df),0),
+              border = NA,
+              col = "salmon1")
 
-    if(display_prob == TRUE){
-      probability <- find_probs(bound = bound, type = "chi-squared", tail = tail, df = df)
-      text(3 * df,.6 * (max(dchisq(x,df))),paste("Prob: ",round(probability,digits = 3),set = ""))
+      if(display_prob == TRUE){
+        probability <- find_probs(bound = bound, type = "chi-squared", tail = tail, df = df)
+        text(3 * df,.6 * (max(dchisq(x,df))),paste("Prob: ",round(probability,digits = 3),set = ""))
+      }
     }
   }
 
   if(type == "binomial"){
-    color <- c("salmon1","#5a95b3")
-    names <- c(0:trials)
-    barplot(dbinom(0:trials,trials,prob), ylab = "Probability", xlab = "# of Successes",
-            main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "), col = color[logical],
-            names.arg=names)
-
+    if(is.null(bound)){
+      barplot(dbinom(0:trials,trials,prob),
+              ylab = "Probability",
+              xlab = "# of Successes",
+              main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "),
+              col = "#5a95b3")
+    }else if(!is.null(bound)){
+      color <- c("salmon1","#5a95b3")
+      names <- c(0:trials)
+      barplot(dbinom(0:trials,trials,prob),
+              ylab = "Probability",
+              xlab = "# of Successes",
+              main = paste("Binomial Distribution n = ", trials, "p = ", prob, sep = " "),
+              col = color[logical],
+              names.arg=names)
+    }
     if(display_prob == TRUE){
       probability <- find_probs(bound = bound, type = "binomial", tail = tail, prob = prob, trials = trials)
         if(prob < .5){
@@ -242,13 +298,29 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
     # Building the 4 part graph to assess normality.
     par(mfrow=c(2,2),bg="linen")
-    plot(z, sort(data), xlab="Perfect Normal", ylab="Data's Quantile's", main="QQ Plot", col="#5a95b3", pch = 16)
-    abline(lm(sort(data)~z),col="salmon1",lwd = 2)
+    plot(z, sort(data),
+         xlab="Perfect Normal",
+         ylab="Data's Quantile's",
+         main="QQ Plot",
+         col="#5a95b3",
+         pch = 16)
+    abline(lm(sort(data)~z),
+           col="salmon1",
+           lwd = 2)
 
     hist(data, main="Actual Histogram of the data", col = "#5a95b3")
 
-    plot(density(data),main="Estimated Histogram of the data", col="salmon1", lwd = 2, xlab = "Propotion")
-    plot(x<-seq(-3.5,3.5,.01),dnorm(x),col="#5a95b3",lwd=2, xlab = "Z-Scores", ylab = "Propotion")
+    plot(density(data),
+         main="Estimated Histogram of the data",
+         col="salmon1",
+         lwd = 2,
+         xlab = "Propotion")
+    plot(x<-seq(-3.5,3.5,.01),
+         dnorm(x),
+         col="#5a95b3",
+         lwd=2,
+         xlab = "Z-Scores",
+         ylab = "Propotion")
   }
 
   if(type == "regression"){
@@ -271,8 +343,13 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
                  or data = matrix()"))
     }
 
-    plot((Y ~ X), pch = 16, col = "#5a95b3", main = "Regression")
-    abline(lm(Y ~ X), lwd = 2, col = "salmon1")
+    plot((Y ~ X),
+         pch = 16,
+         col = "#5a95b3",
+         main = "Regression")
+    abline(lm(Y ~ X),
+           lwd = 2,
+           col = "salmon1")
 
     if(display_prob == TRUE){
       return(get_measures(X = X, Y = Y, regression = TRUE))
