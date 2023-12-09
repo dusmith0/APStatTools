@@ -4,12 +4,7 @@
 \alias{get_data}
 \title{Title get_data}
 \usage{
-get_data(
-  data_name = "Empty",
-  ap_data_set = FALSE,
-  get_pdf = FALSE,
-  path = NULL
-)
+get_data(data_name = "Empty", ap_data_set = TRUE, get_pdf = FALSE, path = NULL)
 }
 \arguments{
 \item{data_name}{Input String. This can either be a data set name in apdata, or your own file path.
@@ -52,11 +47,8 @@ Title get_data
 # Easy use for prebuilt data.
 get_data("potter.csv")
 
-# To allow for saving of the data.
-get_data("USPovertyLevels.xlsx",get_pdf = TRUE)
-
-# This will allow you to enter your own data set.
-get_data(ap_data_set = FALSE)
+# To allow for saving of the data, set get_pdf = TRUE
+get_data("USPovertyLevels.xlsx",get_pdf = FALSE)
 
 
 

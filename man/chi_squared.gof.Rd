@@ -44,6 +44,7 @@ Title chi_squared.gof
 
 X <- c(10,13,14,20,16,73)
 Y <- c(8,12,8,16,13,57)
-chi_squared.gof(obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
+chi_squared.gof(obs_table = X, expected_table = Y, expected_as_count = TRUE,
+                row_totals = TRUE, graph = TRUE)
 
 }

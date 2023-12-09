@@ -44,9 +44,6 @@ list($data, $measures, $LSRL)
 Description: This function will take user input data or data sets and compute a large number of statistical values.
 }
 \examples{
-# This will prompt you to input a set of data.
-get_measures(input=TRUE)
-
 data <- c(sample(1:100,15))
 get_measures(X = data)
 

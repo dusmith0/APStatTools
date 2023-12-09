@@ -36,8 +36,8 @@
 #' # Easy use for prebuilt data.
 #' get_data("potter.csv")
 #'
-#' # To allow for saving of the data.
-#' get_data("USPovertyLevels.xlsx",get_pdf = TRUE)
+#' # To allow for saving of the data, set get_pdf = TRUE
+#' get_data("USPovertyLevels.xlsx",get_pdf = FALSE)
 #'
 #'
 #'

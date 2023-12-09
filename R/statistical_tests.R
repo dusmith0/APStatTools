@@ -2,7 +2,8 @@
 #' Title t_test.one   One sample t-test for means.
 #'
 #' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
-#' @param x_bar Input Vector: This is the value of the sample means. It assumes the standard error adjustment has not been taken.
+#' @param x_bar Input Vector: This is the value of the sample means. It assumes the standard error
+#'              adjustment has not been taken.
 #' @param sigma Input Vector: This is the value of the sample standard deviations.
 #' @param n Input Vector: This is the value of the sample sizes.
 #' @param tail Input String: Being one of "left" or "right".
@@ -33,7 +34,8 @@ t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
 
-  return(data.frame(test = "One Sample t-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
+  return(data.frame(test = "One Sample t-test", p_value = p_value, test_statistic = test_statistic,
+                    n = n, standard_error = standard_error, df = df))
 }
 
 
@@ -41,7 +43,8 @@ t_test.one <- function(null,x_bar,sigma,n,tail="left",graph=TRUE){
 #' Title t_test.two   Two sample t-test on means
 #'
 #' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
-#' @param x_bar Input Vector of two: This is the value of the sample means c(left, right). It assumes the standard error adjustment has not been taken.
+#' @param x_bar Input Vector of two: This is the value of the sample means c(left, right). It assumes
+#'              the standard error adjustment has not been taken.
 #' @param sigma Input Vector of two: This is the value of the sample standard deviations c(left, right).
 #' @param n Input Vector f two: This is the value of the sample sizes c(left, right).
 #' @param tail Input String: Being one of "left" or "right".
@@ -78,13 +81,15 @@ t_test.two <- function(null = 0,x_bar,sigma,n,tail="left",graph=TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
   return(data.frame(test = "Two Sample t-test", p_value = p_value, test_statistic = test_statistic,
-                    n = n, standard_error = standard_error, standard_error_combined = standard_error_combined, df = df))
+                    n = n, standard_error = standard_error,
+                    standard_error_combined = standard_error_combined, df = df))
 }
 
 
 #' Title t_test.paired   Pooled two sample t-test
 #'
-#'    Note: This will assume the expected difference is calculated as table_one - table_two. Please input the data in the order you would like them subtracted, to match the above.
+#'    Note: This will assume the expected difference is calculated as table_one - table_two.
+#'    Please input the data in the order you would like them subtracted, to match the above.
 #'
 #' @param null Input Numeric: This is a single value for the Null Hypothesis's expected value.
 #' @param table_one Input Vector: This is a vector of numeric values intended for the
@@ -137,7 +142,8 @@ t_test.paired <- function(null = 0,table_one,table_two,tail="two",graph=TRUE){
   if(graph == TRUE){
     build_dist(type = "t-dist", tail = tail, bound = test_statistic, df = df)
   }
-  return(data.frame(test = "Two Sample Paired t-test", paired_data = paired_data, p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
+  return(data.frame(test = "Two Sample Paired t-test", paired_data = paired_data, p_value = p_value,
+                    test_statistic = test_statistic, n = n, standard_error = standard_error, df = df))
 }
 
 
@@ -184,7 +190,8 @@ z_test.one <- function(null,p_hat,n,tail="left",graph=TRUE){
     build_dist(type = "normal", tail = tail, bound = test_statistic)
   }
 
-  return(data.frame(test = "One Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
+  return(data.frame(test = "One Sample z-test", p_value = p_value, test_statistic = test_statistic,
+                    n = n, standard_error = standard_error))
 }
 
 
@@ -228,7 +235,8 @@ z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
   if(graph == TRUE){
     build_dist(type = "normal", tail = tail, bound = test_statistic)
   }
-  return(data.frame(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic, n = n, standard_error = standard_error))
+  return(data.frame(test = "Two Sample z-test", p_value = p_value, test_statistic = test_statistic,
+                    n = n, standard_error = standard_error))
 }
 
 
@@ -259,9 +267,11 @@ z_test.pooled <- function(p_hat,n,tail="left",graph=TRUE){
 #'
 #' X <- c(10,13,14,20,16,73)
 #' Y <- c(8,12,8,16,13,57)
-#' chi_squared.gof(obs_table = X, expected_table = Y, expected_as_count = TRUE, row_totals = TRUE, graph = TRUE)
+#' chi_squared.gof(obs_table = X, expected_table = Y, expected_as_count = TRUE,
+#'                 row_totals = TRUE, graph = TRUE)
 #'
-chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count = FALSE, row_totals = FALSE, graph=TRUE){
+chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count = FALSE,
+                            row_totals = FALSE, graph=TRUE){
   ## Checking some conditions.
   if(row_totals == TRUE){
     obs_table <- obs_table[-length(obs_table)]
@@ -304,7 +314,9 @@ chi_squared.gof <- function(obs_table, expected_table = NULL, expected_as_count 
   if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
-  return(data.frame(test = "Pearson's Chi-Squared GOF Test", obs_table = obs_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+  return(data.frame(test = "Pearson's Chi-Squared GOF Test", obs_table = obs_table,
+                    expected_count = expected_count, chi_squared_values = chi_squared_values, df = df,
+                    test_statistic = test_statistic, p_value = p_value))
 }
 
 
@@ -358,7 +370,9 @@ chi_squared.ind <- function(obs_table, mat_totals = FALSE,graph=TRUE){
   if(graph == TRUE){
     build_dist(type="chi-squared",tail="right",test_statistic,df,prob=FALSE)
   }
-  return(list(test = "Pearson's Chi-Squared GOF Test", obs_table = obs_table, expected_count = expected_count, chi_squared_values = chi_squared_values, df = df, test_statistic = test_statistic, p_value = p_value))
+  return(list(test = "Pearson's Chi-Squared GOF Test", obs_table = obs_table,
+              expected_count = expected_count, chi_squared_values = chi_squared_values, df = df,
+              test_statistic = test_statistic, p_value = p_value))
 
 }
 

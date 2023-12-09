@@ -20,10 +20,10 @@
 #'        If the type = "regression" setting display_prob = TRUE will call get_measures() on your data.
 #' @param X numeric vector Specifically for type = "regression"
 #' @param Y numeric vector Specifically for type = "regression"
-#' @param data numeric matirx that can be used instead of inputing X and Y for regression.
+#' @param data numeric matrix that can be used instead of imputing X and Y for regression.
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
-#'
+#' @import("base")
 #' @export
 #'
 #' @examples

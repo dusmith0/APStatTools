@@ -26,7 +26,8 @@ Output: This will return a data.frame of statistical values and a graphic if des
         the data frame will contain Test Name, p_value, test_statistic, n, standard_error, df,
 }
 \description{
-Note: This will assume the expected difference is calculated as table_one - table_two. Please input the data in the order you would like them subtracted, to match the above.
+Note: This will assume the expected difference is calculated as table_one - table_two.
+   Please input the data in the order you would like them subtracted, to match the above.
 }
 \examples{
 X <- c(10,11,12,13,14,15,16,17,18,19,20)

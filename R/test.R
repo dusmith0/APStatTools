@@ -49,9 +49,6 @@
 #' @export
 #'
 #' @examples
-#' # help
-#' test("help")
-#'
 #' # One sample test on means
 #' test(test = "t_test.one", null = 10, x_bar = 11, sigma = 3, n = 25, tail = "left", graph = TRUE)
 #'
@@ -76,7 +73,7 @@
 #' test(test = 'chi_squared.gof', obs_table = X, expected_table = Y,
 #'      expected_as_count = FALSE, row_totals = FALSE, graph = TRUE)
 #'
-#' # This vector included a total at the end, and has the expected table as a count instead of frequency.
+#' # This vector included a total at the end, and has the expected table as a count.
 #' # Note the function will assume that both expected an null contain totals.
 #' X <- c(10,13,14,20,16,73)
 #' Y <- c(8,12,8,16,13,57)

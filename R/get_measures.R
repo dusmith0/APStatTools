@@ -23,9 +23,6 @@
 #' @export
 #'
 #' @examples
-#' # This will prompt you to input a set of data.
-#' get_measures(input=TRUE)
-#'
 #' data <- c(sample(1:100,15))
 #' get_measures(X = data)
 #'

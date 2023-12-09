@@ -9,7 +9,8 @@ t_test.one(null, x_bar, sigma, n, tail = "left", graph = TRUE)
 \arguments{
 \item{null}{Input Numeric: This is a single value for the Null Hypothesis's expected value.}
 
-\item{x_bar}{Input Vector: This is the value of the sample means. It assumes the standard error adjustment has not been taken.}
+\item{x_bar}{Input Vector: This is the value of the sample means. It assumes the standard error
+adjustment has not been taken.}
 
 \item{sigma}{Input Vector: This is the value of the sample standard deviations.}
 
