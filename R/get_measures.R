@@ -46,8 +46,9 @@ get_measures <- function(X = NULL, input = FALSE, Y = NULL, regression = FALSE, 
     data <- edit(data)
     data <- as.matrix(data)
   }
-
-  data <- as.matrix(X)
+  if(!is.null(X)){
+    data <- as.matrix(X)
+  }
 
   if(input == FALSE){
     if(!is.null(X) & !is.null(Y)){
