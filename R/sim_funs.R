@@ -3,7 +3,7 @@
 #'
 #' @param Iter Input numeric: This is the number of iterations the function will run through.
 #'             Note: The function can be quite slow if Iter >= 1000. However, 200 is more
-#'             then enough to show convergance.
+#'             then enough to show convergence.
 #' @param size Input numeric vector: This is a vector containing the different
 #'             people group sizes you would like. Default is c(10,20,30,40)
 #'             Note: Values below 50 work best.

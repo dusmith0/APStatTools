@@ -44,7 +44,7 @@ This function will accept the following arguments:
  "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal", Note: "left_not_equal","left_not_equal","inner_not_equal", and "two_not_equal" are intended for the "binomial" only.
       
 *bound = c(value)* will designate where the boundaries of the shaded region will go. 
-If this value is left as NULL, it will produce the distribution. If you need an interior or two-tailed boundry, you can set bound = c(left, right). 
+If this value is left as NULL, it will produce the distribution. If you need an interior or two-tailed boundary, you can set bound = c(left, right). 
 
 ### Examples
 To build the Standard Normal use:
@@ -109,18 +109,18 @@ build_QQ(data, vs_dist = "poisson", alpha = 10)
 
 ## **test()**
 
-This is a rather large wrapper function that contains most tests run in AP Statisticsl including:
-1.One sample t-test on means called "t_test.one"
-2.Two sample t-test on means called "t_test.two"
-3.Paired t-test on means called "t_test.paired"
-4.One sample z-test on proportions called "z_test.one"
-5.Two sample z-test on proportions called "z-test.pooled"
-6.Chi-Squared Goodness of Fit Test called "chi_squared.gof"
-7.Chi-Squared Independence or Homogeneity tests called "chi_squared.ind"
-8.One sample confidence Interval on means called "t_conf.one"
-9.Two sample difference of means confidence interval called "t_conf.two"
-10.One sample confidence Interval on proportions called "z_conf.one"
-11.Two sample difference of proportions confidence interval called "z_conf.two"
+This is a rather large wrapper function that contains most tests run in AP Statistical including:
+1. One sample t-test on means called "t_test.one"
+2. Two sample t-test on means called "t_test.two"
+3. Paired t-test on means called "t_test.paired"
+4. One sample z-test on proportions called "z_test.one"
+5. Two sample z-test on proportions called "z-test.pooled"
+6. Chi-Squared Goodness of Fit Test called "chi_squared.gof"
+7. Chi-Squared Independence or Homogeneity tests called "chi_squared.ind"
+8. One sample confidence Interval on means called "t_conf.one"
+9. Two sample difference of means confidence interval called "t_conf.two"
+10. One sample confidence Interval on proportions called "z_conf.one"
+11. Two sample difference of proportions confidence interval called "z_conf.two"
 
 This function also contains many arguments, many of which are not needed for any given test. Notable ones are below:
 1. null = is used for the null hypothesis's measure. 
@@ -128,7 +128,7 @@ This function also contains many arguments, many of which are not needed for any
 3. expect_as_count should be set to TRUE if you have already calculated your expected table. The function will assume you are imputing expected proportions otherwise. 
 4. row_totals should be set to TRUE if your expected and observed table (obs_table) have totals included. The function can handle totals if it knows it needs too. Otherwise you will still find calculations, but they will be very wrong. 
 
-Note: Confidence Intervals can be found direclty using find_conf() instead. Eeach test can also be found direclty using the test name as a function. Such as:
+Note: Confidence Intervals can be found directly using find_conf() instead. Each test can also be found directly using the test name as a function. Such as:
 ```{r, eval = T, echo = T}
 t_test.one(null = 10, x_bar = 11, sigma = 3, n = 25, tail = "left", graph = FALSE)
 ```
@@ -162,7 +162,7 @@ test(test = 'chi_squared.ind', obs_table = X, mat_totals = FALSE, graph = TRUE)
 
 ## **get_measures()**
 
-get_measures can work well in two ways. It will allow you to input data sets you already have, or it will allowyou to create a new data set. The function will then generate a large number of useful statistical measures. 
+get_measures can work well in two ways. It will allow you to input data sets you already have, or it will allow you to create a new data set. The function will then generate a large number of useful statistical measures. 
 
 Arguments include:
 1. X = NULL
@@ -205,7 +205,7 @@ get_measures(input=TRUE)
 
 ## **find_probs()**
 
-find_probs does exaclty that. Find probabilities on various distributions. It is the function that build_dist() uses to calculate its probabilities.
+find_probs does exactly that. Find probabilities on various distributions. It is the function that build_dist() uses to calculate its probabilities.
 
 It can take a large number of arguments but needs very little to work. 
 
