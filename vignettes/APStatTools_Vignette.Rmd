@@ -21,10 +21,10 @@ library(APStatTools)
 
 # APStatTools 
 
-**Description** The reason for this function is to make R accessible for many of the tools and calculation used in AP Statistics and Undergraduate Statistics.
+**Description** The reason for this function is to make R accessible for many of the tools and calculation used in AP Statistics and Undergraduate Statistics, with little to know knowladge of R. 
 
 **Included Functions**
-*build_dist()* will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_qq()* will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* contains code that can calculate simple Wald Confidence Intervals *find_probs()* function can find various probabilities based on a number of distributions. *get_data()* is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()*  will allow the user to input data or data sets, and return a large list of statistical measures.*test()* can preform many of the statistical tests and confidence intervals used in AP Statistics. 
+*build_dist()* will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_qq()* will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* contains code that can calculate simple Wald Confidence Intervals *find_probs()* function can find various probabilities based on a number of distributions. *get_data()* is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()*  will allow the user to input data or data sets, and return a large list of statistical measures. *test()* can preform many of the statistical tests and confidence intervals used in AP Statistics. 
 
 # The functions
 ## **build_dist()**
@@ -120,7 +120,7 @@ build_QQ(data, vs_dist = "poisson", alpha = 10)
 
 ## **test()**
 
-This is a rather large wrapper function that contains most tests run in AP Statistical including:
+This is a rather large wrapper function that contains most tests run in AP Stats including:
 1.One sample t-test on means called "t_test.one"
 2.Two sample t-test on means called "t_test.two"
 3.Paired t-test on means called "t_test.paired"
@@ -133,7 +133,7 @@ This is a rather large wrapper function that contains most tests run in AP Stati
 10.One sample confidence Interval on proportions called "z_conf.one"
 11.Two sample difference of proportions confidence interval called "z_conf.two"
 
-This function also contains many arguments, many of which are not needed for any given test. Notable ones are below:
+This function contains a lot of arguments, many of which are not needed for any given test. Notable ones are below:
 1. null = is used for the null hypothesis's measure. 
 2. graph = TRUE will call build_dist() when applicable. 
 3. expect_as_count should be set to TRUE if you have already calculated your expected table. The function will assume you are imputing expected proportions otherwise. 
@@ -183,7 +183,7 @@ Arguments include:
 5. outliers = FALSE
 6. names = NULL
 
-If you have data you would like to input, place that in X = data. This can be a vector of data, or a matrix. However, if you do not have a data set and need to type one in, leave X = NULL and set input = TRUE. This will prompt you to input your own data. You can name your data in prompt window and it will be maintained. Note: sometimes the window will open but not pop up. Look at your dashboard on the bottom of your computer for a flashing icon. 
+If you have data you would like to input, place that in X = data. This can be a vector of data, or a matrix. However, if you do not have a data set and need to type one in, leave X = NULL and set input = TRUE. This will prompt you to input your own data. You can name your data in the prompt window and it will be maintained. Note: sometimes the window will open but not pop up. Look at your dashboard on the bottom of your computer for a flashing icon. 
 
 If you are using regression, you can input into either X, and Y, or use a matrix with two rows. Note though, that names will not work if you use X and Y as your inputs. 
 
@@ -221,20 +221,20 @@ find_probs does exactly that. Find probabilities on various distributions. It is
 It can take a large number of arguments but needs very little to work. 
 
 They include:
-bound = NULL
-1. type="normal"
-2. tail="left"
-3. mean = 0
-4. sigma = 1
-5. df = 1
-6. prob = .5
-7. trials = 10
-8. inverse = FALSE
+1. bound = NULL
+2. type="normal"
+3. tail="left"
+4. mean = 0
+5. sigma = 1
+6. df = 1
+7. prob = .5
+8. trials = 10
+9. inverse = FALSE
 
-Type can be any of "normal", "t-dist", "chi-squared", "binomial"
-Tail can be any of Input String being any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal". Note: "left_not_equal" and "left_not_equal" are intended for the "binomial" only. Also "out" and "two" will produce the same output.
+Type can be any of "normal", "t-dist", "chi-squared", "binomial".
+Tail can be any of "left", "right", "inner", "outer" or "two", "left_not_equal", "right_not_equal". Note: "left_not_equal" and "left_not_equal" are intended for the "binomial" only. Also "out" and "two" will produce the same output.
 
-trials is designated for the number of trials for the "binomial" not trials of a simulation.
+Trials is designated for the number of trials for the "binomial" not trials of a simulation.
 
 ### Examples
 ```{r, eval=TRUE, echo = TRUE}
@@ -287,9 +287,9 @@ You can call any of the data sets using
 get_data("potter.csv")
 ```
 
-You can print the data by changing get_pdf = FALSE. Note thought that the function will then require you to input a desired save path.
+You can print the data by changing get_pdf = TRUE. Note thought that the function will then require you to input a desired save path.
 ```{r, eval = FALSE, echo = TRUE}
-get_data("potter.csv", get_pdf = FALSE)
+get_data("potter.csv", get_pdf = TRUE)
 ```
 
 ## *Included Simulations*
@@ -309,9 +309,10 @@ The following can be modified mean, sigma, n, level, trials
 trials can be adjusted to increase trial times.
 
 #### Birthday_fun()
-Iter = number of iterations
-size = amount of people included in a room
-plot = FALSE to suppress the graphics. 
+1. Iter = number of iterations
+2. size = amount of people included in a room
+3. plot = FALSE to suppress the graphics. 
+ 
 
 ```{r, eval = F, echo = TRUE}
 Birthday_fun(Iter = 20, size = c(5,10,20, 30))
