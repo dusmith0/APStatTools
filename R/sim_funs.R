@@ -343,6 +343,79 @@ confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials
 
 
 
+#' Title tanks simulation
+#'
+#' @param max numeric: Should be the Maximum number of tanks in the simulation
+#' @param size numeric: This is the sample size being drawn.
+#' @param trials numeric: This is the number of trials, or samples being taken
+#' @param method string: Any of double mean", "3 sigma", "1.5 IQR Rule"
+#' @param show_truth logical: Set to TRUE to show the maximum number of tanks
+#' @param show_samples logical: Set to TRUE to show the samples taken
+#'
+#' @return list containing samples, estimates, estimate mean, estimate sampling standard deviation
+#'         a simple confidence interval set at .95 confidence, and the Maximum number of tanks.
+#' @export
+#'
+#' @examples
+#' tanks()
+#'
+#' tanks(max = 500, size = 10, trials = 1000, method = "3 sigma", show_truth = FALSE, show_samples = FALSE)
+#'
+#'
+tanks <- function(max = NULL, size = 5, trials = 50, method = "double mean",
+                  show_truth = FALSE, show_samples = FALSE){
+  ## Generating Number of tanks
+  if(is.null(max)){
+    max <- 246 #The first value found in Google :D
+  }
+
+  ## Building empty variables
+  samples <- matrix(0, ncol = trials, nrow = size)
+  estimates <- rep(0,trials)
+  Q1 <- 0
+  Q3 <- 0
+  IQR <- 0
+
+  ## Generating Samples
+  for(i in 1:trials){
+    samples[,i] <- sample(1:max,5,replace = FALSE)
+  }
+
+  ## Method Choice
+  if(method == "double mean"){
+    estimates <- 2 * rowMeans(samples)
+  }else if(method == "3 sigma"){
+    estimates <- rowMeans(samples) + 3 * apply(samples,2,function(z) sd(z))
+  }else if(method == "1.5 IQR Rule"){
+    for(i in 1:ncol(samples)){
+      samples[,i] <- sort(samples[,i])
+      Q1[i] <- mean(c(samples[floor((size + 1) / 4),i], samples[ceiling((size + 1) / 4),i]))
+      Q3[i] <- mean(c(samples[floor(3 * (size + 1) / 4),i], samples[ceiling(3 * (size + 1) / 4),i]))
+      IQR[i] <-  Q3[i] - Q1[i]
+      estimates[i] <- Q3[i] + 1.5 * IQR[i]
+    }
+  }
+
+  #Building the Confidence Interval at .95
+  est_mean <- mean(estimates)
+  est_se <- sd(estimates) / sqrt(size)
+  conf <- est_mean + c(-1,1) * pnorm(.975,0,1) * est_se
+
+  ## To allow for suppressing various outputs.
+  if(show_truth == FALSE & show_samples == TRUE){
+      return(list(samples = samples, estimates = estimates,
+              est_mean = est_mean, est_se = est_se, conf = conf))
+  }else if(show_truth == FALSE & show_samples == FALSE){
+      return(list(estimates = estimates,
+                est_mean = est_mean, est_se = est_se, conf = conf))
+  }else if(show_truth == TRUE & show_samples == TRUE){
+      return(list(samples = samples, estimates = estimates,
+                est_mean = est_mean, est_se = est_se, conf = conf, max = max))
+  }else if(show_truth == TRUE & show_samples == FALSE){
+      return(list(estimates = estimates,
+                est_mean = est_mean, est_se = est_se, conf = conf, max = max))
+  }
+}
 
 
 
