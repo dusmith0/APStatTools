@@ -9,7 +9,7 @@ Birthday_fun(Iter = 50, size = NULL, plot = TRUE)
 \arguments{
 \item{Iter}{Input numeric: This is the number of iterations the function will run through.
 Note: The function can be quite slow if Iter >= 1000. However, 200 is more
-then enough to show convergance.}
+then enough to show convergence.}
 
 \item{size}{Input numeric vector: This is a vector containing the different
 people group sizes you would like. Default is c(10,20,30,40)
