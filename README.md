@@ -295,6 +295,7 @@ This packages includes a few simulation as well. They include:
 3. blackjack_bust()
 4. qq_dem()
 5. confidence_interval()
+6. tanks()
 
 ### Specifics
 #### confidence_intervals
