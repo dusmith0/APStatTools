@@ -12,7 +12,7 @@ devtools::install_github("dusmith0/APStatTools", build_vignettes = TRUE)
 ```
 If the above fails attempt to install the package without the vignette.
 ```{r, eval = FALSE, echo = TRUE}
-devtools::install_github("dusmith0/APStatTools", build_vignettes = FASLE)
+devtools::install_github("dusmith0/APStatTools", build_vignettes = FALSE)
 ```
 Then type the following command to load the package.
 ```{r, eval = FALSE, echo = TRUE}
