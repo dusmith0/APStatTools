@@ -384,8 +384,8 @@ tanks <- function(max = NULL, size = 5, trials = 50, method = "double mean",
   ## Method Choice
   if(method == "double mean"){
     estimates <- 2 * rowMeans(samples)
-  }else if(method == "3 sigma"){
-    estimates <- rowMeans(samples) + 3 * apply(samples,2,function(z) sd(z))
+  }else if(method == "2 sigma"){
+    estimates <- rowMeans(samples) + 2 * apply(samples,2,function(z) sd(z))
   }else if(method == "1.5 IQR Rule"){
     for(i in 1:ncol(samples)){
       samples[,i] <- sort(samples[,i])
@@ -416,6 +416,10 @@ tanks <- function(max = NULL, size = 5, trials = 50, method = "double mean",
                 est_mean = est_mean, est_se = est_se, conf = conf, max = max))
   }
 }
+
+
+
+
 
 
 
