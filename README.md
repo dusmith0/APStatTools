@@ -4,7 +4,7 @@
 **Description** The reason for this function is to make R accessible for many of the tools and calculation used in AP Statistics and Undergraduate Statistics, with little to know knowladge of R.
 
 **Included Functions**
-*build_dist()* will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_qq()* will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* contains code that can calculate simple Wald Confidence Intervals *find_probs()* function can find various probabilities based on a number of distributions. *get_data()* is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()*  will allow the user to input data or data sets, and return a large list of statistical measures. *test()* can preform many of the statistical tests and confidence intervals used in AP Statistics. 
+*build_dist()* will allow the user to build a number of distributions, shade in the area of interest, and display the probability of the shaded area. *build_QQ()* will allow the user to build a quick QQ plot that can be tested against a number of distributions. *find_conf()* contains code that can calculate simple Wald Confidence Intervals *find_probs()* function can find various probabilities based on a number of distributions. *get_data()* is a wrapper function around many input methods R has to allow the user to easily and quickly input data into R for use. You will only need to know how to find your file's path. *get_measures()*  will allow the user to input data or data sets, and return a large list of statistical measures. *test()* can preform many of the statistical tests and confidence intervals used in AP Statistics. 
 
 ## Installing
 ```{r, eval = FALSE, echo = TRUE}
@@ -90,7 +90,7 @@ build_dist(type = "binomial",bound = c(6,12),
     tail = "outer", p = .5, trials = 20, display_prob = TRUE)
 ```
 
-## **build_qq()**
+## **build_QQ()**
 
 The purpose of this function is to allow users to build simple QQ plots in R.
 
