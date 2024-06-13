@@ -359,7 +359,7 @@ confidence_interval <- function(mean = 0, sigma = 1, n = 20, level = .95, trials
 #' @examples
 #' tanks()
 #'
-#' tanks(max = 500, size = 10, trials = 1000, method = "3 sigma", show_truth = FALSE, show_samples = FALSE)
+#' tanks(max = 500, size = 10, trials = 1000, method = "2 sigma", show_truth = FALSE, show_samples = FALSE)
 #'
 #'
 tanks <- function(max = NULL, size = 5, trials = 50, method = "double mean",
@@ -383,9 +383,9 @@ tanks <- function(max = NULL, size = 5, trials = 50, method = "double mean",
 
   ## Method Choice
   if(method == "double mean"){
-    estimates <- 2 * rowMeans(samples)
+    estimates <- 2 * colMeans(samples)
   }else if(method == "2 sigma"){
-    estimates <- rowMeans(samples) + 2 * apply(samples,2,function(z) sd(z))
+    estimates <- colMeans(samples) + 2 * apply(samples,2,function(z) sd(z))
   }else if(method == "1.5 IQR Rule"){
     for(i in 1:ncol(samples)){
       samples[,i] <- sort(samples[,i])
@@ -418,6 +418,30 @@ tanks <- function(max = NULL, size = 5, trials = 50, method = "double mean",
 }
 
 
+albatross <- function(n = 30, beginmean = NULL, incmean = NULL, beginsig = NULL, incsig = NULL){
+  if(is.null(beginmean) & is.null(incmean) & is.null(beginsig) & is.null(incsig)){
+    ## The data set goes Grey Female, Grey Male, Black Female, Black Male
+    beginmean = c(3565, 4130, 3532, 4308)
+    incmean = c(3107, 3468, 2866, 3411)
+
+    beginsig = c(173, 239, 207, 92)
+    incsig = c(215, 295, 153, 240)
+  }else if(any(is.null(beginmean) & is.null(incmean) & is.null(beginsig) & is.null(incsig))){
+    stop(paste("Error: Please ensure that you enter a value for all data sets."))
+  }
+
+  sigma = sqrt(beginsig ** 2 + incsig ** 2)
+  mean = beginmean - incmean
+
+  R.sample = matrix(rep(0,n), ncol = 4, nrow = n)
+
+  for (i in 1:n){
+    R.sample[i,] = mapply(function(x,y) rnorm(1,x,y), mean, sigma)
+  }
+
+  colnames(R.sample) <- c("Grey Female", "Grey Male", "Black Female", "Black Male")
+  return(R.sample)
+}
 
 
 
