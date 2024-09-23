@@ -33,7 +33,7 @@
 #' @export
 #'
 #' @examples
-#' # Easy use for prebuilt data.
+#' # Easy use for pre built data.
 #' get_data("potter.csv")
 #'
 #' # To allow for saving of the data, set get_pdf = TRUE

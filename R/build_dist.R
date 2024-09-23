@@ -21,6 +21,8 @@
 #' @param X numeric vector Specifically for type = "regression"
 #' @param Y numeric vector Specifically for type = "regression"
 #' @param data numeric matrix that can be used instead of imputing X and Y for regression.
+#' @param labels string vector of length 1 or 2. This allows you to set labels in regression.
+#'        Please input that data as c("one","Two"). It tends to cause odd failures if you assign labels <- c(), istead of labels = c()
 #'
 #' @return Graph using the plot() function, along with an optional numeric vector of one.
 #' @export
@@ -62,7 +64,8 @@
 #' build_dist(type = "QQ", data = Y)
 #'
 build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = .5,
-                       trials = 10, data = NULL, X = NULL, Y = NULL, display_prob = FALSE){
+                       trials = 10, data = NULL, X = NULL, Y = NULL, display_prob = FALSE,
+                       labels = NULL){
   ## Below are some error checks.
   if(display_prob == TRUE & is.null(bound)){
     if(type != "regression"){
@@ -162,6 +165,21 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
       logical <- ((x > bound[1] & x < bound[2]) + 1)
     }
   }else{logical <- rep(1,length(trials))}
+
+  ## Assigning Label values for the graphics. This is only useful for regression at the moment.
+  if(is.null(labels)){
+    x_label <- "X"
+    y_label <- "Y"
+  }else if(!is.null(labels)){
+    if(length(labels) == 2){
+      x_label <- labels[1]
+      y_label <- labels[2]
+    }
+    else{
+      x_label <- labels
+      y_label <- "Y"
+    }
+  }
 
   ## The below section will print a filled in Normal, T-Distribution, or Chi-Squared plot.
   ## I need to add Binomial, Uniform, and Geometric.
@@ -346,7 +364,9 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
     plot((Y ~ X),
          pch = 16,
          col = "#5a95b3",
-         main = "Regression")
+         main = "Regression",
+         xlab = x_label,
+         ylab = y_label)
     abline(lm(Y ~ X),
            lwd = 2,
            col = "salmon1")
@@ -357,4 +377,5 @@ build_dist <- function(type="normal", tail="left", bound = NULL, df = 1, prob = 
 
   }
 }
+
 
